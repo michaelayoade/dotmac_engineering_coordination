@@ -1,0 +1,121 @@
+{
+  "schema_version": 10,
+  "profile_id": "dotmac-engineering-coordination-standards",
+  "repository": {
+    "canonical_url": "https://github.com/michaelayoade/dotmac_engineering_coordination",
+    "default_branch": "main"
+  },
+  "governance_model": {
+    "kind": "pinned",
+    "canonical_url": "https://github.com/michaelayoade/dotmac_governance",
+    "revision": "4f80bd164137d34ff41f1866d7e748f2e664dee3",
+    "source": "docs/adr/0006-cross-repository-engineering-conformance.md",
+    "status": "accepted"
+  },
+  "enforcement_mode": "required",
+  "authorities": [
+    {
+      "authority_id": "fleet-registry-declaration",
+      "subject": "The reviewed identity, purpose, environment, address, access metadata, evidence class and freshness of every host visible to engineering agents.",
+      "protected_resources": [
+        "fleet-host-declaration",
+        "fleet-access-metadata"
+      ],
+      "decision_interface": "dotmac_engineering_coordination.registry.load_registry",
+      "drift_test_paths": [
+        "tests/test_registry.py",
+        "generated/ssh_config"
+      ],
+      "owner_component": "fleet-registry",
+      "owner_implementation": "src/dotmac_engineering_coordination/registry.py",
+      "canonical_writer_paths": [
+        "src/dotmac_engineering_coordination/data/fleet.toml",
+        "src/dotmac_engineering_coordination/registry.py"
+      ],
+      "adapter_paths": [
+        "src/dotmac_engineering_coordination/cli.py",
+        "src/dotmac_engineering_coordination/mcp_server.py"
+      ]
+    },
+    {
+      "authority_id": "agent-fleet-access-plan",
+      "subject": "Whether a declared host may produce a non-executing access plan, including freshness, conflict, lifecycle, access-verification and exact production-confirmation refusals.",
+      "protected_resources": [
+        "agent-fleet-access-plan"
+      ],
+      "decision_interface": "dotmac_engineering_coordination.registry.decide_access_plan",
+      "drift_test_paths": [
+        "tests/test_registry.py",
+        "tests/test_mcp_wiring.py"
+      ],
+      "owner_component": "fleet-registry-service",
+      "owner_implementation": "src/dotmac_engineering_coordination/registry.py",
+      "canonical_writer_paths": [
+        "src/dotmac_engineering_coordination/registry.py"
+      ],
+      "adapter_paths": [
+        "src/dotmac_engineering_coordination/cli.py",
+        "src/dotmac_engineering_coordination/mcp_server.py"
+      ]
+    },
+    {
+      "authority_id": "fleet-topology-observations",
+      "subject": "The typed, dated safe-field projection of provider and guest runtime observations used to detect fleet and workload drift.",
+      "protected_resources": [
+        "provider-snapshot",
+        "workload-snapshot",
+        "fleet-topology"
+      ],
+      "decision_interface": "dotmac_engineering_coordination.topology.topology_payload",
+      "drift_test_paths": [
+        "tests/test_topology.py",
+        "generated/fleet_topology.mmd",
+        "generated/fleet_census.md"
+      ],
+      "owner_component": "fleet-topology",
+      "owner_implementation": "src/dotmac_engineering_coordination/topology.py",
+      "canonical_writer_paths": [
+        "src/dotmac_engineering_coordination/topology.py",
+        "src/dotmac_engineering_coordination/data/provider_snapshot.json",
+        "src/dotmac_engineering_coordination/data/workload_snapshot.json"
+      ],
+      "adapter_paths": [
+        "src/dotmac_engineering_coordination/cli.py",
+        "src/dotmac_engineering_coordination/mcp_server.py"
+      ]
+    }
+  ],
+  "typed_contract_surfaces": [
+    {
+      "surface_id": "fleet-registry-and-agent-tools",
+      "paths": [
+        "src/dotmac_engineering_coordination/registry.py",
+        "src/dotmac_engineering_coordination/topology.py",
+        "src/dotmac_engineering_coordination/mcp_server.py"
+      ],
+      "require_public_annotations": true,
+      "forbid_any": true,
+      "require_immutable_records": true
+    }
+  ],
+  "module_declared_vocabularies": [],
+  "testing_kit_boundary": {
+    "test_roots": [
+      "tests"
+    ],
+    "kit_source_roots": [],
+    "conformance_probes": []
+  },
+  "external_connector_surface": {
+    "baselines": {
+      "outbound_transport": 0,
+      "webhook_surface": 0,
+      "provider_credential": 0,
+      "connector_task": 0,
+      "sync_checkpoint": 0,
+      "delivery_retry": 0
+    },
+    "conserved_exclusions": []
+  },
+  "deployment_artefact_surfaces": []
+}

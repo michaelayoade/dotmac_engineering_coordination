@@ -1,0 +1,527 @@
+flowchart LR
+  provider_contabo["Contabo provider record"]
+  provider_onprem_proxmox["onprem:proxmox declaration"]
+  provider_onprem_seabone["onprem:seabone declaration"]
+  provider_network_61441{"provider network: idp<br/>10.0.0.0/22<br/>0 members"}
+  provider_contabo --> provider_network_61441
+  guest_network_0{"observed wg0 range: 10.10.0.0/24<br/>connectivity not asserted"}
+  idp_ha_1 -.-> guest_network_0
+  idp_ha_2 -.-> guest_network_0
+  idp_ha_3 -.-> guest_network_0
+  guest_network_1{"observed vmbr1 range: 10.10.10.0/24<br/>connectivity not asserted"}
+  proxmox -.-> guest_network_1
+  guest_network_2{"observed wg0 range: 10.10.41.0/24<br/>connectivity not asserted"}
+  integrator_vendor_control -.-> guest_network_2
+  sub_prod -.-> guest_network_2
+  guest_network_3{"observed ens18 range: 10.120.120.0/24<br/>connectivity not asserted"}
+  proxmox -.-> guest_network_3
+  zabbix -.-> guest_network_3
+  guest_network_4{"observed eno1 range: 10.120.121.0/24<br/>connectivity not asserted"}
+  seabone -.-> guest_network_4
+  guest_network_5{"observed tun0 range: 10.8.0.1/32<br/>connectivity not asserted"}
+  integrator_vendor_control -.-> guest_network_5
+  guest_network_6{"observed tun0 range: 10.8.0.2/32<br/>connectivity not asserted"}
+  integrator_vendor_control -.-> guest_network_6
+  guest_network_7{"observed labs range: 10.99.0.0/24<br/>connectivity not asserted"}
+  academy -.-> guest_network_7
+  guest_network_8{"observed wg0 range: 100.64.53.0/30<br/>connectivity not asserted"}
+  control_runner -.-> guest_network_8
+  observe -.-> guest_network_8
+  guest_network_9{"observed docker_gwbridge range: 172.18.0.0/16<br/>connectivity not asserted"}
+  nhia_moh_cloud -.-> guest_network_9
+  guest_network_10{"observed docker_gwbridge range: 172.80.1.0/24<br/>connectivity not asserted"}
+  seabone -.-> guest_network_10
+  academy["academy<br/>vmi2490731.contaboserver.net<br/>production<br/>IPv4 149.102.135.97<br/>IPv6 2a02:c204:2249:731::1<br/>Dotmac Academy application"]
+  provider_contabo --> academy
+  academy_c0(["academy-db<br/>postgres:16<br/>running"])
+  academy --> academy_c0
+  academy_c1(["promtail<br/>grafana/promtail:3.0.0<br/>running"])
+  academy --> academy_c1
+  control_runner["control-runner<br/>dotmac-control-runner<br/>production<br/>IPv4 160.119.127.188<br/>IPv6 not declared<br/>Repository-scoped deployment control runners"]
+  proxmox --> control_runner
+  control_runner_host_only["host-only / no Docker"]
+  control_runner --> control_runner_host_only
+  db_primary["db-primary<br/>dotmac-db-primary<br/>production<br/>IPv4 75.119.157.91<br/>IPv6 2a02:c207:2329:1426::1<br/>Primary database host; PostgreSQL and Redis standbys"]
+  provider_contabo --> db_primary
+  db_primary_c0(["dotmac-postgres<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  db_primary --> db_primary_c0
+  db_primary_c1(["dotmac-redis<br/>redis:7-alpine<br/>running"])
+  db_primary --> db_primary_c1
+  db_primary_c2(["dotmac_erp_standby<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  db_primary --> db_primary_c2
+  db_primary_c3(["dotmac_omni_standby<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  db_primary --> db_primary_c3
+  db_primary_c4(["dotmac_splynx_source_audit<br/>mysql:8.0<br/>running"])
+  db_primary --> db_primary_c4
+  db_primary_c5(["dotmac_sub_funding_audit<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  db_primary --> db_primary_c5
+  db_primary_c6(["dotmac_sub_standby<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  db_primary --> db_primary_c6
+  db_primary_c7(["node-exporter<br/>prom/node-exporter:latest<br/>running"])
+  db_primary --> db_primary_c7
+  db_primary_c8(["postgres-exporter<br/>quay.io/prometheuscommunity/postgres-exporter:latest<br/>running"])
+  db_primary --> db_primary_c8
+  db_primary_c9(["redis-exporter<br/>oliver006/redis_exporter:latest<br/>running"])
+  db_primary --> db_primary_c9
+  erp["erp<br/>vmi2988431.contaboserver.net<br/>production<br/>IPv4 149.102.158.167<br/>IPv6 2a02:c204:2298:8431::1<br/>Dotmac ERP application"]
+  provider_contabo --> erp
+  erp_c0(["dotmac_erp_app<br/>ghcr.io/michaelayoade/dotmac_erp<br/>running"])
+  erp --> erp_c0
+  erp_c1(["dotmac_erp_beat<br/>ghcr.io/michaelayoade/dotmac_erp<br/>running"])
+  erp --> erp_c1
+  erp_c2(["dotmac_erp_redis<br/>redis:7<br/>running"])
+  erp --> erp_c2
+  erp_c3(["dotmac_erp_worker<br/>ghcr.io/michaelayoade/dotmac_erp<br/>running"])
+  erp --> erp_c3
+  erp_c4(["dotmac_pg_local<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  erp --> erp_c4
+  erp_c5(["promtail<br/>grafana/promtail:latest<br/>running"])
+  erp --> erp_c5
+  idp_ha_1["idp-ha-1<br/>vmi3537544.contaboserver.net<br/>production<br/>IPv4 94.72.109.54<br/>IPv6 2a02:c204:2353:7544::1<br/>Identity provider HA node 1"]
+  provider_contabo --> idp_ha_1
+  idp_ha_1_c0(["keycloak<br/>quay.io/keycloak/keycloak:26.0<br/>running"])
+  idp_ha_1 --> idp_ha_1_c0
+  idp_ha_2["idp-ha-2<br/>vmi3537543<br/>production<br/>IPv4 158.220.86.76<br/>IPv6 2a02:c204:2353:7543::1<br/>Identity provider HA node 2"]
+  provider_contabo --> idp_ha_2
+  idp_ha_2_c0(["keycloak<br/>quay.io/keycloak/keycloak:26.0<br/>running"])
+  idp_ha_2 --> idp_ha_2_c0
+  idp_ha_3["idp-ha-3<br/>vmi3537726.contaboserver.net<br/>production<br/>IPv4 158.220.87.55<br/>IPv6 2a02:c204:2353:7726::1<br/>Identity provider HA node 3"]
+  provider_contabo --> idp_ha_3
+  idp_ha_3_c0(["keycloak<br/>quay.io/keycloak/keycloak:26.0<br/>running"])
+  idp_ha_3 --> idp_ha_3_c0
+  idp_live["idp-live<br/>idp<br/>production<br/>IPv4 158.220.86.10<br/>IPv6 2a02:c204:2351:1689::1<br/>Identity provider; Keycloak and Sub shadow"]
+  provider_contabo --> idp_live
+  idp_live_c0(["dotmac_sub_thin_shadow_app<br/>342a9b805d6a<br/>running"])
+  idp_live --> idp_live_c0
+  idp_live_c1(["dotmac_sub_thin_shadow_postgres<br/>681931a625df<br/>running"])
+  idp_live --> idp_live_c1
+  idp_live_c2(["dotmac_sub_thin_shadow_redis<br/>e7723ff73d96<br/>running"])
+  idp_live --> idp_live_c2
+  idp_live_c3(["keycloak-keycloak-1<br/>quay.io/keycloak/keycloak:26.0<br/>running"])
+  idp_live --> idp_live_c3
+  idp_live_c4(["keycloak-postgres-1<br/>postgres:16-alpine<br/>running"])
+  idp_live --> idp_live_c4
+  integrator_vendor_control["integrator-vendor-control<br/>vmi2988430.contaboserver.net<br/>production<br/>IPv4 149.102.158.144<br/>IPv6 2a02:c204:2298:8430::1<br/>Integrator and Vendor Control Plane"]
+  provider_contabo --> integrator_vendor_control
+  integrator_vendor_control_c0(["dotmac_vendor_control_plane-app-1<br/>ghcr.io/michaelayoade/dotmac_vendor_control_plane<br/>running"])
+  integrator_vendor_control --> integrator_vendor_control_c0
+  integrator_vendor_control_c1(["dotmac_vendor_control_plane-db-1<br/>postgres:16<br/>running"])
+  integrator_vendor_control --> integrator_vendor_control_c1
+  integrator_vendor_control_c2(["integrator-api-1<br/>registry.dotmac.io/dotmac/integrator<br/>running"])
+  integrator_vendor_control --> integrator_vendor_control_c2
+  integrator_vendor_control_c3(["integrator-db-1<br/>postgres:16<br/>running"])
+  integrator_vendor_control --> integrator_vendor_control_c3
+  mail_dotmac["mail-dotmac<br/>mail.dotmac.ng<br/>production<br/>IPv4 94.72.106.173<br/>IPv6 2a02:c204:2349:2684::1<br/>Mail for dotmac.ng"]
+  provider_contabo --> mail_dotmac
+  mail_dotmac_c0(["mailcowdockerized-acme-mailcow-1<br/>ghcr.io/mailcow/acme:1.92<br/>running"])
+  mail_dotmac --> mail_dotmac_c0
+  mail_dotmac_c1(["mailcowdockerized-clamd-mailcow-1<br/>ghcr.io/mailcow/clamd:1.70<br/>running"])
+  mail_dotmac --> mail_dotmac_c1
+  mail_dotmac_c2(["mailcowdockerized-dockerapi-mailcow-1<br/>ghcr.io/mailcow/dockerapi:2.11<br/>running"])
+  mail_dotmac --> mail_dotmac_c2
+  mail_dotmac_c3(["mailcowdockerized-dovecot-mailcow-1<br/>ghcr.io/mailcow/dovecot:2.33<br/>running"])
+  mail_dotmac --> mail_dotmac_c3
+  mail_dotmac_c4(["mailcowdockerized-ipv6nat-mailcow-1<br/>robbertkl/ipv6nat<br/>running"])
+  mail_dotmac --> mail_dotmac_c4
+  mail_dotmac_c5(["mailcowdockerized-memcached-mailcow-1<br/>memcached:alpine<br/>running"])
+  mail_dotmac --> mail_dotmac_c5
+  mail_dotmac_c6(["mailcowdockerized-mysql-mailcow-1<br/>mariadb:10.11<br/>running"])
+  mail_dotmac --> mail_dotmac_c6
+  mail_dotmac_c7(["mailcowdockerized-netfilter-mailcow-1<br/>ghcr.io/mailcow/netfilter:1.61<br/>running"])
+  mail_dotmac --> mail_dotmac_c7
+  mail_dotmac_c8(["mailcowdockerized-nginx-mailcow-1<br/>ghcr.io/mailcow/nginx:1.03<br/>running"])
+  mail_dotmac --> mail_dotmac_c8
+  mail_dotmac_c9(["mailcowdockerized-ofelia-mailcow-1<br/>mcuadros/ofelia:latest<br/>running"])
+  mail_dotmac --> mail_dotmac_c9
+  mail_dotmac_c10(["mailcowdockerized-olefy-mailcow-1<br/>ghcr.io/mailcow/olefy:1.15<br/>running"])
+  mail_dotmac --> mail_dotmac_c10
+  mail_dotmac_c11(["mailcowdockerized-php-fpm-mailcow-1<br/>ghcr.io/mailcow/phpfpm:1.93<br/>running"])
+  mail_dotmac --> mail_dotmac_c11
+  mail_dotmac_c12(["mailcowdockerized-postfix-mailcow-1<br/>ghcr.io/mailcow/postfix:1.80<br/>running"])
+  mail_dotmac --> mail_dotmac_c12
+  mail_dotmac_c13(["mailcowdockerized-redis-mailcow-1<br/>redis:7.4.2-alpine<br/>running"])
+  mail_dotmac --> mail_dotmac_c13
+  mail_dotmac_c14(["mailcowdockerized-rspamd-mailcow-1<br/>ghcr.io/mailcow/rspamd:2.2<br/>running"])
+  mail_dotmac --> mail_dotmac_c14
+  mail_dotmac_c15(["mailcowdockerized-sogo-mailcow-1<br/>ghcr.io/mailcow/sogo:1.133<br/>running"])
+  mail_dotmac --> mail_dotmac_c15
+  mail_dotmac_c16(["mailcowdockerized-unbound-mailcow-1<br/>ghcr.io/mailcow/unbound:1.24<br/>running"])
+  mail_dotmac --> mail_dotmac_c16
+  mail_dotmac_c17(["mailcowdockerized-watchdog-mailcow-1<br/>ghcr.io/mailcow/watchdog:2.08<br/>running"])
+  mail_dotmac --> mail_dotmac_c17
+  mail_nhia["mail-nhia<br/>mail.nhia.gov.ng<br/>production<br/>IPv4 94.72.108.27<br/>IPv6 2a02:c204:2349:2689::1<br/>Mail for nhia.gov.ng"]
+  provider_contabo --> mail_nhia
+  mail_nhia_c0(["mailcowdockerized-acme-mailcow-1<br/>ghcr.io/mailcow/acme:1.92<br/>running"])
+  mail_nhia --> mail_nhia_c0
+  mail_nhia_c1(["mailcowdockerized-clamd-mailcow-1<br/>ghcr.io/mailcow/clamd:1.70<br/>running"])
+  mail_nhia --> mail_nhia_c1
+  mail_nhia_c2(["mailcowdockerized-dockerapi-mailcow-1<br/>ghcr.io/mailcow/dockerapi:2.11<br/>running"])
+  mail_nhia --> mail_nhia_c2
+  mail_nhia_c3(["mailcowdockerized-dovecot-mailcow-1<br/>ghcr.io/mailcow/dovecot:2.33<br/>running"])
+  mail_nhia --> mail_nhia_c3
+  mail_nhia_c4(["mailcowdockerized-ipv6nat-mailcow-1<br/>robbertkl/ipv6nat<br/>running"])
+  mail_nhia --> mail_nhia_c4
+  mail_nhia_c5(["mailcowdockerized-memcached-mailcow-1<br/>memcached:alpine<br/>running"])
+  mail_nhia --> mail_nhia_c5
+  mail_nhia_c6(["mailcowdockerized-mysql-mailcow-1<br/>mariadb:10.11<br/>running"])
+  mail_nhia --> mail_nhia_c6
+  mail_nhia_c7(["mailcowdockerized-netfilter-mailcow-1<br/>ghcr.io/mailcow/netfilter:1.61<br/>running"])
+  mail_nhia --> mail_nhia_c7
+  mail_nhia_c8(["mailcowdockerized-nginx-mailcow-1<br/>ghcr.io/mailcow/nginx:1.03<br/>running"])
+  mail_nhia --> mail_nhia_c8
+  mail_nhia_c9(["mailcowdockerized-ofelia-mailcow-1<br/>mcuadros/ofelia:latest<br/>running"])
+  mail_nhia --> mail_nhia_c9
+  mail_nhia_c10(["mailcowdockerized-olefy-mailcow-1<br/>ghcr.io/mailcow/olefy:1.15<br/>running"])
+  mail_nhia --> mail_nhia_c10
+  mail_nhia_c11(["mailcowdockerized-php-fpm-mailcow-1<br/>ghcr.io/mailcow/phpfpm:1.93<br/>running"])
+  mail_nhia --> mail_nhia_c11
+  mail_nhia_c12(["mailcowdockerized-postfix-mailcow-1<br/>ghcr.io/mailcow/postfix:1.80<br/>running"])
+  mail_nhia --> mail_nhia_c12
+  mail_nhia_c13(["mailcowdockerized-redis-mailcow-1<br/>redis:7.4.2-alpine<br/>running"])
+  mail_nhia --> mail_nhia_c13
+  mail_nhia_c14(["mailcowdockerized-rspamd-mailcow-1<br/>ghcr.io/mailcow/rspamd:2.2<br/>running"])
+  mail_nhia --> mail_nhia_c14
+  mail_nhia_c15(["mailcowdockerized-sogo-mailcow-1<br/>ghcr.io/mailcow/sogo:1.133<br/>running"])
+  mail_nhia --> mail_nhia_c15
+  mail_nhia_c16(["mailcowdockerized-unbound-mailcow-1<br/>ghcr.io/mailcow/unbound:1.24<br/>running"])
+  mail_nhia --> mail_nhia_c16
+  mail_nhia_c17(["mailcowdockerized-watchdog-mailcow-1<br/>ghcr.io/mailcow/watchdog:2.08<br/>running"])
+  mail_nhia --> mail_nhia_c17
+  nhia_moh_cloud["nhia-moh-cloud<br/>vmi2486898.contaboserver.net<br/>production<br/>IPv4 149.102.130.231<br/>IPv6 2a02:c204:2248:6898::1<br/>NHIA and Ministry of Health cloud workloads"]
+  provider_contabo --> nhia_moh_cloud
+  nhia_moh_cloud_c0(["easypanel-traefik.1.t3c8cljs3b4vixnng72fuf0ip<br/>traefik:3.6.7<br/>running"])
+  nhia_moh_cloud --> nhia_moh_cloud_c0
+  nhia_moh_cloud_c1(["easypanel.1.zyh6zft8wjpla9turhmrbcjum<br/>easypanel/easypanel:latest<br/>running"])
+  nhia_moh_cloud --> nhia_moh_cloud_c1
+  nhia_moh_cloud_c2(["moh_collabora.1.xgx3eia7c3bfn5vhweqlg3ved<br/>collabora/code:latest<br/>running"])
+  nhia_moh_cloud --> nhia_moh_cloud_c2
+  nhia_moh_cloud_c3(["moh_nextcloud-db.1.6znsary56uk2ag1o82hngq4wr<br/>postgres:17<br/>running"])
+  nhia_moh_cloud --> nhia_moh_cloud_c3
+  nhia_moh_cloud_c4(["moh_nextcloud.1.r6umknjiawn6pk08qir1hrbqg<br/>nextcloud:31.0.2<br/>running"])
+  nhia_moh_cloud --> nhia_moh_cloud_c4
+  nhia_moh_cloud_c5(["nhia_collabora.1.vb8elcl5bylbj2j7fqt6h7gh6<br/>collabora/code:latest<br/>running"])
+  nhia_moh_cloud --> nhia_moh_cloud_c5
+  nhia_moh_cloud_c6(["nhia_new_nextcloud-db.1.jgw3bsno3km9vm41j2wwp0qt7<br/>postgres:17<br/>running"])
+  nhia_moh_cloud --> nhia_moh_cloud_c6
+  nhia_moh_cloud_c7(["nhia_new_nextcloud.1.aj0pqpqepmci306ou77zfeu7d<br/>nextcloud:31.0.4<br/>running"])
+  nhia_moh_cloud --> nhia_moh_cloud_c7
+  nhia_moh_cloud_c8(["nhia_nhia-postgres-db.1.5za5ix7pmlcx9d809ytbofp5r<br/>postgres:17<br/>running"])
+  nhia_moh_cloud --> nhia_moh_cloud_c8
+  ns1["ns1<br/>ns1.dotmac.ng<br/>production<br/>IPv4 10.120.120.51<br/>IPv6 2c0f:e888:11:0:be24:11ff:fe2c:3ba8<br/>Authoritative DNS ns1.dotmac.ng"]
+  proxmox --> ns1
+  ns1_host_only["host-only / no Docker"]
+  ns1 --> ns1_host_only
+  ns2["ns2<br/>ns2.dotmac.ng<br/>production<br/>IPv4 169.58.201.243<br/>IPv6 2a02:c207:2351:9226::1<br/>Authoritative DNS ns2.dotmac.ng"]
+  provider_contabo --> ns2
+  ns2_host_only["host-only / no Docker"]
+  ns2 --> ns2_host_only
+  ns3["ns3<br/>ns3.dotmac.ng<br/>production<br/>IPv4 158.220.82.88<br/>IPv6 2a02:c204:2351:9229::1<br/>Authoritative DNS ns3.dotmac.ng"]
+  provider_contabo --> ns3
+  ns3_host_only["host-only / no Docker"]
+  ns3 --> ns3_host_only
+  observability_canary["observability-canary<br/>vmi3537605.contaboserver.net<br/>non-production<br/>IPv4 94.72.99.155<br/>IPv6 2a02:c204:2353:7605::1<br/>Reserved inactive host-only observability canary"]
+  provider_contabo --> observability_canary
+  observability_canary_host_only["host-only / no Docker"]
+  observability_canary --> observability_canary_host_only
+  observe["observe<br/>dotmac-observe<br/>production<br/>IPv4 75.119.128.247<br/>IPv6 2a02:c207:2329:1425::1<br/>Grafana, Prometheus, OpenBao and Knowledge"]
+  provider_contabo --> observe
+  observe_c0(["alertmanager<br/>prom/alertmanager:latest<br/>running"])
+  observe --> observe_c0
+  observe_c1(["cadvisor<br/>gcr.io/cadvisor/cadvisor:latest<br/>running"])
+  observe --> observe_c1
+  observe_c2(["claude_knowledge-app-1<br/>claude_knowledge-app:latest<br/>running"])
+  observe --> observe_c2
+  observe_c3(["claude_knowledge-db-1<br/>postgres:16-alpine<br/>running"])
+  observe --> observe_c3
+  observe_c4(["claude_knowledge-indexer-1<br/>85c25ba4e068<br/>running"])
+  observe --> observe_c4
+  observe_c5(["claude_knowledge-ollama-1<br/>ollama/ollama:0.32.1<br/>running"])
+  observe --> observe_c5
+  observe_c6(["cloudpg<br/>postgres:16-alpine<br/>running"])
+  observe --> observe_c6
+  observe_c7(["dotmac-positive-admission-pg-OqtKR3<br/>postgis/postgis:16-3.4<br/>running"])
+  observe --> observe_c7
+  observe_c8(["dotmac-positive-admission-pg-rebased2<br/>postgis/postgis:16-3.4<br/>running"])
+  observe --> observe_c8
+  observe_c9(["dotmac_billing_test_20260817-postgres-1<br/>postgres:16<br/>running"])
+  observe --> observe_c9
+  observe_c10(["dotmac_sub_party_collision_pg<br/>postgis/postgis:16-3.4<br/>running"])
+  observe --> observe_c10
+  observe_c11(["erp-pg<br/>postgres:16<br/>running"])
+  observe --> observe_c11
+  observe_c12(["glitchtip<br/>glitchtip/glitchtip:latest<br/>running"])
+  observe --> observe_c12
+  observe_c13(["glitchtip-worker<br/>glitchtip/glitchtip:latest<br/>running"])
+  observe --> observe_c13
+  observe_c14(["grafana<br/>grafana/grafana:latest<br/>running"])
+  observe --> observe_c14
+  observe_c15(["loki<br/>grafana/loki:latest<br/>running"])
+  observe --> observe_c15
+  observe_c16(["netrecon-5459-postgres-1<br/>postgres:16<br/>running"])
+  observe --> observe_c16
+  observe_c17(["node-exporter<br/>prom/node-exporter:latest<br/>running"])
+  observe --> observe_c17
+  observe_c18(["openbao<br/>openbao/openbao:2<br/>running"])
+  observe --> observe_c18
+  observe_c19(["pq1-postgres-1<br/>postgres:16<br/>running"])
+  observe --> observe_c19
+  observe_c20(["pq2-postgres-1<br/>postgres:16<br/>running"])
+  observe --> observe_c20
+  observe_c21(["prometheus<br/>prom/prometheus:latest<br/>running"])
+  observe --> observe_c21
+  observe_c22(["promtail<br/>grafana/promtail:latest<br/>running"])
+  observe --> observe_c22
+  observe_c23(["sla-pr2-postgres<br/>postgis/postgis:16-3.4<br/>running"])
+  observe --> observe_c23
+  observe_c24(["sp-pg<br/>postgres:16<br/>running"])
+  observe --> observe_c24
+  observe_c25(["subpg<br/>postgis/postgis:16-3.4<br/>running"])
+  observe --> observe_c25
+  observe_c26(["subscriber-retirement-pg-20260819<br/>postgis/postgis:16-3.4<br/>running"])
+  observe --> observe_c26
+  observe_c27(["vendor_billing_adoption_test-postgres-1<br/>postgres:16<br/>running"])
+  observe --> observe_c27
+  proxmox["proxmox<br/>dotmacproxmox.local<br/>production<br/>IPv4 10.120.120.20<br/>IPv6 2c0f:e888:11::14<br/>Single-node Proxmox VE hypervisor for Dotmac network and control-plane virtual machines"]
+  provider_onprem_proxmox --> proxmox
+  proxmox_host_only["host-only / no Docker"]
+  proxmox --> proxmox_host_only
+  proxmox_vm100(["qemu 100: turn-server<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm100
+  proxmox_vm101(["qemu 101: academy-labs<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm101
+  proxmox_vm102(["qemu 102: tr143-probe<br/>stopped<br/>address unavailable"])
+  proxmox --> proxmox_vm102
+  proxmox_vm103(["qemu 103: UISP<br/>running<br/>10.120.120.24, 2c0f:e888:11:0:be24:11ff:fe6e:9d4a"])
+  proxmox --> proxmox_vm103
+  proxmox_vm104(["qemu 104: Zabbix<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm104
+  proxmox_vm105(["qemu 105: UNIFI<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm105
+  proxmox_vm106(["qemu 106: Mailcow<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm106
+  proxmox_vm108(["qemu 108: dotmac.ng<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm108
+  proxmox_vm109(["qemu 109: Grafana<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm109
+  proxmox_vm111(["qemu 111: ImapSync<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm111
+  proxmox_vm113(["qemu 113: cloud-chat<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm113
+  proxmox_vm115(["qemu 115: Nhia-mail<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm115
+  proxmox_vm116(["qemu 116: nhia<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm116
+  proxmox_vm118(["qemu 118: nhia-imap<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm118
+  proxmox_vm119(["qemu 119: dns-unbound<br/>running<br/>10.120.120.21, 2c0f:e888:11:0:be24:11ff:fec7:f4f2, 2c0f:e888:11::21"])
+  proxmox --> proxmox_vm119
+  proxmox_vm120(["qemu 120: web-cache<br/>running<br/>10.120.120.22, 2c0f:e888:11:0:be24:11ff:fedc:a12d, 2c0f:e888:11::22"])
+  proxmox --> proxmox_vm120
+  proxmox_vm121(["qemu 121: dotmac-voice-core<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm121
+  proxmox_vm122(["qemu 122: dotmac-voice-edge<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm122
+  proxmox_vm123(["qemu 123: ns1<br/>running<br/>address unavailable"])
+  proxmox --> proxmox_vm123
+  proxmox_vm124(["qemu 124: dotmac-control-runner<br/>running<br/>10.120.120.52, 100.64.53.2"])
+  proxmox --> proxmox_vm124
+  s3["s3<br/>dotmac-s3<br/>production<br/>IPv4 194.163.130.216<br/>IPv6 2a02:c207:2329:1427::1<br/>MinIO object storage, Forgejo and registry"]
+  provider_contabo --> s3
+  s3_c0(["forgejo-caddy-1<br/>caddy:2-alpine<br/>running"])
+  s3 --> s3_c0
+  s3_c1(["forgejo-forgejo-1<br/>codeberg.org/forgejo/forgejo:11<br/>running"])
+  s3 --> s3_c1
+  s3_c2(["forgejo-forgejo-db-1<br/>postgres:16-alpine<br/>running"])
+  s3 --> s3_c2
+  s3_c3(["minio<br/>minio/minio:latest<br/>running"])
+  s3 --> s3_c3
+  s3_c4(["node-exporter<br/>prom/node-exporter:latest<br/>running"])
+  s3 --> s3_c4
+  s3_c5(["nominatim<br/>mediagis/nominatim:4.4<br/>running"])
+  s3 --> s3_c5
+  seabone["seabone<br/>hp-server<br/>staging<br/>IPv4 160.119.127.195<br/>IPv6 2c0f:e888:12:0:1e98:ecff:fe11:3628<br/>On-prem application host for Sub, ERP, retired CRM/Omni, and staging workloads"]
+  provider_onprem_seabone --> seabone
+  seabone_c0(["app_monitor-grafana-1<br/>grafana/grafana:11.5.2<br/>running"])
+  seabone --> seabone_c0
+  seabone_c1(["app_monitor-loki-1<br/>grafana/loki:3.4.2<br/>running"])
+  seabone --> seabone_c1
+  seabone_c2(["app_monitor-prometheus-1<br/>prom/prometheus:v3.2.1<br/>running"])
+  seabone --> seabone_c2
+  seabone_c3(["codex_academy_inventory_pg_20260819<br/>postgres:16<br/>running"])
+  seabone --> seabone_c3
+  seabone_c4(["codex_academy_inventory_staging_pg_20260819<br/>postgres:16<br/>running"])
+  seabone --> seabone_c4
+  seabone_c5(["codex_backoffice_people_red_20260818<br/>python:3.12-slim<br/>running"])
+  seabone --> seabone_c5
+  seabone_c6(["codex_erp_people_pg_20260819<br/>postgres:16<br/>running"])
+  seabone --> seabone_c6
+  seabone_c7(["codex_erp_people_validation_20260819<br/>codex/erp-integrator-inventory-test:b969-candidate-r2<br/>running"])
+  seabone --> seabone_c7
+  seabone_c8(["codex_kernel_gate_static_sql_20260819<br/>python:3.12-bookworm<br/>running"])
+  seabone --> seabone_c8
+  seabone_c9(["codex_starter_people_audit_20260818<br/>python:3.12-bookworm<br/>running"])
+  seabone --> seabone_c9
+  seabone_c10(["codex_starter_people_pg_20260818<br/>postgres:16<br/>running"])
+  seabone --> seabone_c10
+  seabone_c11(["dotmac_erp_app<br/>ghcr.io/michaelayoade/dotmac_erp<br/>running"])
+  seabone --> seabone_c11
+  seabone_c12(["dotmac_erp_beat<br/>ghcr.io/michaelayoade/dotmac_erp<br/>running"])
+  seabone --> seabone_c12
+  seabone_c13(["dotmac_erp_db<br/>23d19d971a56<br/>running"])
+  seabone --> seabone_c13
+  seabone_c14(["dotmac_erp_minio<br/>minio/minio:latest<br/>running"])
+  seabone --> seabone_c14
+  seabone_c15(["dotmac_erp_openbao<br/>openbao/openbao:2<br/>running"])
+  seabone --> seabone_c15
+  seabone_c16(["dotmac_erp_redis<br/>redis:7<br/>running"])
+  seabone --> seabone_c16
+  seabone_c17(["dotmac_erp_worker<br/>ghcr.io/michaelayoade/dotmac_erp<br/>running"])
+  seabone --> seabone_c17
+  seabone_c18(["dotmac_network_map_restore_20260814<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  seabone --> seabone_c18
+  seabone_c19(["dotmac_omni_app<br/>ghcr.io/michaelayoade/dotmac_crm:sha-1a72fb2<br/>running"])
+  seabone --> seabone_c19
+  seabone_c20(["dotmac_omni_celery_beat<br/>ghcr.io/michaelayoade/dotmac_crm:sha-1a72fb2<br/>running"])
+  seabone --> seabone_c20
+  seabone_c21(["dotmac_omni_celery_worker<br/>ghcr.io/michaelayoade/dotmac_crm:sha-1a72fb2<br/>running"])
+  seabone --> seabone_c21
+  seabone_c22(["dotmac_omni_db<br/>postgis/postgis:16-3.4<br/>running"])
+  seabone --> seabone_c22
+  seabone_c23(["dotmac_omni_redis<br/>redis:7-alpine<br/>running"])
+  seabone --> seabone_c23
+  seabone_c24(["dotmac_sub_app<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c24
+  seabone_c25(["dotmac_sub_bandwidth_poller<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c25
+  seabone_c26(["dotmac_sub_celery_worker<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c26
+  seabone_c27(["dotmac_sub_celery_worker_bandwidth<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c27
+  seabone_c28(["dotmac_sub_celery_worker_billing<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c28
+  seabone_c29(["dotmac_sub_celery_worker_ingestion<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c29
+  seabone_c30(["dotmac_sub_celery_worker_monitoring<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c30
+  seabone_c31(["dotmac_sub_celery_worker_notifications<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c31
+  seabone_c32(["dotmac_sub_celery_worker_notifications_immediate<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c32
+  seabone_c33(["dotmac_sub_celery_worker_tr069<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c33
+  seabone_c34(["dotmac_sub_db<br/>postgis/postgis:16-3.4<br/>running"])
+  seabone --> seabone_c34
+  seabone_c35(["dotmac_sub_genieacs<br/>dotmac_sub-genieacs:1.2.13<br/>running"])
+  seabone --> seabone_c35
+  seabone_c36(["dotmac_sub_genieacs_mongodb<br/>mongo:4.4<br/>running"])
+  seabone --> seabone_c36
+  seabone_c37(["dotmac_sub_minio<br/>minio/minio:RELEASE.2025-01-20T14-49-07Z<br/>running"])
+  seabone --> seabone_c37
+  seabone_c38(["dotmac_sub_nominatim<br/>mediagis/nominatim:4.4<br/>running"])
+  seabone --> seabone_c38
+  seabone_c39(["dotmac_sub_openbao<br/>quay.io/openbao/openbao:latest<br/>running"])
+  seabone --> seabone_c39
+  seabone_c40(["dotmac_sub_redis<br/>redis:7<br/>running"])
+  seabone --> seabone_c40
+  seabone_c41(["dotmac_sub_syslog_listener<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c41
+  seabone_c42(["dotmac_sub_team_inbox_smtp<br/>ghcr.io/michaelayoade/dotmac_sub<br/>running"])
+  seabone --> seabone_c42
+  seabone_c43(["dotmac_sub_victoriametrics<br/>victoriametrics/victoria-metrics:v1.96.0<br/>running"])
+  seabone --> seabone_c43
+  seabone_c44(["dotmac_vmagent<br/>victoriametrics/vmagent:v1.96.0<br/>running"])
+  seabone --> seabone_c44
+  seabone_c45(["node-exporter<br/>prom/node-exporter:v1.9.1<br/>running"])
+  seabone --> seabone_c45
+  seabone_c46(["promtail-central<br/>grafana/promtail:3.0.0<br/>running"])
+  seabone --> seabone_c46
+  seabone_c47(["splynx_restore<br/>mysql:8.0<br/>running"])
+  seabone --> seabone_c47
+  seabone_c48(["vcp-stack2-6mhws8-postgres-1<br/>postgres:16<br/>running"])
+  seabone --> seabone_c48
+  seabone_c49(["vcpstack2bysp3d-postgres-1<br/>postgres:16<br/>running"])
+  seabone --> seabone_c49
+  son_erp["son-erp<br/>vmi3027474.contaboserver.net<br/>production<br/>IPv4 149.102.149.5<br/>IPv6 2a02:c204:2302:7474::1<br/>SON ERP; CRM is retired"]
+  provider_contabo --> son_erp
+  son_erp_c0(["promtail<br/>grafana/promtail:latest<br/>running"])
+  son_erp --> son_erp_c0
+  son_erp_c1(["son_erp_app<br/>son_erp_app:latest<br/>running"])
+  son_erp --> son_erp_c1
+  son_erp_c2(["son_erp_beat<br/>son_erp-beat<br/>running"])
+  son_erp --> son_erp_c2
+  son_erp_c3(["son_erp_db<br/>postgis/postgis:16-3.4<br/>running"])
+  son_erp --> son_erp_c3
+  son_erp_c4(["son_erp_redis<br/>redis:7<br/>running"])
+  son_erp --> son_erp_c4
+  son_erp_c5(["son_erp_worker<br/>son_erp-worker<br/>running"])
+  son_erp --> son_erp_c5
+  sub_prod["sub-prod<br/>vmi3348415.contaboserver.net<br/>production<br/>IPv4 94.72.107.76<br/>IPv6 2a02:c204:2334:8415::1<br/>Dotmac Sub production"]
+  provider_contabo --> sub_prod
+  sub_prod_c0(["dotmac_network_map_restore_20260814<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  sub_prod --> sub_prod_c0
+  sub_prod_c1(["dotmac_network_map_restore_20260817_221228_segments<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  sub_prod --> sub_prod_c1
+  sub_prod_c2(["dotmac_network_map_restore_importer_20260814_v2<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  sub_prod --> sub_prod_c2
+  sub_prod_c3(["dotmac_network_map_restore_test<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  sub_prod --> sub_prod_c3
+  sub_prod_c4(["dotmac_pg_local<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  sub_prod --> sub_prod_c4
+  sub_prod_c5(["dotmac_radius_pg_test<br/>postgis/postgis:16-3.4-alpine<br/>running"])
+  sub_prod --> sub_prod_c5
+  sub_prod_c6(["dotmac_redis_local<br/>redis:7-alpine<br/>running"])
+  sub_prod --> sub_prod_c6
+  sub_prod_c7(["dotmac_sub_app<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c7
+  sub_prod_c8(["dotmac_sub_bandwidth_poller<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c8
+  sub_prod_c9(["dotmac_sub_celery_beat<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c9
+  sub_prod_c10(["dotmac_sub_celery_worker<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c10
+  sub_prod_c11(["dotmac_sub_celery_worker_bandwidth<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c11
+  sub_prod_c12(["dotmac_sub_celery_worker_billing<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c12
+  sub_prod_c13(["dotmac_sub_celery_worker_ingestion<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c13
+  sub_prod_c14(["dotmac_sub_celery_worker_monitoring<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c14
+  sub_prod_c15(["dotmac_sub_celery_worker_notifications<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c15
+  sub_prod_c16(["dotmac_sub_celery_worker_notifications_immediate<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c16
+  sub_prod_c17(["dotmac_sub_celery_worker_tr069<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c17
+  sub_prod_c18(["dotmac_sub_freeradius<br/>freeradius/freeradius-server:3.2.7<br/>running"])
+  sub_prod --> sub_prod_c18
+  sub_prod_c19(["dotmac_sub_genieacs<br/>ghcr.io/michaelayoade/dotmac_sub-genieacs:1.2.13<br/>running"])
+  sub_prod --> sub_prod_c19
+  sub_prod_c20(["dotmac_sub_genieacs_mongodb<br/>mongo:4.4<br/>running"])
+  sub_prod --> sub_prod_c20
+  sub_prod_c21(["dotmac_sub_nominatim<br/>mediagis/nominatim:4.4<br/>running"])
+  sub_prod --> sub_prod_c21
+  sub_prod_c22(["dotmac_sub_promtail<br/>grafana/promtail:3.0.0<br/>running"])
+  sub_prod --> sub_prod_c22
+  sub_prod_c23(["dotmac_sub_syslog_listener<br/>2ba253f42663<br/>running"])
+  sub_prod --> sub_prod_c23
+  sub_prod_c24(["dotmac_sub_team_inbox_smtp<br/>94a820a2ce73<br/>running"])
+  sub_prod --> sub_prod_c24
+  sub_prod_c25(["dotmac_sub_victoriametrics<br/>victoriametrics/victoria-metrics:v1.96.0<br/>running"])
+  sub_prod --> sub_prod_c25
+  sub_prod_c26(["dotmac_vmagent<br/>victoriametrics/vmagent:v1.96.0<br/>running"])
+  sub_prod --> sub_prod_c26
+  test_server["test-server<br/>vmi3537655.contaboserver.net<br/>test<br/>IPv4 85.190.246.211<br/>IPv6 2a02:c204:2353:7655::1<br/>Dedicated non-production test server"]
+  provider_contabo --> test_server
+  web_cache["web-cache<br/>web-cache<br/>production<br/>IPv4 10.120.120.22<br/>IPv6 2c0f:e888:11:0:be24:11ff:fedc:a12d<br/>On-prem web cache"]
+  proxmox --> web_cache
+  web_cache_host_only["host-only / no Docker"]
+  web_cache --> web_cache_host_only
+  workspace["workspace<br/>workspace<br/>production<br/>IPv4 94.72.104.67<br/>IPv6 2a02:c204:2351:1803::1<br/>Dotmac Workspace"]
+  provider_contabo --> workspace
+  workspace_c0(["workspace-workspace-1<br/>dotmac-workspace:37189f8<br/>running"])
+  workspace --> workspace_c0
+  zabbix["zabbix<br/>zabbix<br/>production<br/>IPv4 160.119.127.193<br/>IPv6 2c0f:e888:11:0:be24:11ff:fe3a:953b<br/>On-prem Zabbix monitoring"]
+  proxmox --> zabbix
+  zabbix_host_only["host-only / no Docker"]
+  zabbix --> zabbix_host_only
