@@ -115,14 +115,19 @@ ref = "live:proxmox-cluster-census:2026-09-03T08:20:48Z"
 observed_at = 2026-09-03T08:20:48Z
 [[hosts.api_access]]
 name = "proxmox-https-api"
-status = "unavailable"
+status = "verified"
 endpoint = "https://10.120.120.20:8006/api2/json"
 authentication = "proxmox_api_token"
-limitation = "No usable scoped token: root@pam!dev and root@pam!terraform both have empty effective permissions; no verified OpenBao pointer exists."
+credential_ref = "bao://secret/dotmac/proxmox/fleet-inventory#api_token"
+verified_at = 2026-09-03T10:11:20Z
 [[hosts.api_access.evidence]]
 evidence_class = "live_observation"
-ref = "live:proxmox-token-permissions:2026-09-03T08:20:48Z"
-observed_at = 2026-09-03T08:20:48Z
+ref = "live:proxmox-pveauditor-inventory-read:2026-09-03T10:11:20Z"
+observed_at = 2026-09-03T10:11:20Z
+[[hosts.api_access.evidence]]
+evidence_class = "live_observation"
+ref = "live:proxmox-pveauditor-denied-write:2026-09-03T10:11:20Z"
+observed_at = 2026-09-03T10:11:20Z
 
 [[hosts]]
 host_id = "db-primary"

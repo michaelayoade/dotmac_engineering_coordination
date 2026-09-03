@@ -70,11 +70,14 @@ from those inputs, and `generated/fleet_census.md` is the corresponding review
 table, including safe SSH/OpenBao/API pointers; neither is maintained as a
 second fleet map.
 
-The Proxmox host currently exposes a verified read path through
-`ssh proxmox pvesh`. Its HTTPS API coordinate is declared but unavailable:
-the two pre-existing root tokens have no effective permissions and no verified
-OpenBao pointer. Creating a replacement identity is an explicit credential
-cutover, not an inventory side effect.
+The Proxmox host exposes two verified read paths: `ssh proxmox pvesh` and the
+HTTPS API. The latter uses the dedicated non-root
+`fleet-inventory@pve!agent-fleet-readonly` token, with `PVEAuditor` applied
+to both the user and privilege-separated token. Its value exists only in
+OpenBao at `bao://secret/dotmac/proxmox/fleet-inventory#api_token`; the
+registry and MCP expose that pointer, never the value. Cutover evidence
+includes a 20-guest inventory read and an HTTP 403 for a planted same-value
+user update.
 
 See [`docs/AGENT_SETUP.md`](docs/AGENT_SETUP.md) for Codex registration and the
 generated SSH-config include. The repository does not modify an agent's global
