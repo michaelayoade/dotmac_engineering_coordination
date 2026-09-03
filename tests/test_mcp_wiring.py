@@ -103,8 +103,22 @@ async def test_real_protocol_exposes_proxmox_api_truth_without_a_secret() -> Non
         result = await client.call_tool("fleet_api_access", {"host_id": "proxmox"})
     by_name = {item["name"]: item for item in result.data["api_access"]}
     assert by_name["proxmox-cluster-via-pvesh"]["status"] == "verified"
-    assert by_name["proxmox-https-api"]["status"] == "unavailable"
-    assert by_name["proxmox-https-api"]["credential_ref"] is None
+    assert by_name["proxmox-https-api"]["status"] == "verified"
+    assert (
+        by_name["proxmox-https-api"]["credential_ref"]
+        == "bao://secret/dotmac/proxmox/fleet-inventory#api_token"
+    )
+    assert set(by_name["proxmox-https-api"]) == {
+        "authentication",
+        "credential_ref",
+        "endpoint",
+        "evidence",
+        "limitation",
+        "name",
+        "status",
+        "verified_at",
+        "via_ssh_alias",
+    }
 
 
 @pytest.mark.asyncio

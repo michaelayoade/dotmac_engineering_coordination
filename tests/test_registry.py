@@ -62,7 +62,7 @@ def test_initial_registry_is_typed_and_counts_every_declared_host(
     )
 
 
-def test_proxmox_access_exposes_working_pvesh_and_refuses_fake_https_api(
+def test_proxmox_access_exposes_both_verified_read_paths(
     registry: FleetRegistry,
 ) -> None:
     host = registry.by_id("proxmox")
@@ -72,9 +72,16 @@ def test_proxmox_access_exposes_working_pvesh_and_refuses_fake_https_api(
     assert by_name["proxmox-cluster-via-pvesh"].status is AccessStatus.VERIFIED
     assert by_name["proxmox-cluster-via-pvesh"].via_ssh_alias == "proxmox"
     https_api = by_name["proxmox-https-api"]
-    assert https_api.status is AccessStatus.UNAVAILABLE
-    assert https_api.credential_ref is None
-    assert "empty effective permissions" in (https_api.limitation or "")
+    assert https_api.status is AccessStatus.VERIFIED
+    assert (
+        https_api.credential_ref
+        == "bao://secret/dotmac/proxmox/fleet-inventory#api_token"
+    )
+    assert https_api.limitation is None
+    assert {item.ref for item in https_api.evidence} == {
+        "live:proxmox-pveauditor-inventory-read:2026-09-03T10:11:20Z",
+        "live:proxmox-pveauditor-denied-write:2026-09-03T10:11:20Z",
+    }
 
 
 def test_coverage_debt_is_a_two_directional_reviewed_baseline(

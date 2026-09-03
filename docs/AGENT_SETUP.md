@@ -61,9 +61,10 @@ through its approved bootstrap.
 
 `seabone` and `proxmox` are included. The latter uses `ProxyJump seabone` and
 the separately declared local key pointer. For read-only Proxmox inventory,
-use the verified SSH-backed API path (`ssh proxmox pvesh ...`). Do not treat the
-declared HTTPS coordinate as usable until `fleet_inspect("proxmox")` reports a
-verified scoped token and OpenBao pointer.
+use the verified SSH-backed API path (`ssh proxmox pvesh ...`) or inspect the
+verified HTTPS coordinate and OpenBao pointer through
+`fleet_api_access("proxmox")`. The HTTPS identity is non-root and limited to
+`PVEAuditor`; its value is not exposed by this MCP.
 
 Do not copy the fragment into another repository. Regenerate it from the typed
 registry and review the byte diff:

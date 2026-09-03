@@ -76,7 +76,7 @@ Pointers identify where credentials are held; this report never dereferences the
 | `ns3` | `ns3` | `root` | `ns3` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/ns3#root_password` | none declared |
 | `observability-canary` | `observability-canary` | `root` | `observability-canary` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
 | `observe` | `observe` | `root` | `observe` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/observe#root_password` | none declared |
-| `proxmox` | `proxmox` | `root` | `via seabone to 10.120.120.20` | `local-key:~/dotmac-network/ssh-keys/proxmox-server` | `not verified` | proxmox-cluster-via-pvesh: verified (ssh://proxmox/pvesh); proxmox-https-api: unavailable (https://10.120.120.20:8006/api2/json) |
+| `proxmox` | `proxmox` | `root` | `via seabone to 10.120.120.20` | `local-key:~/dotmac-network/ssh-keys/proxmox-server` | `not verified` | proxmox-cluster-via-pvesh: verified (ssh://proxmox/pvesh); proxmox-https-api: verified (https://10.120.120.20:8006/api2/json) [bao://secret/dotmac/proxmox/fleet-inventory#api_token] |
 | `s3` | `s3` | `root` | `s3` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/s3#root_password` | none declared |
 | `seabone` | `seabone` | `dotmac` | `160.119.127.195` | `local-key:~/.ssh/id_ed25519_seabone` | `not verified` | none declared |
 | `son-erp` | `son-erp` | `root` | `son-erp` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/crm#root_password` | none declared |

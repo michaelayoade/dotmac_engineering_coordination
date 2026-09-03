@@ -16,8 +16,6 @@
   "schema_version": "dotmac.fleet.v1",
   "unverified_access_host_ids": [],
   "unverified_fact_host_ids": [],
-  "unavailable_api_access_ids": [
-    "proxmox/proxmox-https-api"
-  ],
+  "unavailable_api_access_ids": [],
   "verified_access_count": 26
 }
