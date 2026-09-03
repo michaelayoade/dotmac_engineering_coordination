@@ -24,7 +24,7 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: python -m pip install poetry==2.1.4
       - run: poetry config virtualenvs.create false
-      - run: poetry install --no-interaction
+      - run: poetry install --no-interaction --extras dev
       - run: poetry run ruff check .
       - run: poetry run mypy src
       - run: poetry run python -m pytest
