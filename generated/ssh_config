@@ -1,0 +1,203 @@
+# fleet-host: academy
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host academy
+  HostName 149.102.135.97
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: control-runner
+# identity-ref: local-key:~/dotmac-network/ssh-keys/proxmox-server
+Host control-runner
+  HostName 10.120.120.52
+  User dotmac
+  Port 22
+  IdentitiesOnly yes
+  ProxyJump seabone
+
+# fleet-host: db-primary
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host db-primary
+  HostName 75.119.157.91
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: erp
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host erp
+  HostName 149.102.158.167
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: idp-ha-1
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host idp-ha-1
+  HostName 94.72.109.54
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: idp-ha-2
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host idp-ha-2
+  HostName 158.220.86.76
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: idp-ha-3
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host idp-ha-3
+  HostName 158.220.87.55
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: idp-live
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host idp-live
+  HostName 158.220.86.10
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: integrator-vendor-control
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host integrator-vendor-control
+  HostName 149.102.158.144
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: mail-dotmac
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host mail-dotmac
+  HostName 94.72.106.173
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: mail-nhia
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host mail-nhia
+  HostName 94.72.108.27
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: nhia-moh-cloud
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host nhia-moh-cloud
+  HostName 149.102.130.231
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: ns1
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host ns1
+  HostName 10.120.120.51
+  User root
+  Port 22
+  IdentitiesOnly yes
+  ProxyJump seabone
+
+# fleet-host: ns2
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host ns2
+  HostName 169.58.201.243
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: ns3
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host ns3
+  HostName 158.220.82.88
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: observe
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host observe
+  HostName 75.119.128.247
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: proxmox
+# identity-ref: local-key:~/dotmac-network/ssh-keys/proxmox-server
+Host proxmox
+  HostName 10.120.120.20
+  User root
+  Port 22
+  IdentitiesOnly yes
+  ProxyJump seabone
+
+# fleet-host: s3
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host s3
+  HostName 194.163.130.216
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: seabone
+# identity-ref: local-key:~/.ssh/id_ed25519_seabone
+Host seabone
+  HostName 160.119.127.195
+  User dotmac
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: son-erp
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host son-erp
+  HostName 149.102.149.5
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: sub-prod
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host sub-prod
+  HostName 94.72.107.76
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: test-server
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host test-server
+  HostName 85.190.246.211
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: web-cache
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host web-cache
+  HostName 10.120.120.22
+  User root
+  Port 22
+  IdentitiesOnly yes
+  ProxyJump seabone
+
+# fleet-host: workspace
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host workspace
+  HostName 94.72.104.67
+  User root
+  Port 22
+  IdentitiesOnly yes
+
+# fleet-host: zabbix
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host zabbix
+  HostName 160.119.127.193
+  User zabbixdotmac
+  Port 22
+  IdentitiesOnly yes

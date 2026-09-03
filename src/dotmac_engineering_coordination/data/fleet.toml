@@ -1,0 +1,802 @@
+schema_version = "dotmac.fleet.v1"
+max_age_days = 45
+
+# Initial migration from the provider inventory recorded 2026-08-27 and the
+# local SSH configuration observed 2026-09-03. Knowledge references are
+# discovery evidence, not approval. Unknown login paths stay unverified.
+
+[[hosts]]
+host_id = "academy"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Dotmac Academy application"
+owner_ref = "dotmac_academy_app"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["149.102.135.97", "2a02:c204:2249:731::1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "academy"
+user = "root"
+port = 22
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/academy#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:149.102.135.97"
+observed_at = 2026-09-03T00:00:00Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "seabone"
+provider_ref = "onprem:seabone"
+environment = "staging"
+purpose = "On-prem application host for Sub, ERP, retired CRM/Omni, and staging workloads"
+owner_ref = "dotmac-infrastructure"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["160.119.127.195", "2c0f:e888:12:0:1e98:ecff:fe11:3628", "2c0f:e888:12:0:1e98:ecff:fe11:3629"]
+private_addresses = ["10.120.121.20"]
+last_verified_at = 2026-09-03T08:20:48Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:seabone-capacity-decomposition-candidate"
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+[hosts.access]
+status = "verified"
+alias = "seabone"
+endpoint = "160.119.127.195"
+user = "dotmac"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519_seabone"
+verified_at = 2026-09-03T08:20:48Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:seabone"
+observed_at = 2026-09-03T08:20:48Z
+
+[[hosts]]
+host_id = "proxmox"
+provider_ref = "onprem:proxmox"
+environment = "production"
+purpose = "Single-node Proxmox VE hypervisor for Dotmac network and control-plane virtual machines"
+owner_ref = "dotmac-infrastructure"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["2c0f:e888:11::14", "2c0f:e888:11:1::14"]
+private_addresses = ["10.120.120.20", "10.10.10.254"]
+dns_names = ["dotmacproxmox.local"]
+last_verified_at = 2026-09-03T08:20:48Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:proxmox-is-reachable-via-seabone-proxyjump"
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:proxmox-cluster-census:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+[hosts.access]
+status = "verified"
+alias = "proxmox"
+endpoint = "10.120.120.20"
+user = "root"
+proxy_jump = "seabone"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/dotmac-network/ssh-keys/proxmox-server"
+verified_at = 2026-09-03T08:20:48Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:proxmox-via-seabone"
+observed_at = 2026-09-03T08:20:48Z
+[[hosts.api_access]]
+name = "proxmox-cluster-via-pvesh"
+status = "verified"
+endpoint = "ssh://proxmox/pvesh"
+authentication = "ssh_pvesh"
+via_ssh_alias = "proxmox"
+verified_at = 2026-09-03T08:20:48Z
+[[hosts.api_access.evidence]]
+evidence_class = "live_observation"
+ref = "live:proxmox-cluster-census:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+[[hosts.api_access]]
+name = "proxmox-https-api"
+status = "unavailable"
+endpoint = "https://10.120.120.20:8006/api2/json"
+authentication = "proxmox_api_token"
+limitation = "No usable scoped token: root@pam!dev and root@pam!terraform both have empty effective permissions; no verified OpenBao pointer exists."
+[[hosts.api_access.evidence]]
+evidence_class = "live_observation"
+ref = "live:proxmox-token-permissions:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+
+[[hosts]]
+host_id = "db-primary"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Primary database host; PostgreSQL and Redis standbys"
+owner_ref = "infrastructure"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["75.119.157.91", "2a02:c207:2329:1426::1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "db-primary"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/db-primary#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:db-primary"
+observed_at = 2026-09-03T00:00:00Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "erp"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Dotmac ERP application"
+owner_ref = "dotmac_erp"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["149.102.158.167", "2a02:c204:2298:8431::1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "erp"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/erp#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:erp"
+observed_at = 2026-09-03T00:00:00Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "observability-canary"
+provider_ref = "contabo"
+environment = "non-production"
+purpose = "Reserved inactive host-only observability canary"
+owner_ref = "observability"
+production = false
+status = "reserved"
+fact_status = "confirmed"
+public_addresses = ["94.72.99.155", "2a02:c204:2353:7605::1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27:v5-amendment"
+[hosts.access]
+status = "verified"
+alias = "observability-canary"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+[[hosts]]
+host_id = "test-server"
+provider_ref = "contabo"
+environment = "test"
+purpose = "Dedicated non-production test server"
+owner_ref = "engineering"
+production = false
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["85.190.246.211", "2a02:c204:2353:7655::1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:dotmac-dedicated-test-server"
+[hosts.access]
+status = "verified"
+alias = "test-server"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "idp-live"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Identity provider; Keycloak and Sub shadow"
+owner_ref = "identity"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["158.220.86.10", "2a02:c204:2351:1689::1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:dotmac-keycloak-host-158-220-86-10"
+[hosts.access]
+status = "verified"
+alias = "idp-live"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/keycloak#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "idp-ha-1"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Identity provider HA node 1"
+owner_ref = "identity"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["94.72.109.54", "2a02:c204:2353:7544::1"]
+private_addresses = ["10.10.0.1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "idp-ha-1"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "idp-ha-2"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Identity provider HA node 2"
+owner_ref = "identity"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["158.220.86.76", "2a02:c204:2353:7543::1"]
+private_addresses = ["10.10.0.2"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "idp-ha-2"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "idp-ha-3"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Identity provider HA node 3"
+owner_ref = "identity"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["158.220.87.55", "2a02:c204:2353:7726::1"]
+private_addresses = ["10.10.0.3"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+[hosts.access]
+status = "verified"
+alias = "idp-ha-3"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "integrator-vendor-control"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Integrator and Vendor Control Plane"
+owner_ref = "integrator"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["149.102.158.144", "2a02:c204:2298:8430::1"]
+private_addresses = ["10.10.41.1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:dotmac-host-149-102-158-144-multi-app"
+[hosts.access]
+status = "verified"
+alias = "integrator-vendor-control"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "mail-dotmac"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Mail for dotmac.ng"
+owner_ref = "mail"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["94.72.106.173", "2a02:c204:2349:2684::1"]
+dns_names = ["mail.dotmac.ng"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "mail-dotmac"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/mail-dotmac#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "mail-nhia"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Mail for nhia.gov.ng"
+owner_ref = "mail"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["94.72.108.27", "2a02:c204:2349:2689::1"]
+dns_names = ["mail.nhia.gov.ng"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "mail-nhia"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/mail-nhia#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "nhia-moh-cloud"
+provider_ref = "contabo"
+environment = "production"
+purpose = "NHIA and Ministry of Health cloud workloads"
+owner_ref = "cloud"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["149.102.130.231", "2a02:c204:2248:6898::1"]
+dns_names = ["cloud.nhia.gov.ng"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "nhia-moh-cloud"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/cloud-nhia#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "ns2"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Authoritative DNS ns2.dotmac.ng"
+owner_ref = "dns"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["169.58.201.243", "2a02:c207:2351:9226::1"]
+dns_names = ["ns2.dotmac.ng"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "ns2"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/ns2#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:ns2"
+observed_at = 2026-09-03T00:00:00Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "ns3"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Authoritative DNS ns3.dotmac.ng"
+owner_ref = "dns"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["158.220.82.88", "2a02:c204:2351:9229::1"]
+dns_names = ["ns3.dotmac.ng"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "ns3"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/ns3#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:ns3"
+observed_at = 2026-09-03T00:00:00Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "observe"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Grafana, Prometheus, OpenBao and Knowledge"
+owner_ref = "observability"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["75.119.128.247", "2a02:c207:2329:1425::1"]
+dns_names = ["observability.dotmac.io"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "observe"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/observe#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:observe"
+observed_at = 2026-09-03T00:00:00Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "s3"
+provider_ref = "contabo"
+environment = "production"
+purpose = "MinIO object storage, Forgejo and registry"
+owner_ref = "storage"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["194.163.130.216", "2a02:c207:2329:1427::1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "s3"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/s3#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:s3"
+observed_at = 2026-09-03T00:00:00Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "son-erp"
+provider_ref = "contabo"
+environment = "production"
+purpose = "SON ERP; CRM is retired"
+owner_ref = "dotmac_erp"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["149.102.149.5", "2a02:c204:2302:7474::1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:dotmac-production-host-boundaries"
+[hosts.access]
+status = "verified"
+alias = "son-erp"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/crm#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "local:ssh-config:149.102.149.5"
+observed_at = 2026-09-03T00:00:00Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "sub-prod"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Dotmac Sub production"
+owner_ref = "dotmac_sub"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["94.72.107.76", "2a02:c204:2334:8415::1"]
+private_addresses = ["10.10.41.1"]
+dns_names = ["selfcare.dotmac.io"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:dotmac-production-host-boundaries"
+[hosts.access]
+status = "verified"
+alias = "sub-prod"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/sub-prod#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "workspace"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Dotmac Workspace"
+owner_ref = "workspace"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["94.72.104.67", "2a02:c204:2351:1803::1"]
+last_verified_at = 2026-09-03T07:57:37Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:contabo-fleet-inventory-2026-08-27"
+[hosts.access]
+status = "verified"
+alias = "workspace"
+user = "root"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/workspace#root_password"
+verified_at = 2026-09-03T07:57:37Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-census:2026-09-03T07:57:37Z"
+observed_at = 2026-09-03T07:57:37Z
+
+[[hosts]]
+host_id = "web-cache"
+provider_ref = "proxmox:vm/120"
+environment = "production"
+purpose = "On-prem web cache"
+owner_ref = "dotmac-infrastructure"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["2c0f:e888:11:0:be24:11ff:fedc:a12d", "2c0f:e888:11::22"]
+private_addresses = ["10.120.120.22"]
+last_verified_at = 2026-09-03T08:20:48Z
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:proxmox-vm-ssh-census:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+[hosts.access]
+status = "verified"
+alias = "web-cache"
+endpoint = "10.120.120.22"
+user = "root"
+proxy_jump = "seabone"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-03T08:20:48Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh:web-cache:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+
+[[hosts]]
+host_id = "zabbix"
+provider_ref = "proxmox:vm/104"
+environment = "production"
+purpose = "On-prem Zabbix monitoring"
+owner_ref = "observability"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["160.119.127.193", "2c0f:e888:11:0:be24:11ff:fe3a:953b", "2c0f:e888:11::1b"]
+private_addresses = ["10.120.120.27"]
+last_verified_at = 2026-09-03T08:20:48Z
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:proxmox-vm-ssh-census:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+[hosts.access]
+status = "verified"
+alias = "zabbix"
+endpoint = "160.119.127.193"
+user = "zabbixdotmac"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-03T08:20:48Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh:zabbix:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+
+[[hosts]]
+host_id = "ns1"
+provider_ref = "proxmox:vm/123"
+environment = "production"
+purpose = "Authoritative DNS ns1.dotmac.ng"
+owner_ref = "dns"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["2c0f:e888:11:0:be24:11ff:fe2c:3ba8", "2c0f:e888:11::51"]
+private_addresses = ["10.120.120.51"]
+dns_names = ["ns1.dotmac.ng"]
+last_verified_at = 2026-09-03T08:20:48Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:dotmac-authoritative-dns-platform-build"
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:proxmox-vm-ssh-census:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+[hosts.access]
+status = "verified"
+alias = "ns1"
+endpoint = "10.120.120.51"
+user = "root"
+proxy_jump = "seabone"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+recovery_secret_ref = "bao://secret/dotmac/hosts/ns1#root_password"
+verified_at = 2026-09-03T08:20:48Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh:ns1-via-seabone:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+
+[[hosts]]
+host_id = "control-runner"
+provider_ref = "proxmox:vm/124"
+environment = "production"
+purpose = "Repository-scoped deployment control runners"
+owner_ref = "dotmac-deployment-control"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["160.119.127.188"]
+private_addresses = ["10.120.120.52", "100.64.53.2"]
+dns_names = ["dotmac-control-runner"]
+last_verified_at = 2026-09-03T08:20:48Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:dotmac-control-runner-build-and-access"
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:proxmox-vm-ssh-census:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z
+[hosts.access]
+status = "verified"
+alias = "control-runner"
+endpoint = "10.120.120.52"
+user = "dotmac"
+proxy_jump = "seabone"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/dotmac-network/ssh-keys/proxmox-server"
+verified_at = 2026-09-03T08:20:48Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh:control-runner-via-seabone:2026-09-03T08:20:48Z"
+observed_at = 2026-09-03T08:20:48Z

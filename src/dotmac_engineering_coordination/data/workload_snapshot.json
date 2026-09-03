@@ -1,0 +1,2764 @@
+{
+  "evidence_class": "live_observation",
+  "hosts": [
+    {
+      "addresses": [
+        {
+          "address": "149.102.135.97/21",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "UP"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-fed1566fa1bb",
+          "state": "UP"
+        },
+        {
+          "address": "10.99.0.1/24",
+          "family": 4,
+          "interface": "labs",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "2a02:c204:2249:731::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "academy-db",
+          "runtime_status": "Up 4 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/promtail:3.0.0",
+          "name": "promtail",
+          "runtime_status": "Up 5 weeks",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "vmi2490731.contaboserver.net",
+      "host_id": "academy",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "10.120.120.52/24",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "100.64.53.2/30",
+          "family": 4,
+          "interface": "wg0",
+          "state": "UNKNOWN"
+        }
+      ],
+      "containers": [],
+      "docker_available": false,
+      "guest_hostname": "dotmac-control-runner",
+      "host_id": "control-runner",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "75.119.157.91/19",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "UP"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-b4ebcc2210c4",
+          "state": "UP"
+        },
+        {
+          "address": "172.19.0.1/16",
+          "family": 4,
+          "interface": "br-0deea7ad3d17",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c207:2329:1426::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "mysql:8.0",
+          "name": "dotmac_splynx_source_audit",
+          "runtime_status": "Up 4 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_sub_funding_audit",
+          "runtime_status": "Up 4 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_omni_standby",
+          "runtime_status": "Up 2 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_erp_standby",
+          "runtime_status": "Up 2 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_sub_standby",
+          "runtime_status": "Up 7 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "oliver006/redis_exporter:latest",
+          "name": "redis-exporter",
+          "runtime_status": "Up 3 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "quay.io/prometheuscommunity/postgres-exporter:latest",
+          "name": "postgres-exporter",
+          "runtime_status": "Up 3 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "prom/node-exporter:latest",
+          "name": "node-exporter",
+          "runtime_status": "Up 3 months",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac-postgres",
+          "runtime_status": "Up 3 months (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "redis:7-alpine",
+          "name": "dotmac-redis",
+          "runtime_status": "Up 3 months (healthy)",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "dotmac-db-primary",
+      "host_id": "db-primary",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "149.102.158.167/21",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "UP"
+        },
+        {
+          "address": "172.19.0.1/16",
+          "family": 4,
+          "interface": "br-11b5336b6f1c",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.21.0.1/16",
+          "family": 4,
+          "interface": "br-87376b8d3ca7",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.22.0.1/16",
+          "family": 4,
+          "interface": "br-7dc6e40817b6",
+          "state": "UP"
+        },
+        {
+          "address": "172.23.0.1/16",
+          "family": 4,
+          "interface": "br-66d3a840d44d",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-a2bfaf9da432",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c204:2298:8431::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_erp",
+          "name": "dotmac_erp_worker",
+          "runtime_status": "Up 3 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_erp",
+          "name": "dotmac_erp_beat",
+          "runtime_status": "Up 3 hours",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "ghcr.io/michaelayoade/dotmac_erp",
+          "name": "dotmac_erp_app",
+          "runtime_status": "Up 3 hours (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_pg_local",
+          "runtime_status": "Up 2 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "redis:7",
+          "name": "dotmac_erp_redis",
+          "runtime_status": "Up 2 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/promtail:latest",
+          "name": "promtail",
+          "runtime_status": "Up 4 weeks",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "vmi2988431.contaboserver.net",
+      "host_id": "erp",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "94.72.109.54/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "10.10.0.1/24",
+          "family": 4,
+          "interface": "wg0",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "2a02:c204:2353:7544::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "quay.io/keycloak/keycloak:26.0",
+          "name": "keycloak",
+          "runtime_status": "Up 4 days",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "vmi3537544.contaboserver.net",
+      "host_id": "idp-ha-1",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "158.220.86.76/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "10.10.0.2/24",
+          "family": 4,
+          "interface": "wg0",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "2a02:c204:2353:7543::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "quay.io/keycloak/keycloak:26.0",
+          "name": "keycloak",
+          "runtime_status": "Up 4 days",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "vmi3537543",
+      "host_id": "idp-ha-2",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "158.220.87.55/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "10.10.0.3/24",
+          "family": 4,
+          "interface": "wg0",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "2a02:c204:2353:7726::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "quay.io/keycloak/keycloak:26.0",
+          "name": "keycloak",
+          "runtime_status": "Up 4 days",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "vmi3537726.contaboserver.net",
+      "host_id": "idp-ha-3",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "158.220.86.10/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.20.0.1/16",
+          "family": 4,
+          "interface": "br-9211e8fc9c88",
+          "state": "UP"
+        },
+        {
+          "address": "172.19.0.1/16",
+          "family": 4,
+          "interface": "br-c8e5ac9ee944",
+          "state": "UP"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-fc0f481180d3",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c204:2351:1689::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": "healthy",
+          "image": "342a9b805d6a",
+          "name": "dotmac_sub_thin_shadow_app",
+          "runtime_status": "Up 4 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "e7723ff73d96",
+          "name": "dotmac_sub_thin_shadow_redis",
+          "runtime_status": "Up 4 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "681931a625df",
+          "name": "dotmac_sub_thin_shadow_postgres",
+          "runtime_status": "Up 4 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "quay.io/keycloak/keycloak:26.0",
+          "name": "keycloak-keycloak-1",
+          "runtime_status": "Up 4 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16-alpine",
+          "name": "keycloak-postgres-1",
+          "runtime_status": "Up 4 days (healthy)",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "idp",
+      "host_id": "idp-live",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "149.102.158.144/21",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "10.8.0.1/32",
+          "family": 4,
+          "interface": "tun0",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "10.8.0.2/32",
+          "family": 4,
+          "interface": "tun0",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.22.0.1/16",
+          "family": 4,
+          "interface": "br-ba182f4e622b",
+          "state": "UP"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-582b05a2c12f",
+          "state": "UP"
+        },
+        {
+          "address": "172.19.0.1/16",
+          "family": 4,
+          "interface": "br-7808c13d1e63",
+          "state": "UP"
+        },
+        {
+          "address": "10.10.41.1/24",
+          "family": 4,
+          "interface": "wg0",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "172.23.0.1/16",
+          "family": 4,
+          "interface": "br-2b5885345836",
+          "state": "DOWN"
+        },
+        {
+          "address": "2a02:c204:2298:8430::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": "healthy",
+          "image": "ghcr.io/michaelayoade/dotmac_vendor_control_plane",
+          "name": "dotmac_vendor_control_plane-app-1",
+          "runtime_status": "Up 16 hours (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "registry.dotmac.io/dotmac/integrator",
+          "name": "integrator-api-1",
+          "runtime_status": "Up 10 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "integrator-db-1",
+          "runtime_status": "Up 10 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "dotmac_vendor_control_plane-db-1",
+          "runtime_status": "Up 12 days (healthy)",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "vmi2988430.contaboserver.net",
+      "host_id": "integrator-vendor-control",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "94.72.106.173/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.22.1.1/24",
+          "family": 4,
+          "interface": "br-mailcow",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c204:2349:2684::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "fd4d:6169:6c63:6f77::1/64",
+          "family": 6,
+          "interface": "br-mailcow",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/phpfpm:1.93",
+          "name": "mailcowdockerized-php-fpm-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/watchdog:2.08",
+          "name": "mailcowdockerized-watchdog-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "robbertkl/ipv6nat",
+          "name": "mailcowdockerized-ipv6nat-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/acme:1.92",
+          "name": "mailcowdockerized-acme-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/nginx:1.03",
+          "name": "mailcowdockerized-nginx-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/rspamd:2.2",
+          "name": "mailcowdockerized-rspamd-mailcow-1",
+          "runtime_status": "Up 21 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "mcuadros/ofelia:latest",
+          "name": "mailcowdockerized-ofelia-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/dovecot:2.33",
+          "name": "mailcowdockerized-dovecot-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/postfix:1.80",
+          "name": "mailcowdockerized-postfix-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/sogo:1.133",
+          "name": "mailcowdockerized-sogo-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "mariadb:10.11",
+          "name": "mailcowdockerized-mysql-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "redis:7.4.2-alpine",
+          "name": "mailcowdockerized-redis-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "ghcr.io/mailcow/clamd:1.70",
+          "name": "mailcowdockerized-clamd-mailcow-1",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "ghcr.io/mailcow/unbound:1.24",
+          "name": "mailcowdockerized-unbound-mailcow-1",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/dockerapi:2.11",
+          "name": "mailcowdockerized-dockerapi-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/netfilter:1.61",
+          "name": "mailcowdockerized-netfilter-mailcow-1",
+          "runtime_status": "Up 7 days",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "memcached:alpine",
+          "name": "mailcowdockerized-memcached-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/olefy:1.15",
+          "name": "mailcowdockerized-olefy-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "mail.dotmac.ng",
+      "host_id": "mail-dotmac",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "94.72.108.27/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.22.1.1/24",
+          "family": 4,
+          "interface": "br-mailcow",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c204:2349:2689::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "fd4d:6169:6c63:6f77::1/64",
+          "family": 6,
+          "interface": "br-mailcow",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "robbertkl/ipv6nat",
+          "name": "mailcowdockerized-ipv6nat-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/watchdog:2.08",
+          "name": "mailcowdockerized-watchdog-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/acme:1.92",
+          "name": "mailcowdockerized-acme-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/nginx:1.03",
+          "name": "mailcowdockerized-nginx-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/phpfpm:1.93",
+          "name": "mailcowdockerized-php-fpm-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/rspamd:2.2",
+          "name": "mailcowdockerized-rspamd-mailcow-1",
+          "runtime_status": "Up 17 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "mcuadros/ofelia:latest",
+          "name": "mailcowdockerized-ofelia-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/dovecot:2.33",
+          "name": "mailcowdockerized-dovecot-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/postfix:1.80",
+          "name": "mailcowdockerized-postfix-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/sogo:1.133",
+          "name": "mailcowdockerized-sogo-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "mariadb:10.11",
+          "name": "mailcowdockerized-mysql-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "redis:7.4.2-alpine",
+          "name": "mailcowdockerized-redis-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "ghcr.io/mailcow/clamd:1.70",
+          "name": "mailcowdockerized-clamd-mailcow-1",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "ghcr.io/mailcow/unbound:1.24",
+          "name": "mailcowdockerized-unbound-mailcow-1",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/dockerapi:2.11",
+          "name": "mailcowdockerized-dockerapi-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/netfilter:1.61",
+          "name": "mailcowdockerized-netfilter-mailcow-1",
+          "runtime_status": "Up 10 days",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "memcached:alpine",
+          "name": "mailcowdockerized-memcached-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/mailcow/olefy:1.15",
+          "name": "mailcowdockerized-olefy-mailcow-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "mail.nhia.gov.ng",
+      "host_id": "mail-nhia",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "149.102.130.231/21",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "docker_gwbridge",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": "healthy",
+          "image": "collabora/code:latest",
+          "name": "moh_collabora.1.xgx3eia7c3bfn5vhweqlg3ved",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "collabora/code:latest",
+          "name": "nhia_collabora.1.vb8elcl5bylbj2j7fqt6h7gh6",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "easypanel/easypanel:latest",
+          "name": "easypanel.1.zyh6zft8wjpla9turhmrbcjum",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgres:17",
+          "name": "nhia_nhia-postgres-db.1.5za5ix7pmlcx9d809ytbofp5r",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgres:17",
+          "name": "moh_nextcloud-db.1.6znsary56uk2ag1o82hngq4wr",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgres:17",
+          "name": "nhia_new_nextcloud-db.1.jgw3bsno3km9vm41j2wwp0qt7",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "traefik:3.6.7",
+          "name": "easypanel-traefik.1.t3c8cljs3b4vixnng72fuf0ip",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "nextcloud:31.0.4",
+          "name": "nhia_new_nextcloud.1.aj0pqpqepmci306ou77zfeu7d",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "nextcloud:31.0.2",
+          "name": "moh_nextcloud.1.r6umknjiawn6pk08qir1hrbqg",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "vmi2486898.contaboserver.net",
+      "host_id": "nhia-moh-cloud",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "10.120.120.51/24",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:11:0:be24:11ff:fe2c:3ba8/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:11::51/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [],
+      "docker_available": false,
+      "guest_hostname": "ns1.dotmac.ng",
+      "host_id": "ns1",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "169.58.201.243/17",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c207:2351:9226::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [],
+      "docker_available": false,
+      "guest_hostname": "ns2.dotmac.ng",
+      "host_id": "ns2",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "158.220.82.88/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c204:2351:9229::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [],
+      "docker_available": false,
+      "guest_hostname": "ns3.dotmac.ng",
+      "host_id": "ns3",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "94.72.99.155/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c204:2353:7605::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [],
+      "docker_available": false,
+      "guest_hostname": "vmi3537605.contaboserver.net",
+      "host_id": "observability-canary",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "75.119.128.247/19",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "UP"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-a01b77b70eb2",
+          "state": "UP"
+        },
+        {
+          "address": "172.21.0.1/16",
+          "family": 4,
+          "interface": "br-c10ff483b9ba",
+          "state": "UP"
+        },
+        {
+          "address": "172.19.0.1/16",
+          "family": 4,
+          "interface": "br-64328236c340",
+          "state": "UP"
+        },
+        {
+          "address": "172.20.0.1/16",
+          "family": 4,
+          "interface": "br-c809b204e873",
+          "state": "UP"
+        },
+        {
+          "address": "172.26.0.1/16",
+          "family": 4,
+          "interface": "br-67fae4a13ce4",
+          "state": "UP"
+        },
+        {
+          "address": "172.22.0.1/16",
+          "family": 4,
+          "interface": "br-5b68f64cf2f7",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.27.0.1/16",
+          "family": 4,
+          "interface": "br-d895f4bc9cd2",
+          "state": "UP"
+        },
+        {
+          "address": "172.28.0.1/16",
+          "family": 4,
+          "interface": "br-a180933b8515",
+          "state": "UP"
+        },
+        {
+          "address": "172.25.0.1/16",
+          "family": 4,
+          "interface": "br-715ad473b7bd",
+          "state": "UP"
+        },
+        {
+          "address": "172.30.0.1/16",
+          "family": 4,
+          "interface": "br-51b8a4761851",
+          "state": "UP"
+        },
+        {
+          "address": "172.24.0.1/16",
+          "family": 4,
+          "interface": "br-bfbdb549104b",
+          "state": "UP"
+        },
+        {
+          "address": "172.23.0.1/16",
+          "family": 4,
+          "interface": "br-9ba13bf33e04",
+          "state": "UP"
+        },
+        {
+          "address": "100.64.53.1/30",
+          "family": 4,
+          "interface": "wg0",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "172.29.0.1/16",
+          "family": 4,
+          "interface": "br-391bd4c65b4f",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c207:2329:1425::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "postgres:16-alpine",
+          "name": "cloudpg",
+          "runtime_status": "Up 9 days",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4",
+          "name": "subpg",
+          "runtime_status": "Up 9 days",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4",
+          "name": "subscriber-retirement-pg-20260819",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "netrecon-5459-postgres-1",
+          "runtime_status": "Up 2 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "vendor_billing_adoption_test-postgres-1",
+          "runtime_status": "Up 2 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "dotmac_billing_test_20260817-postgres-1",
+          "runtime_status": "Up 2 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4",
+          "name": "dotmac_sub_party_collision_pg",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "pq2-postgres-1",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "pq1-postgres-1",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgres:16",
+          "name": "sp-pg",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgres:16",
+          "name": "erp-pg",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgis/postgis:16-3.4",
+          "name": "sla-pr2-postgres",
+          "runtime_status": "Up 4 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4",
+          "name": "dotmac-positive-admission-pg-rebased2",
+          "runtime_status": "Up 4 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4",
+          "name": "dotmac-positive-admission-pg-OqtKR3",
+          "runtime_status": "Up 4 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "claude_knowledge-app:latest",
+          "name": "claude_knowledge-app-1",
+          "runtime_status": "Up 5 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "prom/alertmanager:latest",
+          "name": "alertmanager",
+          "runtime_status": "Up 5 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/grafana:latest",
+          "name": "grafana",
+          "runtime_status": "Up 4 days",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "85c25ba4e068",
+          "name": "claude_knowledge-indexer-1",
+          "runtime_status": "Up 6 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "ollama/ollama:0.32.1",
+          "name": "claude_knowledge-ollama-1",
+          "runtime_status": "Up 6 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16-alpine",
+          "name": "claude_knowledge-db-1",
+          "runtime_status": "Up 2 months (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "glitchtip/glitchtip:latest",
+          "name": "glitchtip-worker",
+          "runtime_status": "Up 2 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "glitchtip/glitchtip:latest",
+          "name": "glitchtip",
+          "runtime_status": "Up 2 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "prom/prometheus:latest",
+          "name": "prometheus",
+          "runtime_status": "Up 3 days",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "openbao/openbao:2",
+          "name": "openbao",
+          "runtime_status": "Up 3 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/promtail:latest",
+          "name": "promtail",
+          "runtime_status": "Up 3 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/loki:latest",
+          "name": "loki",
+          "runtime_status": "Up 3 months",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "gcr.io/cadvisor/cadvisor:latest",
+          "name": "cadvisor",
+          "runtime_status": "Up 3 months (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "prom/node-exporter:latest",
+          "name": "node-exporter",
+          "runtime_status": "Up 3 months",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "dotmac-observe",
+      "host_id": "observe",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "10.120.120.20/24",
+          "family": 4,
+          "interface": "vmbr0",
+          "state": "UP"
+        },
+        {
+          "address": "10.10.10.254/24",
+          "family": 4,
+          "interface": "vmbr1",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:11::14/64",
+          "family": 6,
+          "interface": "vmbr0",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:11:1::14/64",
+          "family": 6,
+          "interface": "dmzbridge",
+          "state": "UNKNOWN"
+        }
+      ],
+      "containers": [],
+      "docker_available": false,
+      "guest_hostname": "dotmacproxmox.local",
+      "host_id": "proxmox",
+      "virtual_guests": [
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 68719476736,
+          "max_memory_bytes": 4294967296,
+          "name": "turn-server",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 3,
+          "vm_id": 100
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 128849018880,
+          "max_memory_bytes": 25769803776,
+          "name": "academy-labs",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 12,
+          "vm_id": 101
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 21474836480,
+          "max_memory_bytes": 2147483648,
+          "name": "tr143-probe",
+          "node": "dotmacproxmox",
+          "state": "stopped",
+          "vcpus": 2,
+          "vm_id": 102
+        },
+        {
+          "address_evidence": "guest_agent",
+          "addresses": [
+            "10.120.120.24",
+            "2c0f:e888:11:0:be24:11ff:fe6e:9d4a"
+          ],
+          "kind": "qemu",
+          "max_disk_bytes": 107374182400,
+          "max_memory_bytes": 8589934592,
+          "name": "UISP",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 4,
+          "vm_id": 103
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 214748364800,
+          "max_memory_bytes": 12884901888,
+          "name": "Zabbix",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 8,
+          "vm_id": 104
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 107374182400,
+          "max_memory_bytes": 8589934592,
+          "name": "UNIFI",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 4,
+          "vm_id": 105
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 322122547200,
+          "max_memory_bytes": 17179869184,
+          "name": "Mailcow",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 8,
+          "vm_id": 106
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 34359738368,
+          "max_memory_bytes": 2147483648,
+          "name": "dotmac.ng",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 1,
+          "vm_id": 108
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 322122547200,
+          "max_memory_bytes": 8589934592,
+          "name": "Grafana",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 4,
+          "vm_id": 109
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 34359738368,
+          "max_memory_bytes": 4299161600,
+          "name": "ImapSync",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 4,
+          "vm_id": 111
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 472446402560,
+          "max_memory_bytes": 17175674880,
+          "name": "cloud-chat",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 4,
+          "vm_id": 113
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 214748364800,
+          "max_memory_bytes": 8589934592,
+          "name": "Nhia-mail",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 8,
+          "vm_id": 115
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 53687091200,
+          "max_memory_bytes": 4294967296,
+          "name": "nhia",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 2,
+          "vm_id": 116
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 34359738368,
+          "max_memory_bytes": 4294967296,
+          "name": "nhia-imap",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 4,
+          "vm_id": 118
+        },
+        {
+          "address_evidence": "guest_agent",
+          "addresses": [
+            "10.120.120.21",
+            "2c0f:e888:11:0:be24:11ff:fec7:f4f2",
+            "2c0f:e888:11::21"
+          ],
+          "kind": "qemu",
+          "max_disk_bytes": 10737418240,
+          "max_memory_bytes": 2147483648,
+          "name": "dns-unbound",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 2,
+          "vm_id": 119
+        },
+        {
+          "address_evidence": "guest_agent",
+          "addresses": [
+            "10.120.120.22",
+            "2c0f:e888:11:0:be24:11ff:fedc:a12d",
+            "2c0f:e888:11::22"
+          ],
+          "kind": "qemu",
+          "max_disk_bytes": 375809638400,
+          "max_memory_bytes": 4294967296,
+          "name": "web-cache",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 4,
+          "vm_id": 120
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 64424509440,
+          "max_memory_bytes": 12884901888,
+          "name": "dotmac-voice-core",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 6,
+          "vm_id": 121
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 26843545600,
+          "max_memory_bytes": 4294967296,
+          "name": "dotmac-voice-edge",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 4,
+          "vm_id": 122
+        },
+        {
+          "address_evidence": "unavailable",
+          "addresses": [],
+          "kind": "qemu",
+          "max_disk_bytes": 32212254720,
+          "max_memory_bytes": 4294967296,
+          "name": "ns1",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 2,
+          "vm_id": 123
+        },
+        {
+          "address_evidence": "guest_agent",
+          "addresses": [
+            "10.120.120.52",
+            "100.64.53.2"
+          ],
+          "kind": "qemu",
+          "max_disk_bytes": 42949672960,
+          "max_memory_bytes": 4294967296,
+          "name": "dotmac-control-runner",
+          "node": "dotmacproxmox",
+          "state": "running",
+          "vcpus": 2,
+          "vm_id": 124
+        }
+      ]
+    },
+    {
+      "addresses": [
+        {
+          "address": "194.163.130.216/18",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-9d480ba024d0",
+          "state": "UP"
+        },
+        {
+          "address": "172.19.0.1/16",
+          "family": 4,
+          "interface": "br-b1bb4e487174",
+          "state": "UP"
+        },
+        {
+          "address": "172.20.0.1/16",
+          "family": 4,
+          "interface": "br-e7d8029c959c",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c207:2329:1427::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "codeberg.org/forgejo/forgejo:11",
+          "name": "forgejo-forgejo-1",
+          "runtime_status": "Up 4 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16-alpine",
+          "name": "forgejo-forgejo-db-1",
+          "runtime_status": "Up 4 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "caddy:2-alpine",
+          "name": "forgejo-caddy-1",
+          "runtime_status": "Up 4 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "prom/node-exporter:latest",
+          "name": "node-exporter",
+          "runtime_status": "Up 3 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "mediagis/nominatim:4.4",
+          "name": "nominatim",
+          "runtime_status": "Up 3 months",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "minio/minio:latest",
+          "name": "minio",
+          "runtime_status": "Up 3 months (healthy)",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "dotmac-s3",
+      "host_id": "s3",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "10.120.121.20/24",
+          "family": 4,
+          "interface": "eno1",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.2.1/24",
+          "family": 4,
+          "interface": "br-9368d981902c",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.80.4.1/24",
+          "family": 4,
+          "interface": "br-9b7e15170d5d",
+          "state": "UP"
+        },
+        {
+          "address": "172.20.254.1/24",
+          "family": 4,
+          "interface": "br-e3939ae703d3",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.7.1/24",
+          "family": 4,
+          "interface": "br-fe66ba8980da",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.80.8.1/24",
+          "family": 4,
+          "interface": "br-5a426e68ccdb",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.80.9.1/24",
+          "family": 4,
+          "interface": "br-727c3c38f8f7",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.80.5.1/24",
+          "family": 4,
+          "interface": "br-cab6040eea0e",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.20.255.1/24",
+          "family": 4,
+          "interface": "br-d2a624f1d6a6",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.14.1/24",
+          "family": 4,
+          "interface": "br-d5e87626b0ab",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.6.1/24",
+          "family": 4,
+          "interface": "br-e2b8e9286e5b",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.80.13.1/24",
+          "family": 4,
+          "interface": "br-19ad2a271070",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.80.3.1/24",
+          "family": 4,
+          "interface": "br-6213e1436625",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.80.10.1/24",
+          "family": 4,
+          "interface": "br-8695786584ad",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.1.1/24",
+          "family": 4,
+          "interface": "docker_gwbridge",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.12.1/24",
+          "family": 4,
+          "interface": "br-ac327d264bb6",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.80.11.1/24",
+          "family": 4,
+          "interface": "br-feb8e06ee8e6",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.80.15.1/24",
+          "family": 4,
+          "interface": "br-c3818ca0b722",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.0.1/24",
+          "family": 4,
+          "interface": "docker0",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.18.1/24",
+          "family": 4,
+          "interface": "br-fc007ac541e2",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.17.1/24",
+          "family": 4,
+          "interface": "br-b6ce9fe199b7",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.20.1/24",
+          "family": 4,
+          "interface": "br-1ca8667f06f7",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.19.1/24",
+          "family": 4,
+          "interface": "br-84808888893d",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.21.1/24",
+          "family": 4,
+          "interface": "br-dff3256f2d11",
+          "state": "UP"
+        },
+        {
+          "address": "172.80.16.1/24",
+          "family": 4,
+          "interface": "br-df62f0a0aa9f",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:12:0:1e98:ecff:fe11:3628/64",
+          "family": 6,
+          "interface": "eno1",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:12:0:1e98:ecff:fe11:3629/64",
+          "family": 6,
+          "interface": "eno2",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_celery_worker_notifications_immediate",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_app",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_celery_worker",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_celery_worker_billing",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_celery_worker_bandwidth",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_celery_worker_ingestion",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_syslog_listener",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_bandwidth_poller",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_celery_worker_monitoring",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_celery_worker_notifications",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_celery_worker_tr069",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_erp",
+          "name": "dotmac_erp_beat",
+          "runtime_status": "Up 2 days",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_erp",
+          "name": "dotmac_erp_worker",
+          "runtime_status": "Up 2 days",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "ghcr.io/michaelayoade/dotmac_erp",
+          "name": "dotmac_erp_app",
+          "runtime_status": "Up 2 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "unhealthy",
+          "image": "ghcr.io/michaelayoade/dotmac_sub",
+          "name": "dotmac_sub_team_inbox_smtp",
+          "runtime_status": "Up 2 days (unhealthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "redis:7",
+          "name": "dotmac_erp_redis",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "codex_academy_inventory_staging_pg_20260819",
+          "runtime_status": "Up 2 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "codex_academy_inventory_pg_20260819",
+          "runtime_status": "Up 2 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "codex_erp_people_pg_20260819",
+          "runtime_status": "Up 2 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "codex/erp-integrator-inventory-test:b969-candidate-r2",
+          "name": "codex_erp_people_validation_20260819",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "python:3.12-bookworm",
+          "name": "codex_kernel_gate_static_sql_20260819",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "python:3.12-slim",
+          "name": "codex_backoffice_people_red_20260818",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgres:16",
+          "name": "codex_starter_people_pg_20260818",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "python:3.12-bookworm",
+          "name": "codex_starter_people_audit_20260818",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "vcpstack2bysp3d-postgres-1",
+          "runtime_status": "Up 2 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgres:16",
+          "name": "vcp-stack2-6mhws8-postgres-1",
+          "runtime_status": "Up 2 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_network_map_restore_20260814",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "victoriametrics/victoria-metrics:v1.96.0",
+          "name": "dotmac_sub_victoriametrics",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/promtail:3.0.0",
+          "name": "promtail-central",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "prom/node-exporter:v1.9.1",
+          "name": "node-exporter",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "mediagis/nominatim:4.4",
+          "name": "dotmac_sub_nominatim",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "minio/minio:RELEASE.2025-01-20T14-49-07Z",
+          "name": "dotmac_sub_minio",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "ghcr.io/michaelayoade/dotmac_crm:sha-1a72fb2",
+          "name": "dotmac_omni_app",
+          "runtime_status": "Up 8 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_crm:sha-1a72fb2",
+          "name": "dotmac_omni_celery_beat",
+          "runtime_status": "Up 8 days",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_crm:sha-1a72fb2",
+          "name": "dotmac_omni_celery_worker",
+          "runtime_status": "Up 8 days",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgis/postgis:16-3.4",
+          "name": "dotmac_omni_db",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "dotmac_sub-genieacs:1.2.13",
+          "name": "dotmac_sub_genieacs",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "victoriametrics/vmagent:v1.96.0",
+          "name": "dotmac_vmagent",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "mongo:4.4",
+          "name": "dotmac_sub_genieacs_mongodb",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "mysql:8.0",
+          "name": "splynx_restore",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "minio/minio:latest",
+          "name": "dotmac_erp_minio",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgis/postgis:16-3.4",
+          "name": "dotmac_sub_db",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "redis:7",
+          "name": "dotmac_sub_redis",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "quay.io/openbao/openbao:latest",
+          "name": "dotmac_sub_openbao",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/grafana:11.5.2",
+          "name": "app_monitor-grafana-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/loki:3.4.2",
+          "name": "app_monitor-loki-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "prom/prometheus:v3.2.1",
+          "name": "app_monitor-prometheus-1",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "23d19d971a56",
+          "name": "dotmac_erp_db",
+          "runtime_status": "Up 3 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "redis:7-alpine",
+          "name": "dotmac_omni_redis",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "openbao/openbao:2",
+          "name": "dotmac_erp_openbao",
+          "runtime_status": "Up 3 weeks (healthy)",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "hp-server",
+      "host_id": "seabone",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "149.102.149.5/21",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.20.255.1/24",
+          "family": 4,
+          "interface": "br-f1054a690bda",
+          "state": "UP"
+        },
+        {
+          "address": "172.19.0.1/16",
+          "family": 4,
+          "interface": "br-5a4ee7da0e3b",
+          "state": "UP"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-3ff0e747a4ea",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c204:2302:7474::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": "healthy",
+          "image": "son_erp_app:latest",
+          "name": "son_erp_app",
+          "runtime_status": "Up 4 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "son_erp-worker",
+          "name": "son_erp_worker",
+          "runtime_status": "Up 7 days",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "son_erp-beat",
+          "name": "son_erp_beat",
+          "runtime_status": "Up 7 days",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgis/postgis:16-3.4",
+          "name": "son_erp_db",
+          "runtime_status": "Up 7 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "redis:7",
+          "name": "son_erp_redis",
+          "runtime_status": "Up 3 months",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/promtail:latest",
+          "name": "promtail",
+          "runtime_status": "Up 4 weeks",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "vmi3027474.contaboserver.net",
+      "host_id": "son-erp",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "94.72.107.76/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.20.255.1/24",
+          "family": 4,
+          "interface": "br-6add65ff35f8",
+          "state": "UP"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-9e7a3bbc911a",
+          "state": "UP"
+        },
+        {
+          "address": "10.10.41.1/24",
+          "family": 4,
+          "interface": "wg0",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "2a02:c204:2334:8415::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_app",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_celery_worker",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_celery_worker_notifications",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_bandwidth_poller",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_celery_worker_billing",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_celery_worker_notifications_immediate",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_celery_worker_ingestion",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_celery_worker_monitoring",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_celery_worker_bandwidth",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_celery_worker_tr069",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_syslog_listener",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "2ba253f42663",
+          "name": "dotmac_sub_celery_beat",
+          "runtime_status": "Up 13 hours",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "94a820a2ce73",
+          "name": "dotmac_sub_team_inbox_smtp",
+          "runtime_status": "Up 3 days (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_network_map_restore_20260817_221228_segments",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_network_map_restore_importer_20260814_v2",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_network_map_restore_20260814",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_network_map_restore_test",
+          "runtime_status": "Up 2 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "ghcr.io/michaelayoade/dotmac_sub-genieacs:1.2.13",
+          "name": "dotmac_sub_genieacs",
+          "runtime_status": "Up 5 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "victoriametrics/victoria-metrics:v1.96.0",
+          "name": "dotmac_sub_victoriametrics",
+          "runtime_status": "Up 5 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "freeradius/freeradius-server:3.2.7",
+          "name": "dotmac_sub_freeradius",
+          "runtime_status": "Up 6 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "grafana/promtail:3.0.0",
+          "name": "dotmac_sub_promtail",
+          "runtime_status": "Up 6 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "mediagis/nominatim:4.4",
+          "name": "dotmac_sub_nominatim",
+          "runtime_status": "Up 6 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "redis:7-alpine",
+          "name": "dotmac_redis_local",
+          "runtime_status": "Up 7 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "victoriametrics/vmagent:v1.96.0",
+          "name": "dotmac_vmagent",
+          "runtime_status": "Up 6 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "mongo:4.4",
+          "name": "dotmac_sub_genieacs_mongodb",
+          "runtime_status": "Up 7 weeks",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_pg_local",
+          "runtime_status": "Up 6 weeks (healthy)",
+          "state": "running"
+        },
+        {
+          "health": "healthy",
+          "image": "postgis/postgis:16-3.4-alpine",
+          "name": "dotmac_radius_pg_test",
+          "runtime_status": "Up 7 weeks (healthy)",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "vmi3348415.contaboserver.net",
+      "host_id": "sub-prod",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "85.190.246.211/24",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-f507c1c4d1ae",
+          "state": "DOWN"
+        },
+        {
+          "address": "2a02:c204:2353:7655::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [],
+      "docker_available": true,
+      "guest_hostname": "vmi3537655.contaboserver.net",
+      "host_id": "test-server",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "10.120.120.22/24",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:11:0:be24:11ff:fedc:a12d/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:11::22/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [],
+      "docker_available": false,
+      "guest_hostname": "web-cache",
+      "host_id": "web-cache",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "94.72.104.67/20",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "DOWN"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-d1f4b01ce308",
+          "state": "UP"
+        },
+        {
+          "address": "2a02:c204:2351:1803::1/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": "healthy",
+          "image": "dotmac-workspace:37189f8",
+          "name": "workspace-workspace-1",
+          "runtime_status": "Up 8 days (healthy)",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "workspace",
+      "host_id": "workspace",
+      "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "10.120.120.27/24",
+          "family": 4,
+          "interface": "ens18",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:11:0:be24:11ff:fe3a:953b/64",
+          "family": 6,
+          "interface": "ens18",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:11::1b/64",
+          "family": 6,
+          "interface": "ens18",
+          "state": "UP"
+        }
+      ],
+      "containers": [],
+      "docker_available": false,
+      "guest_hostname": "zabbix",
+      "host_id": "zabbix",
+      "virtual_guests": []
+    }
+  ],
+  "observed_at": "2026-09-03T08:20:48Z",
+  "schema_version": "dotmac.workload-snapshot.v1"
+}
