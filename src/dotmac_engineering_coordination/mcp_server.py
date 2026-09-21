@@ -150,7 +150,7 @@ def create_server(
         if format == "mermaid":
             return {
                 "ok": True,
-                "schema_version": "dotmac.fleet-topology.v2",
+                "schema_version": "dotmac.fleet-topology.v3",
                 "mermaid": render_mermaid_topology(
                     service.registry,
                     provider,
@@ -160,7 +160,7 @@ def create_server(
         if format == "markdown":
             return {
                 "ok": True,
-                "schema_version": "dotmac.fleet-topology.v2",
+                "schema_version": "dotmac.fleet-topology.v3",
                 "markdown": render_markdown_census(
                     service.registry,
                     provider,

@@ -9,36 +9,36 @@
 
 Provider state does not decide declared purpose or lifecycle. Guest addresses report configured interfaces, not external reachability.
 
-| Host | Provider hostname | Provider label | Guest hostname | IPv4 | IPv6 | Containers | Purpose |
-|---|---|---|---|---|---|---:|---|
-| `academy` | `vmi2490731` | academy LMS | `vmi2490731.contaboserver.net` | `149.102.135.97` | `2a02:c204:2249:731::1/64` | 2 | Dotmac Academy application |
-| `control-runner` | `not-applicable` | on-prem | `dotmac-control-runner` | `160.119.127.188` | `not-declared` | 0 | Repository-scoped deployment control runners |
-| `db-primary` | `vmi3291426` | db-primary - postgres redis standbys | `dotmac-db-primary` | `75.119.157.91` | `2a02:c207:2329:1426::1/64` | 10 | Primary database host; PostgreSQL and Redis standbys |
-| `dotmac-labs` | `not-applicable` | on-prem | `workload observation missing` | `10.120.120.42` | `2c0f:e888:11:0:be24:11ff:fef3:6290` | 0 | Dotmac Academy lab runtime and containerlab worker |
-| `erp` | `vmi2988431` | erp dotmac | `vmi2988431.contaboserver.net` | `149.102.158.167` | `2a02:c204:2298:8431::1/64` | 6 | Dotmac ERP application |
-| `garki-core` | `not-applicable` | on-prem | `workload observation missing` | `160.119.127.252` | `2c0f:e888::252` | 0 | Abuja Garki core router and Dotmac Labs IPv4 egress/IPv6 edge |
-| `idp-ha-1` | `vmi3537544` | idp-ha-1 | `vmi3537544.contaboserver.net` | `94.72.109.54` | `2a02:c204:2353:7544::1/64` | 1 | Identity provider HA node 1 |
-| `idp-ha-2` | `vmi3537543` | idp-ha-2 | `vmi3537543` | `158.220.86.76` | `2a02:c204:2353:7543::1/64` | 1 | Identity provider HA node 2 |
-| `idp-ha-3` | `vmi3537726` | idp-ha-3 | `vmi3537726.contaboserver.net` | `158.220.87.55` | `2a02:c204:2353:7726::1/64` | 1 | Identity provider HA node 3 |
-| `idp-live` | `vmi3511689` | idp LIVE - keycloak and sub shadow | `idp` | `158.220.86.10` | `2a02:c204:2351:1689::1/64` | 5 | Identity provider; Keycloak and Sub shadow |
-| `integrator-vendor-control` | `vmi2988430` | integrator and vendor control plane | `vmi2988430.contaboserver.net` | `149.102.158.144` | `2a02:c204:2298:8430::1/64` | 4 | Integrator and Vendor Control Plane |
-| `mail-dotmac` | `vmi3492684` | mail dotmac ng | `mail.dotmac.ng` | `94.72.106.173` | `2a02:c204:2349:2684::1/64` | 18 | Mail for dotmac.ng |
-| `mail-nhia` | `vmi3492689` | mail nhia gov ng | `mail.nhia.gov.ng` | `94.72.108.27` | `2a02:c204:2349:2689::1/64` | 18 | Mail for nhia.gov.ng |
-| `nhia-moh-cloud` | `vmi2486898` | nhia and moh cloud - collabora nextcloud | `vmi2486898.contaboserver.net` | `149.102.130.231` | `2a02:c204:2248:6898::1/64` | 9 | NHIA and Ministry of Health cloud workloads |
-| `ns1` | `not-applicable` | on-prem | `ns1.dotmac.ng` | `10.120.120.51` | `2c0f:e888:11:0:be24:11ff:fe2c:3ba8` | 0 | Authoritative DNS ns1.dotmac.ng |
-| `ns2` | `vmi3519226` | ns2 dotmac ng | `ns2.dotmac.ng` | `169.58.201.243` | `2a02:c207:2351:9226::1/64` | 0 | Authoritative DNS ns2.dotmac.ng |
-| `ns3` | `vmi3519229` | ns3 dotmac ng | `ns3.dotmac.ng` | `158.220.82.88` | `2a02:c204:2351:9229::1/64` | 0 | Authoritative DNS ns3.dotmac.ng |
-| `observability-canary` | `vmi3537605` | SPARE - hardened 6vcpu 11gb ready to use | `vmi3537605.contaboserver.net` | `94.72.99.155` | `2a02:c204:2353:7605::1/64` | 0 | Reserved inactive host-only observability canary |
-| `observe` | `vmi3291425` | observe - grafana prometheus openbao knowledge | `dotmac-observe` | `75.119.128.247` | `2a02:c207:2329:1425::1/64` | 28 | Grafana, Prometheus, OpenBao and Knowledge |
-| `proxmox` | `not-applicable` | on-prem | `dotmacproxmox.local` | `10.120.120.20` | `2c0f:e888:11::14` | 0 | Single-node Proxmox VE hypervisor for Dotmac network and control-plane virtual machines |
-| `s3` | `vmi3291427` | s3 minio AND forgejo registry | `dotmac-s3` | `194.163.130.216` | `2a02:c207:2329:1427::1/64` | 6 | MinIO object storage, Forgejo and registry |
-| `seabone` | `not-applicable` | on-prem | `hp-server` | `160.119.127.195` | `2c0f:e888:12:0:1e98:ecff:fe11:3628` | 50 | On-prem application host for Sub, ERP, retired CRM/Omni, and staging workloads |
-| `son-erp` | `vmi3027474` | son erp | `vmi3027474.contaboserver.net` | `149.102.149.5` | `2a02:c204:2302:7474::1/64` | 6 | SON ERP; CRM is retired |
-| `sub-prod` | `vmi3348415` | sub prod | `vmi3348415.contaboserver.net` | `94.72.107.76` | `2a02:c204:2334:8415::1/64` | 27 | Dotmac Sub production |
-| `test-server` | `vmi3537655` | testing server | `vmi3537655.contaboserver.net` | `85.190.246.211` | `2a02:c204:2353:7655::1/64` | 0 | Dedicated non-production test server |
-| `web-cache` | `not-applicable` | on-prem | `web-cache` | `10.120.120.22` | `2c0f:e888:11:0:be24:11ff:fedc:a12d` | 0 | On-prem web cache |
-| `workspace` | `vmi3511803` | workspace | `workspace` | `94.72.104.67` | `2a02:c204:2351:1803::1/64` | 1 | Dotmac Workspace |
-| `zabbix` | `not-applicable` | on-prem | `zabbix` | `160.119.127.193` | `2c0f:e888:11:0:be24:11ff:fe3a:953b` | 0 | On-prem Zabbix monitoring |
+| Host | Provider hostname | Provider label | Guest hostname | IPv4 | IPv6 | Containers | Workload observed | Purpose |
+|---|---|---|---|---|---|---:|---|---|
+| `academy` | `vmi2490731` | academy LMS | `vmi2490731.contaboserver.net` | `149.102.135.97` | `2a02:c204:2249:731::1/64` | 2 | `2026-09-03T08:20:48+00:00` | Dotmac Academy application |
+| `control-runner` | `not-applicable` | on-prem | `dotmac-control-runner` | `160.119.127.188` | `not-declared` | 0 | `2026-09-03T08:20:48+00:00` | Repository-scoped deployment control runners |
+| `db-primary` | `vmi3291426` | db-primary - postgres redis standbys | `dotmac-db-primary` | `75.119.157.91` | `2a02:c207:2329:1426::1/64` | 10 | `2026-09-03T08:20:48+00:00` | Primary database host; PostgreSQL and Redis standbys |
+| `dotmac-labs` | `not-applicable` | on-prem | `workload observation missing` | `10.120.120.42` | `2c0f:e888:11:0:be24:11ff:fef3:6290` | 0 | `not-observed` | Dotmac Academy lab runtime and containerlab worker |
+| `erp` | `vmi2988431` | erp dotmac | `vmi2988431.contaboserver.net` | `149.102.158.167` | `2a02:c204:2298:8431::1/64` | 6 | `2026-09-03T08:20:48+00:00` | Dotmac ERP application |
+| `garki-core` | `not-applicable` | on-prem | `workload observation missing` | `160.119.127.252` | `2c0f:e888::252` | 0 | `not-observed` | Abuja Garki core router and Dotmac Labs IPv4 egress/IPv6 edge |
+| `idp-ha-1` | `vmi3537544` | idp-ha-1 | `vmi3537544.contaboserver.net` | `94.72.109.54` | `2a02:c204:2353:7544::1/64` | 1 | `2026-09-03T08:20:48+00:00` | Identity provider HA node 1 |
+| `idp-ha-2` | `vmi3537543` | idp-ha-2 | `vmi3537543` | `158.220.86.76` | `2a02:c204:2353:7543::1/64` | 1 | `2026-09-03T08:20:48+00:00` | Identity provider HA node 2 |
+| `idp-ha-3` | `vmi3537726` | idp-ha-3 | `vmi3537726.contaboserver.net` | `158.220.87.55` | `2a02:c204:2353:7726::1/64` | 1 | `2026-09-03T08:20:48+00:00` | Identity provider HA node 3 |
+| `idp-live` | `vmi3511689` | idp LIVE - keycloak and sub shadow | `idp` | `158.220.86.10` | `2a02:c204:2351:1689::1/64` | 5 | `2026-09-03T08:20:48+00:00` | Identity provider; Keycloak and Sub shadow |
+| `integrator-vendor-control` | `vmi2988430` | integrator and vendor control plane | `vmi2988430.contaboserver.net` | `149.102.158.144` | `2a02:c204:2298:8430::1/64` | 4 | `2026-09-03T08:20:48+00:00` | Integrator and Vendor Control Plane |
+| `mail-dotmac` | `vmi3492684` | mail dotmac ng | `mail.dotmac.ng` | `94.72.106.173` | `2a02:c204:2349:2684::1/64` | 18 | `2026-09-03T08:20:48+00:00` | Mail for dotmac.ng |
+| `mail-nhia` | `vmi3492689` | mail nhia gov ng | `mail.nhia.gov.ng` | `94.72.108.27` | `2a02:c204:2349:2689::1/64` | 18 | `2026-09-03T08:20:48+00:00` | Mail for nhia.gov.ng |
+| `nhia-moh-cloud` | `vmi2486898` | nhia and moh cloud - collabora nextcloud | `vmi2486898.contaboserver.net` | `149.102.130.231` | `2a02:c204:2248:6898::1/64` | 9 | `2026-09-03T08:20:48+00:00` | NHIA and Ministry of Health cloud workloads |
+| `ns1` | `not-applicable` | on-prem | `ns1.dotmac.ng` | `10.120.120.51` | `2c0f:e888:11:0:be24:11ff:fe2c:3ba8` | 0 | `2026-09-03T08:20:48+00:00` | Authoritative DNS ns1.dotmac.ng |
+| `ns2` | `vmi3519226` | ns2 dotmac ng | `ns2.dotmac.ng` | `169.58.201.243` | `2a02:c207:2351:9226::1/64` | 0 | `2026-09-03T08:20:48+00:00` | Authoritative DNS ns2.dotmac.ng |
+| `ns3` | `vmi3519229` | ns3 dotmac ng | `ns3.dotmac.ng` | `158.220.82.88` | `2a02:c204:2351:9229::1/64` | 0 | `2026-09-03T08:20:48+00:00` | Authoritative DNS ns3.dotmac.ng |
+| `observability-canary` | `vmi3537605` | SPARE - hardened 6vcpu 11gb ready to use | `vmi3537605.contaboserver.net` | `94.72.99.155` | `2a02:c204:2353:7605::1/64` | 0 | `2026-09-03T08:20:48+00:00` | Reserved inactive host-only observability canary |
+| `observe` | `vmi3291425` | observe - grafana prometheus openbao knowledge | `dotmac-observe` | `75.119.128.247` | `2a02:c207:2329:1425::1/64` | 28 | `2026-09-03T08:20:48+00:00` | Grafana, Prometheus, OpenBao and Knowledge |
+| `proxmox` | `not-applicable` | on-prem | `dotmacproxmox.local` | `10.120.120.20` | `2c0f:e888:11::14` | 0 | `2026-09-03T08:20:48+00:00` | Single-node Proxmox VE hypervisor for Dotmac network and control-plane virtual machines |
+| `s3` | `vmi3291427` | s3 minio AND forgejo registry | `dotmac-s3` | `194.163.130.216` | `2a02:c207:2329:1427::1/64` | 6 | `2026-09-03T08:20:48+00:00` | MinIO object storage, Forgejo and registry |
+| `seabone` | `not-applicable` | on-prem | `hp-server` | `160.119.127.195` | `2c0f:e888:12:0:1e98:ecff:fe11:3628` | 50 | `2026-09-03T08:20:48+00:00` | On-prem application host for Sub, ERP, retired CRM/Omni, and staging workloads |
+| `son-erp` | `vmi3027474` | son erp | `vmi3027474.contaboserver.net` | `149.102.149.5` | `2a02:c204:2302:7474::1/64` | 6 | `2026-09-03T08:20:48+00:00` | SON ERP; CRM is retired |
+| `sub-prod` | `vmi3348415` | sub prod | `vmi3348415.contaboserver.net` | `94.72.107.76` | `2a02:c204:2334:8415::1/64` | 27 | `2026-09-03T08:20:48+00:00` | Dotmac Sub production |
+| `test-server` | `vmi3537655` | testing server | `vmi3537655.contaboserver.net` | `85.190.246.211` | `2a02:c204:2353:7655::1/64` | 0 | `2026-09-03T08:20:48+00:00` | Dedicated non-production test server |
+| `web-cache` | `not-applicable` | on-prem | `web-cache` | `10.120.120.22` | `2c0f:e888:11:0:be24:11ff:fedc:a12d` | 0 | `2026-09-03T08:20:48+00:00` | On-prem web cache |
+| `workspace` | `vmi3511803` | workspace | `workspace` | `94.72.104.67` | `2a02:c204:2351:1803::1/64` | 1 | `2026-09-03T08:20:48+00:00` | Dotmac Workspace |
+| `zabbix` | `not-applicable` | on-prem | `zabbix` | `160.119.127.193` | `2c0f:e888:11:0:be24:11ff:fe3a:953b` | 0 | `2026-09-03T08:20:48+00:00` | On-prem Zabbix monitoring |
 
 ## Provider private networks
 
