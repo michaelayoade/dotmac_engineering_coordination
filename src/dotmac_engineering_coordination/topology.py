@@ -209,6 +209,20 @@ class HostWorkloadObservation(StrictModel):
     containers: tuple[ContainerObservation, ...]
     addresses: tuple[GuestAddressObservation, ...] = ()
     virtual_guests: tuple[VirtualGuestObservation, ...] = ()
+    observed_at: datetime | None = None
+    """When THIS host's own data was captured, if refreshed independently of
+    the rest of the snapshot (see :func:`refresh_workload_observation`).
+    ``None`` means this entry was last set by the document's own full sweep,
+    so callers fall back to :attr:`WorkloadSnapshot.observed_at` for it (see
+    :func:`host_workload_observed_at`) -- never silently treat ``None`` as
+    "now"."""
+
+    @field_validator("observed_at")
+    @classmethod
+    def observed_at_is_aware(cls, value: datetime | None) -> datetime | None:
+        if value is not None and value.tzinfo is None:
+            raise ValueError("host workload observed_at must include a timezone")
+        return value
 
     @model_validator(mode="after")
     def runtime_shape_is_consistent(self) -> HostWorkloadObservation:
@@ -231,8 +245,13 @@ class HostWorkloadObservation(StrictModel):
 
 
 class WorkloadSnapshot(StrictModel):
-    schema_version: Literal["dotmac.workload-snapshot.v1"]
+    schema_version: Literal["dotmac.workload-snapshot.v2"]
     observed_at: datetime
+    """When this document was last fully swept (every declared host probed
+    together). A targeted single-host refresh (see
+    :func:`refresh_workload_observation`) never advances this -- it stamps
+    only the refreshed host's own :attr:`HostWorkloadObservation.observed_at`,
+    so this field staying still is not evidence that nothing changed."""
     evidence_class: Literal[EvidenceClass.LIVE_OBSERVATION]
     hosts: tuple[HostWorkloadObservation, ...]
 
@@ -250,6 +269,60 @@ class WorkloadSnapshot(StrictModel):
         if duplicates:
             raise ValueError("duplicate workload host id: " + ", ".join(duplicates))
         return self
+
+
+def host_workload_observed_at(
+    snapshot: WorkloadSnapshot, host: HostWorkloadObservation
+) -> datetime:
+    """The one true answer to "when was this host's workload data captured".
+
+    Never read ``host.observed_at`` or ``snapshot.observed_at`` directly for
+    this question -- a host refreshed independently of the last full sweep
+    carries its own, later timestamp; every other host still reports the
+    document's own sweep time. Mixing the two up is exactly the "one
+    timestamp for the entire snapshot" defect this field exists to close.
+    """
+    return host.observed_at if host.observed_at is not None else snapshot.observed_at
+
+
+def refresh_workload_observation(
+    baseline: WorkloadSnapshot, updated_host: HostWorkloadObservation
+) -> WorkloadSnapshot:
+    """Replace exactly one host's workload observation, touching nothing else.
+
+    Every other host's observation, and the document's own ``observed_at``
+    (the last full-sweep time), stay byte-identical. This is the only
+    sanctioned way to refresh a single host's workload data outside a full
+    fleet probe -- it must never be done by hand-editing the generated JSON
+    (AGENTS.md rule 2's "never edited by hand" spirit applies to workload
+    snapshots exactly as it does to the SSH config).
+
+    Refuses, rather than silently doing the wrong thing, when:
+    - ``updated_host.observed_at`` is unset -- a targeted refresh with no
+      per-host timestamp would fall back to the stale document-level sweep
+      time for freshness purposes, defeating the entire point of calling
+      this instead of just re-running the full probe.
+    - ``updated_host.host_id`` was never in ``baseline`` -- adding a
+      brand-new host's first-ever observation is a full probe's job, not a
+      targeted refresh's; this function only ever narrows an existing gap,
+      never grows the host set.
+    """
+    if updated_host.observed_at is None:
+        raise ValueError(
+            "a targeted per-host workload refresh must set its own observed_at"
+        )
+    existing_ids = {item.host_id for item in baseline.hosts}
+    if updated_host.host_id not in existing_ids:
+        raise ValueError(
+            f"{updated_host.host_id!r} is not present in the baseline workload "
+            "snapshot; a targeted refresh may only update an already-observed "
+            "host, never add one (that needs a full probe pass)"
+        )
+    hosts = tuple(
+        updated_host if item.host_id == updated_host.host_id else item
+        for item in baseline.hosts
+    )
+    return baseline.model_copy(update={"hosts": hosts})
 
 
 class _WorkloadBuilder:
@@ -495,6 +568,15 @@ def workload_snapshot_from_probe(
                     containers=tuple(current.containers),
                     addresses=tuple(current.addresses),
                     virtual_guests=tuple(current.virtual_guests),
+                    # Every host this exact probe run captured genuinely was
+                    # observed at `observed_at` -- stamping it here (rather
+                    # than leaving it None) means a full-fleet probe leaves
+                    # no host silently dependent on the document-level
+                    # fallback, and a single-host targeted probe (the same
+                    # parser, called with one BEGIN...END block) produces a
+                    # HostWorkloadObservation already shaped for
+                    # refresh_workload_observation without further editing.
+                    observed_at=observed_at,
                 )
             )
             current = None
@@ -505,7 +587,7 @@ def workload_snapshot_from_probe(
     if current is not None:
         raise ValueError(f"unterminated probe for {current.host_id}")
     return WorkloadSnapshot(
-        schema_version="dotmac.workload-snapshot.v1",
+        schema_version="dotmac.workload-snapshot.v2",
         observed_at=observed_at,
         evidence_class=EvidenceClass.LIVE_OBSERVATION,
         hosts=tuple(sorted(hosts, key=lambda item: item.host_id)),
@@ -581,13 +663,18 @@ def inspect_topology_host(
     )
     return {
         "ok": True,
-        "schema_version": "dotmac.fleet-topology.v2",
+        "schema_version": "dotmac.fleet-topology.v3",
         "declaration": declaration.model_dump(mode="json"),
         "provider_observation": (
             provider_item.model_dump(mode="json") if provider_item else None
         ),
         "workload_observation": (
             workload_item.model_dump(mode="json") if workload_item else None
+        ),
+        "workload_observed_at": (
+            host_workload_observed_at(workloads, workload_item).isoformat()
+            if workload_item
+            else None
         ),
     }
 
@@ -612,11 +699,22 @@ def topology_payload(
                 "workload_observation": (
                     workload_item.model_dump(mode="json") if workload_item else None
                 ),
+                # The effective per-host timestamp, resolved here so a
+                # caller never has to fall back from workload_item's own
+                # (possibly null) observed_at to the document-level one
+                # itself -- see host_workload_observed_at's own docstring
+                # for why getting that fallback wrong reintroduces the
+                # single-timestamp defect this field closes.
+                "workload_observed_at": (
+                    host_workload_observed_at(workloads, workload_item).isoformat()
+                    if workload_item
+                    else None
+                ),
             }
         )
     return {
         "ok": True,
-        "schema_version": "dotmac.fleet-topology.v2",
+        "schema_version": "dotmac.fleet-topology.v3",
         "provider_observed_at": provider.observed_at.isoformat(),
         "workloads_observed_at": workloads.observed_at.isoformat(),
         "drift": topology_drift(registry, provider, workloads).model_dump(mode="json"),
@@ -789,8 +887,8 @@ def render_markdown_census(
         "addresses report configured interfaces, not external reachability.",
         "",
         "| Host | Provider hostname | Provider label | Guest hostname | IPv4 | "
-        "IPv6 | Containers | Purpose |",
-        "|---|---|---|---|---|---|---:|---|",
+        "IPv6 | Containers | Workload observed | Purpose |",
+        "|---|---|---|---|---|---|---:|---|---|",
     ]
     for declared_host in sorted(registry.hosts, key=lambda item: item.host_id):
         provider_item = provider_by_host.get(declared_host.host_id)
@@ -835,11 +933,17 @@ def render_markdown_census(
             else "workload observation missing"
         )
         container_count = len(workload_item.containers) if workload_item else 0
+        workload_observed_at = (
+            host_workload_observed_at(workloads, workload_item).isoformat()
+            if workload_item
+            else "not-observed"
+        )
         lines.append(
             f"| `{declared_host.host_id}` | `{provider_hostname}` | "
             f"{provider_label} | `{guest_hostname}` | "
             f"`{ipv4}` | `{ipv6}` | "
             f"{container_count} | "
+            f"`{workload_observed_at}` | "
             f"{declared_host.purpose} |"
         )
     lines.extend(["", "## Provider private networks", ""])
@@ -965,10 +1069,12 @@ __all__ = [
     "canonical_snapshot_json",
     "default_provider_snapshot_path",
     "default_workload_snapshot_path",
+    "host_workload_observed_at",
     "inspect_topology_host",
     "load_provider_snapshot",
     "load_workload_snapshot",
     "provider_snapshot_from_contabo",
+    "refresh_workload_observation",
     "render_mermaid_topology",
     "render_markdown_census",
     "topology_drift",

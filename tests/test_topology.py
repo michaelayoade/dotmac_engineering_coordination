@@ -4,15 +4,20 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
+import pytest
+from pydantic import ValidationError
+
 from dotmac_engineering_coordination.registry import EvidenceClass, load_registry
 from dotmac_engineering_coordination.topology import (
     ContainerObservation,
     HostWorkloadObservation,
     WorkloadSnapshot,
     canonical_snapshot_json,
+    host_workload_observed_at,
     load_provider_snapshot,
     load_workload_snapshot,
     provider_snapshot_from_contabo,
+    refresh_workload_observation,
     render_markdown_census,
     render_mermaid_topology,
     topology_drift,
@@ -75,7 +80,7 @@ def _private_network_payload() -> str:
 
 def _workloads() -> WorkloadSnapshot:
     return WorkloadSnapshot(
-        schema_version="dotmac.workload-snapshot.v1",
+        schema_version="dotmac.workload-snapshot.v2",
         observed_at=OBSERVED_AT,
         evidence_class=EvidenceClass.LIVE_OBSERVATION,
         hosts=(
@@ -181,7 +186,7 @@ def test_topology_detector_bites_when_live_workload_wiring_is_deleted() -> None:
         registry,
         provider,
         WorkloadSnapshot(
-            schema_version="dotmac.workload-snapshot.v1",
+            schema_version="dotmac.workload-snapshot.v2",
             observed_at=OBSERVED_AT,
             evidence_class=EvidenceClass.LIVE_OBSERVATION,
             hosts=(),
@@ -282,3 +287,115 @@ def test_reviewed_snapshots_exclude_raw_provider_and_secret_fields() -> None:
         "root_password",
     ):
         assert forbidden not in rendered
+
+
+def test_host_workload_observed_at_rejects_a_naive_timestamp() -> None:
+    with pytest.raises(ValidationError, match="must include a timezone"):
+        HostWorkloadObservation(
+            host_id="erp",
+            guest_hostname="vmi2988431",
+            docker_available=True,
+            containers=(),
+            observed_at=datetime(2026, 9, 21, 12, 0),  # naive datetime
+        )
+
+
+def test_host_workload_observed_at_falls_back_to_the_document_sweep_time() -> None:
+    """A host that has never been individually refreshed since the last full
+    sweep must report that sweep's own time, not None and not "now"."""
+    snapshot = _workloads()
+    never_individually_refreshed = snapshot.hosts[0]
+    assert never_individually_refreshed.observed_at is None
+    effective = host_workload_observed_at(snapshot, never_individually_refreshed)
+    assert effective == OBSERVED_AT
+
+
+def test_host_workload_observed_at_prefers_the_hosts_own_later_timestamp() -> None:
+    snapshot = _workloads()
+    refreshed_later = datetime(2026, 9, 21, 15, 0, tzinfo=UTC)
+    individually_refreshed = snapshot.hosts[0].model_copy(
+        update={"observed_at": refreshed_later}
+    )
+    effective = host_workload_observed_at(snapshot, individually_refreshed)
+    assert effective == refreshed_later
+
+
+def test_refresh_workload_observation_replaces_only_the_named_host() -> None:
+    """The whole point of this function: refreshing one host's workload data
+    must never touch any other host's observation, and must never advance
+    the document's own last-full-sweep observed_at -- that field staying
+    still is how a caller tells "still just the last sweep" apart from "this
+    host was independently refreshed since"."""
+    baseline = WorkloadSnapshot(
+        schema_version="dotmac.workload-snapshot.v2",
+        observed_at=OBSERVED_AT,
+        evidence_class=EvidenceClass.LIVE_OBSERVATION,
+        hosts=(
+            HostWorkloadObservation(
+                host_id="erp",
+                guest_hostname="vmi2988431",
+                docker_available=True,
+                containers=(),
+            ),
+            HostWorkloadObservation(
+                host_id="dotmac-labs",
+                guest_hostname="stale-hostname",
+                docker_available=False,
+                containers=(),
+            ),
+        ),
+    )
+    refreshed_at = datetime(2026, 9, 21, 15, 30, tzinfo=UTC)
+    refreshed_labs = HostWorkloadObservation(
+        host_id="dotmac-labs",
+        guest_hostname="dotmac-labs",
+        docker_available=True,
+        containers=(
+            ContainerObservation(
+                name="academy-lab-worker",
+                image="n/a",
+                state="running",
+                runtime_status="Up 1 hour",
+                health=None,
+            ),
+        ),
+        observed_at=refreshed_at,
+    )
+
+    updated = refresh_workload_observation(baseline, refreshed_labs)
+
+    assert updated.observed_at == OBSERVED_AT  # last full sweep time: untouched
+    by_host = {item.host_id: item for item in updated.hosts}
+    assert by_host["erp"] == baseline.hosts[0]  # byte-identical, not just equal-ish
+    assert by_host["dotmac-labs"].guest_hostname == "dotmac-labs"
+    assert by_host["dotmac-labs"].docker_available is True
+    assert host_workload_observed_at(updated, by_host["dotmac-labs"]) == refreshed_at
+    # erp's own effective timestamp still falls back to the untouched sweep time.
+    assert host_workload_observed_at(updated, by_host["erp"]) == OBSERVED_AT
+
+
+def test_refresh_workload_observation_refuses_without_its_own_timestamp() -> None:
+    baseline = _workloads()
+    no_timestamp = HostWorkloadObservation(
+        host_id="erp",
+        guest_hostname="vmi2988431",
+        docker_available=True,
+        containers=(),
+    )
+    with pytest.raises(ValueError, match="must set its own observed_at"):
+        refresh_workload_observation(baseline, no_timestamp)
+
+
+def test_refresh_workload_observation_refuses_a_host_never_before_observed() -> None:
+    """Adding a brand-new host's first-ever observation is a full probe's
+    job; a targeted refresh may only narrow an existing gap."""
+    baseline = _workloads()
+    brand_new_host = HostWorkloadObservation(
+        host_id="never-seen-before",
+        guest_hostname="ghost",
+        docker_available=False,
+        containers=(),
+        observed_at=datetime(2026, 9, 21, 15, 30, tzinfo=UTC),
+    )
+    with pytest.raises(ValueError, match="not present in the baseline"):
+        refresh_workload_observation(baseline, brand_new_host)

@@ -53,6 +53,7 @@
       "docker_available": true,
       "guest_hostname": "vmi2490731.contaboserver.net",
       "host_id": "academy",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -74,6 +75,7 @@
       "docker_available": false,
       "guest_hostname": "dotmac-control-runner",
       "host_id": "control-runner",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -184,6 +186,7 @@
       "docker_available": true,
       "guest_hostname": "dotmac-db-primary",
       "host_id": "db-primary",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -284,6 +287,7 @@
       "docker_available": true,
       "guest_hostname": "vmi2988431.contaboserver.net",
       "host_id": "erp",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -325,6 +329,7 @@
       "docker_available": true,
       "guest_hostname": "vmi3537544.contaboserver.net",
       "host_id": "idp-ha-1",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -366,6 +371,7 @@
       "docker_available": true,
       "guest_hostname": "vmi3537543",
       "host_id": "idp-ha-2",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -407,6 +413,7 @@
       "docker_available": true,
       "guest_hostname": "vmi3537726.contaboserver.net",
       "host_id": "idp-ha-3",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -488,6 +495,7 @@
       "docker_available": true,
       "guest_hostname": "idp",
       "host_id": "idp-live",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -586,6 +594,7 @@
       "docker_available": true,
       "guest_hostname": "vmi2988430.contaboserver.net",
       "host_id": "integrator-vendor-control",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -752,6 +761,7 @@
       "docker_available": true,
       "guest_hostname": "mail.dotmac.ng",
       "host_id": "mail-dotmac",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -918,6 +928,7 @@
       "docker_available": true,
       "guest_hostname": "mail.nhia.gov.ng",
       "host_id": "mail-nhia",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -1009,6 +1020,7 @@
       "docker_available": true,
       "guest_hostname": "vmi2486898.contaboserver.net",
       "host_id": "nhia-moh-cloud",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -1036,6 +1048,7 @@
       "docker_available": false,
       "guest_hostname": "ns1.dotmac.ng",
       "host_id": "ns1",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -1057,6 +1070,7 @@
       "docker_available": false,
       "guest_hostname": "ns2.dotmac.ng",
       "host_id": "ns2",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -1078,6 +1092,7 @@
       "docker_available": false,
       "guest_hostname": "ns3.dotmac.ng",
       "host_id": "ns3",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -1099,6 +1114,7 @@
       "docker_available": false,
       "guest_hostname": "vmi3537605.contaboserver.net",
       "host_id": "observability-canary",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -1407,6 +1423,7 @@
       "docker_available": true,
       "guest_hostname": "dotmac-observe",
       "host_id": "observe",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -1440,6 +1457,7 @@
       "docker_available": false,
       "guest_hostname": "dotmacproxmox.local",
       "host_id": "proxmox",
+      "observed_at": null,
       "virtual_guests": [
         {
           "address_evidence": "unavailable",
@@ -1783,6 +1801,7 @@
       "docker_available": true,
       "guest_hostname": "dotmac-s3",
       "host_id": "s3",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -2305,6 +2324,7 @@
       "docker_available": true,
       "guest_hostname": "hp-server",
       "host_id": "seabone",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -2393,6 +2413,7 @@
       "docker_available": true,
       "guest_hostname": "vmi3027474.contaboserver.net",
       "host_id": "son-erp",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -2628,6 +2649,7 @@
       "docker_available": true,
       "guest_hostname": "vmi3348415.contaboserver.net",
       "host_id": "sub-prod",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -2661,6 +2683,7 @@
       "docker_available": true,
       "guest_hostname": "vmi3537655.contaboserver.net",
       "host_id": "test-server",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -2688,6 +2711,7 @@
       "docker_available": false,
       "guest_hostname": "web-cache",
       "host_id": "web-cache",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -2729,6 +2753,7 @@
       "docker_available": true,
       "guest_hostname": "workspace",
       "host_id": "workspace",
+      "observed_at": null,
       "virtual_guests": []
     },
     {
@@ -2756,9 +2781,10 @@
       "docker_available": false,
       "guest_hostname": "zabbix",
       "host_id": "zabbix",
+      "observed_at": null,
       "virtual_guests": []
     }
   ],
   "observed_at": "2026-09-03T08:20:48Z",
-  "schema_version": "dotmac.workload-snapshot.v1"
+  "schema_version": "dotmac.workload-snapshot.v2"
 }

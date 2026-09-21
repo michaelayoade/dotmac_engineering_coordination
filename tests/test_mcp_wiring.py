@@ -109,10 +109,14 @@ async def test_real_protocol_call_reaches_live_workload_observation() -> None:
     async with Client(server) as client:
         result = await client.call_tool("fleet_inspect", {"host_id": "son-erp"})
     assert result.data["ok"] is True
-    assert result.data["schema_version"] == "dotmac.fleet-topology.v2"
+    assert result.data["schema_version"] == "dotmac.fleet-topology.v3"
     assert result.data["provider_observation"]["status"] == "running"
     names = {item["name"] for item in result.data["workload_observation"]["containers"]}
     assert "son_erp_app" in names
+    # A caller must never need to fall back from workload_observation's own
+    # (possibly null) observed_at to some other field itself -- the join
+    # resolves that here.
+    assert result.data["workload_observed_at"] is not None
 
 
 @pytest.mark.asyncio
