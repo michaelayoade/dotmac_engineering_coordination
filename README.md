@@ -1,7 +1,11 @@
 # dotmac_engineering_coordination
 
 The control-plane owner for short-lived engineering coordination and safe,
-agent-facing infrastructure discovery. This repository must remain private.
+agent-facing infrastructure discovery. This repository is public by explicit
+policy: its reviewed addresses, topology, SSH account names/routes, provider
+resource identifiers, and secret pointers are non-secret operational metadata.
+Every tracked byte must be safe for Internet publication; secret values remain
+forbidden.
 
 This first slice owns one declared artifact: the fleet registry. It gives an
 agent a stable answer to “which servers exist, what are they for, and how may I
