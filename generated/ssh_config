@@ -23,6 +23,15 @@ Host db-primary
   Port 22
   IdentitiesOnly yes
 
+# fleet-host: dotmac-labs
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host dotmac-labs
+  HostName 10.120.120.42
+  User dotmac
+  Port 22
+  IdentitiesOnly yes
+  ProxyJump seabone
+
 # fleet-host: erp
 # identity-ref: local-key:~/.ssh/id_ed25519
 Host erp

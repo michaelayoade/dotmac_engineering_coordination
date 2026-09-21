@@ -1,7 +1,11 @@
 # dotmac_engineering_coordination
 
 The control-plane owner for short-lived engineering coordination and safe,
-agent-facing infrastructure discovery. This repository must remain private.
+agent-facing infrastructure discovery. This repository is public by explicit
+policy: its reviewed addresses, topology, SSH account names/routes, provider
+resource identifiers, and secret pointers are non-secret operational metadata.
+Every tracked byte must be safe for Internet publication; secret values remain
+forbidden.
 
 This first slice owns one declared artifact: the fleet registry. It gives an
 agent a stable answer to “which servers exist, what are they for, and how may I
@@ -60,15 +64,15 @@ reviewed registry.
 All are annotated read-only and closed-world. The server has no tool that
 connects to a host or dereferences a secret pointer.
 
-The fleet joins three explicit evidence classes: 26 reviewed declarations in
+The fleet joins three explicit evidence classes: 27 reviewed declarations in
 `fleet.toml`, a safe-field 20-instance Contabo provider snapshot, and a
 read-only guest/container snapshot covering those VPS hosts, Seabone, the
-single-node Proxmox cluster, and all 20 QEMU guests. Four guests with verified
-SSH routes are also first-class declarations; the other 16 remain observed
-guests until their coordinates and access are proven. `generated/fleet_topology.mmd` is rendered
-from those inputs, and `generated/fleet_census.md` is the corresponding review
-table, including safe SSH/OpenBao/API pointers; neither is maintained as a
-second fleet map.
+single-node Proxmox cluster, and all 20 QEMU guests. Five guests with verified
+SSH routes are also first-class declarations; the other 15 remain observed
+guests until their coordinates and access are proven.
+`generated/fleet_topology.mmd` is rendered from those inputs, and
+`generated/fleet_census.md` is the corresponding review table, including safe
+SSH/OpenBao/API pointers; neither is maintained as a second fleet map.
 
 The Proxmox host exposes two verified read paths: `ssh proxmox pvesh` and the
 HTTPS API. The latter uses the dedicated non-root

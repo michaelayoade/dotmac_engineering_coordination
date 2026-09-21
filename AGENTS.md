@@ -3,8 +3,10 @@
 This repository owns short-lived engineering coordination state and the
 declarative inventory that agents use to locate Dotmac infrastructure. It does
 not own deployment decisions, durable organizational knowledge, or secrets.
-It is a PRIVATE repository: fleet addresses and resolved topology must never be
-published in a public repository or artifact.
+It is a PUBLIC repository. Fleet addresses, resolved topology, SSH account
+names/routes, provider resource identifiers, and non-secret credential pointers
+are intentionally public operational metadata. Treat every tracked byte and
+generated artifact as Internet-visible; secret values remain forbidden.
 
 ## Hard rules
 
@@ -22,8 +24,8 @@ published in a public repository or artifact.
 7. Every negative-path test suite includes a positive control and a planted
    wiring defect proving the test can fail.
 8. Provider and workload observations are dated snapshots, never declaration
-   writers. Raw provider responses stay outside Git; only the typed safe-field
-   projection may be reviewed into this private repository.
+   writers. Raw provider responses stay outside Git; only the typed, explicitly
+   public safe-field projection may be reviewed into this repository.
 
 Branch before committing. Do not push, open, or merge a pull request unless
 Michael asks. Never connect to a production host unless Michael names it.

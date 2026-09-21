@@ -63,6 +63,10 @@ flowchart LR
   db_primary --> db_primary_c8
   db_primary_c9(["redis-exporter<br/>oliver006/redis_exporter:latest<br/>running"])
   db_primary --> db_primary_c9
+  dotmac_labs["dotmac-labs<br/>workload observation missing<br/>production<br/>IPv4 10.120.120.42<br/>IPv6 2c0f:e888:11:0:be24:11ff:fef3:6290<br/>Dotmac Academy lab runtime and containerlab worker"]
+  proxmox --> dotmac_labs
+  dotmac_labs_workloads_missing["workload observation missing"]
+  dotmac_labs -.-> dotmac_labs_workloads_missing
   erp["erp<br/>vmi2988431.contaboserver.net<br/>production<br/>IPv4 149.102.158.167<br/>IPv6 2a02:c204:2298:8431::1<br/>Dotmac ERP application"]
   provider_contabo --> erp
   erp_c0(["dotmac_erp_app<br/>ghcr.io/michaelayoade/dotmac_erp<br/>running"])

@@ -1,8 +1,9 @@
 {
   "conflicted_host_ids": [],
-  "host_count": 26,
+  "host_count": 27,
   "missing_recovery_pointer_host_ids": [
     "control-runner",
+    "dotmac-labs",
     "idp-ha-1",
     "idp-ha-2",
     "idp-ha-3",
@@ -17,5 +18,5 @@
   "unverified_access_host_ids": [],
   "unverified_fact_host_ids": [],
   "unavailable_api_access_ids": [],
-  "verified_access_count": 26
+  "verified_access_count": 27
 }

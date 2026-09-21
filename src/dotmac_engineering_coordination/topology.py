@@ -794,7 +794,7 @@ def render_markdown_census(
     ]
     for declared_host in sorted(registry.hosts, key=lambda item: item.host_id):
         provider_item = provider_by_host.get(declared_host.host_id)
-        workload_item = workloads_by_host[declared_host.host_id]
+        workload_item = workloads_by_host.get(declared_host.host_id)
         provider_hostname = (
             provider_item.provider_hostname if provider_item else "not-applicable"
         )
@@ -829,11 +829,18 @@ def render_markdown_census(
                 "not-declared",
             )
         )
+        guest_hostname = (
+            workload_item.guest_hostname
+            if workload_item
+            else "workload observation missing"
+        )
+        container_count = len(workload_item.containers) if workload_item else 0
         lines.append(
             f"| `{declared_host.host_id}` | `{provider_hostname}` | "
-            f"{provider_label} | `{workload_item.guest_hostname}` | "
+            f"{provider_label} | `{guest_hostname}` | "
             f"`{ipv4}` | `{ipv6}` | "
-            f"{len(workload_item.containers)} | {declared_host.purpose} |"
+            f"{container_count} | "
+            f"{declared_host.purpose} |"
         )
     lines.extend(["", "## Provider private networks", ""])
     for network in provider.private_networks:

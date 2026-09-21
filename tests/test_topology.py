@@ -240,7 +240,8 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     workloads = load_workload_snapshot(DATA / "workload_snapshot.json")
     drift = topology_drift(registry, provider, workloads)
     assert len(provider.instances) == 20
-    assert len(registry.hosts) == len(workloads.hosts) == 26
+    assert len(registry.hosts) == 27
+    assert len(workloads.hosts) == 26
     assert sum(len(host.containers) for host in workloads.hosts) == 193
     assert sum(len(host.virtual_guests) for host in workloads.hosts) == 20
     proxmox = next(host for host in workloads.hosts if host.host_id == "proxmox")
@@ -252,7 +253,19 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     assert drift.missing_guest_ipv4_host_ids == ()
     assert drift.missing_guest_ipv6_host_ids == ("nhia-moh-cloud",)
     assert drift.missing_provider_host_ids == ()
-    assert drift.missing_workload_host_ids == ()
+    assert drift.missing_workload_host_ids == ("dotmac-labs",)
+
+
+def test_missing_declared_workload_renders_without_inventing_addresses() -> None:
+    registry = load_registry(DATA / "fleet.toml")
+    provider = load_provider_snapshot(DATA / "provider_snapshot.json")
+    workloads = load_workload_snapshot(DATA / "workload_snapshot.json")
+    rendered = render_markdown_census(registry, provider, workloads)
+    assert (
+        "| `dotmac-labs` | `not-applicable` | on-prem | "
+        "`workload observation missing` |" in rendered
+    )
+    assert "160.119.127.249" not in rendered
 
 
 def test_reviewed_snapshots_exclude_raw_provider_and_secret_fields() -> None:

@@ -3,7 +3,7 @@
 - Status: Accepted
 - Date: 2026-09-03
 - Owner: dotmac_engineering_coordination
-- Repository visibility: private
+- Repository visibility: public (amended 2026-09-21)
 
 ## Context
 
@@ -41,9 +41,14 @@ Neither projection can write declared purpose, ownership, lifecycle or access
 policy. A hypervisor guest address is reported only when a live guest agent
 provided it; absence remains explicit.
 
-The repository is private because resolved fleet addresses and topology are
-operational material. Knowledge indexes the owning revision and reusable
-lessons; public repositories may carry only logical identifiers.
+The repository is public by Michael's explicit 2026-09-21 decision. Reviewed
+fleet addresses, resolved topology, SSH account names/routes, provider resource
+identifiers, and non-secret credential pointers are intentionally public
+operational metadata. Every tracked byte and generated artifact is therefore
+treated as Internet-visible. Secret values and raw provider responses remain
+outside Git; the registry's structural secret exclusions and review gates stay
+mandatory. Knowledge indexes the owning revision and reusable lessons rather
+than copying the fleet table.
 
 ## Evidence classes
 
@@ -61,3 +66,7 @@ Michael accepted the ownership and initial migration mapping on 2026-09-03.
 Acceptance authorizes publication and installation of this read-only discovery
 surface. It does not authorize a production connection or mutation: those
 still require the exact target and the applicable deployment/access control.
+
+Michael amended the visibility decision on 2026-09-21 from private to public.
+The amendment changes disclosure classification only; it does not expand any
+runtime, deployment, SSH, secret, or production authority.
