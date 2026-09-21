@@ -15,6 +15,7 @@ production = true
 status = "active"
 fact_status = "confirmed"
 public_addresses = ["149.102.135.97", "2a02:c204:2249:731::1"]
+dns_names = ["academy.dotmac.io"]
 last_verified_at = 2026-09-03T07:57:37Z
 [[hosts.evidence]]
 evidence_class = "knowledge_reference"
