@@ -49,6 +49,7 @@ async def test_real_protocol_call_returns_the_registry_positive_control() -> Non
     async with Client(server) as client:
         result = await client.call_tool("fleet_list", {"environment": "production"})
     assert result.data["ok"] is True
+    assert result.data["schema_version"] == "dotmac.fleet.v2"
     assert result.data["count"] > 0
     assert any(host["host_id"] == "erp" for host in result.data["hosts"])
 
@@ -76,6 +77,7 @@ async def test_mcp_preserves_the_production_refusal_code_end_to_end() -> None:
         result = await client.call_tool("fleet_access_plan", {"host_id": "erp"})
     assert result.data == {
         "ok": False,
+        "schema_version": "dotmac.access-plan.v2",
         "refusal": {
             "code": "FLEET_PRODUCTION_CONFIRMATION_REQUIRED",
             "message": (
@@ -86,11 +88,28 @@ async def test_mcp_preserves_the_production_refusal_code_end_to_end() -> None:
 
 
 @pytest.mark.asyncio
+async def test_mcp_access_plan_exposes_typed_recovery_payload() -> None:
+    server = create_server(DATA)
+    async with Client(server) as client:
+        result = await client.call_tool(
+            "fleet_access_plan",
+            {"host_id": "erp", "confirm_production_host": "erp"},
+    )
+    assert result.data["ok"] is True
+    assert result.data["schema_version"] == "dotmac.access-plan.v2"
+    recovery = result.data["plan"]["recovery"]
+    assert recovery["status"] == "declared"
+    assert recovery["method"] == "openbao_credential"
+    assert recovery["credential_ref"].startswith("bao://")
+
+
+@pytest.mark.asyncio
 async def test_real_protocol_call_reaches_live_workload_observation() -> None:
     server = create_server(DATA)
     async with Client(server) as client:
         result = await client.call_tool("fleet_inspect", {"host_id": "son-erp"})
     assert result.data["ok"] is True
+    assert result.data["schema_version"] == "dotmac.fleet-topology.v2"
     assert result.data["provider_observation"]["status"] == "running"
     names = {item["name"] for item in result.data["workload_observation"]["containers"]}
     assert "son_erp_app" in names
@@ -126,9 +145,13 @@ async def test_fleet_health_stays_red_for_missing_guest_ipv6() -> None:
     server = create_server(DATA)
     async with Client(server) as client:
         result = await client.call_tool("fleet_registry_health", {})
-    assert result.data["declaration_ready"] is True
+    assert result.data["declaration_ready"] is False
     assert result.data["topology_ready"] is False
     assert result.data["ready"] is False
     assert result.data["topology_drift"]["missing_guest_ipv6_host_ids"] == [
         "nhia-moh-cloud"
     ]
+    assert result.data["missing_recovery_plan_host_ids"] == []
+    assert result.data["invalid_recovery_time_host_ids"] == []
+    assert result.data["stale_recovery_plan_host_ids"] == []
+    assert result.data["unverified_recovery_plan_host_ids"]

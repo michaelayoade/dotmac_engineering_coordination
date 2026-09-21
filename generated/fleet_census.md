@@ -59,36 +59,36 @@ Provider state does not decide declared purpose or lifecycle. Guest addresses re
 
 Pointers identify where credentials are held; this report never dereferences them.
 
-| Host | SSH alias | User | Route | Identity pointer | Recovery pointer | API access |
+| Host | SSH alias | User | Route | Identity pointer | Recovery plan | API access |
 |---|---|---|---|---|---|---|
-| `academy` | `academy` | `root` | `academy` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/academy#root_password` | none declared |
-| `control-runner` | `control-runner` | `dotmac` | `via seabone to 10.120.120.52` | `local-key:~/dotmac-network/ssh-keys/proxmox-server` | `not verified` | none declared |
-| `db-primary` | `db-primary` | `root` | `db-primary` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/db-primary#root_password` | none declared |
-| `dotmac-labs` | `dotmac-labs` | `dotmac` | `via seabone to 10.120.120.42` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
-| `erp` | `erp` | `root` | `erp` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/erp#root_password` | none declared |
-| `garki-core` | `garki-core` | `dottmacc` | `160.119.127.252` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
-| `idp-ha-1` | `idp-ha-1` | `root` | `idp-ha-1` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
-| `idp-ha-2` | `idp-ha-2` | `root` | `idp-ha-2` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
-| `idp-ha-3` | `idp-ha-3` | `root` | `idp-ha-3` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
-| `idp-live` | `idp-live` | `root` | `idp-live` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/keycloak#root_password` | none declared |
-| `integrator-vendor-control` | `integrator-vendor-control` | `root` | `integrator-vendor-control` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
-| `mail-dotmac` | `mail-dotmac` | `root` | `mail-dotmac` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/mail-dotmac#root_password` | none declared |
-| `mail-nhia` | `mail-nhia` | `root` | `mail-nhia` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/mail-nhia#root_password` | none declared |
-| `nhia-moh-cloud` | `nhia-moh-cloud` | `root` | `nhia-moh-cloud` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/cloud-nhia#root_password` | none declared |
-| `ns1` | `ns1` | `root` | `via seabone to 10.120.120.51` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/ns1#root_password` | none declared |
-| `ns2` | `ns2` | `root` | `ns2` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/ns2#root_password` | none declared |
-| `ns3` | `ns3` | `root` | `ns3` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/ns3#root_password` | none declared |
-| `observability-canary` | `observability-canary` | `root` | `observability-canary` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
-| `observe` | `observe` | `root` | `observe` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/observe#root_password` | none declared |
-| `proxmox` | `proxmox` | `root` | `via seabone to 10.120.120.20` | `local-key:~/dotmac-network/ssh-keys/proxmox-server` | `not verified` | proxmox-cluster-via-pvesh: verified (ssh://proxmox/pvesh); proxmox-https-api: verified (https://10.120.120.20:8006/api2/json) [bao://secret/dotmac/proxmox/fleet-inventory#api_token] |
-| `s3` | `s3` | `root` | `s3` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/s3#root_password` | none declared |
-| `seabone` | `seabone` | `dotmac` | `160.119.127.195` | `local-key:~/.ssh/id_ed25519_seabone` | `not verified` | none declared |
-| `son-erp` | `son-erp` | `root` | `son-erp` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/crm#root_password` | none declared |
-| `sub-prod` | `sub-prod` | `root` | `sub-prod` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/sub-prod#root_password` | none declared |
-| `test-server` | `test-server` | `root` | `test-server` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
-| `web-cache` | `web-cache` | `root` | `via seabone to 10.120.120.22` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
-| `workspace` | `workspace` | `root` | `workspace` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/workspace#root_password` | none declared |
-| `zabbix` | `zabbix` | `zabbixdotmac` | `160.119.127.193` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
+| `academy` | `academy` | `root` | `academy` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/academy#root_password] | none declared |
+| `control-runner` | `control-runner` | `dotmac` | `via seabone to 10.120.120.52` | `local-key:~/dotmac-network/ssh-keys/proxmox-server` | declared/hypervisor_console | none declared |
+| `db-primary` | `db-primary` | `root` | `db-primary` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/db-primary#root_password] | none declared |
+| `dotmac-labs` | `dotmac-labs` | `dotmac` | `via seabone to 10.120.120.42` | `local-key:~/.ssh/id_ed25519` | declared/hypervisor_console | none declared |
+| `erp` | `erp` | `root` | `erp` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/erp#root_password] | none declared |
+| `garki-core` | `garki-core` | `dottmacc` | `160.119.127.252` | `local-key:~/.ssh/id_ed25519` | declared/physical_console | none declared |
+| `idp-ha-1` | `idp-ha-1` | `root` | `idp-ha-1` | `local-key:~/.ssh/id_ed25519` | declared/provider_console | none declared |
+| `idp-ha-2` | `idp-ha-2` | `root` | `idp-ha-2` | `local-key:~/.ssh/id_ed25519` | declared/provider_console | none declared |
+| `idp-ha-3` | `idp-ha-3` | `root` | `idp-ha-3` | `local-key:~/.ssh/id_ed25519` | declared/provider_console | none declared |
+| `idp-live` | `idp-live` | `root` | `idp-live` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/keycloak#root_password] | none declared |
+| `integrator-vendor-control` | `integrator-vendor-control` | `root` | `integrator-vendor-control` | `local-key:~/.ssh/id_ed25519` | declared/provider_console | none declared |
+| `mail-dotmac` | `mail-dotmac` | `root` | `mail-dotmac` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/mail-dotmac#root_password] | none declared |
+| `mail-nhia` | `mail-nhia` | `root` | `mail-nhia` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/mail-nhia#root_password] | none declared |
+| `nhia-moh-cloud` | `nhia-moh-cloud` | `root` | `nhia-moh-cloud` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/cloud-nhia#root_password] | none declared |
+| `ns1` | `ns1` | `root` | `via seabone to 10.120.120.51` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/ns1#root_password] | none declared |
+| `ns2` | `ns2` | `root` | `ns2` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/ns2#root_password] | none declared |
+| `ns3` | `ns3` | `root` | `ns3` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/ns3#root_password] | none declared |
+| `observability-canary` | `observability-canary` | `root` | `observability-canary` | `local-key:~/.ssh/id_ed25519` | missing | none declared |
+| `observe` | `observe` | `root` | `observe` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/observe#root_password] | none declared |
+| `proxmox` | `proxmox` | `root` | `via seabone to 10.120.120.20` | `local-key:~/dotmac-network/ssh-keys/proxmox-server` | declared/physical_console | proxmox-cluster-via-pvesh: verified (ssh://proxmox/pvesh); proxmox-https-api: verified (https://10.120.120.20:8006/api2/json) [bao://secret/dotmac/proxmox/fleet-inventory#api_token] |
+| `s3` | `s3` | `root` | `s3` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/s3#root_password] | none declared |
+| `seabone` | `seabone` | `dotmac` | `160.119.127.195` | `local-key:~/.ssh/id_ed25519_seabone` | declared/physical_console | none declared |
+| `son-erp` | `son-erp` | `root` | `son-erp` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/crm#root_password] | none declared |
+| `sub-prod` | `sub-prod` | `root` | `sub-prod` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/sub-prod#root_password] | none declared |
+| `test-server` | `test-server` | `root` | `test-server` | `local-key:~/.ssh/id_ed25519` | declared/provider_console | none declared |
+| `web-cache` | `web-cache` | `root` | `via seabone to 10.120.120.22` | `local-key:~/.ssh/id_ed25519` | declared/hypervisor_console | none declared |
+| `workspace` | `workspace` | `root` | `workspace` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/workspace#root_password] | none declared |
+| `zabbix` | `zabbix` | `zabbixdotmac` | `160.119.127.193` | `local-key:~/.ssh/id_ed25519` | declared/hypervisor_console | none declared |
 
 ## Containers by host
 

@@ -79,7 +79,10 @@ def create_server(
         try:
             return service.get_host(host_id)
         except FleetRefusal as refusal:
-            return refusal.as_dict()
+            return {
+                **refusal.as_dict(),
+                "schema_version": service.registry.schema_version,
+            }
 
     @server.tool(annotations=_READ_ONLY)
     def fleet_access_plan(
@@ -147,7 +150,7 @@ def create_server(
         if format == "mermaid":
             return {
                 "ok": True,
-                "schema_version": "dotmac.fleet-topology.v1",
+                "schema_version": "dotmac.fleet-topology.v2",
                 "mermaid": render_mermaid_topology(
                     service.registry,
                     provider,
@@ -157,7 +160,7 @@ def create_server(
         if format == "markdown":
             return {
                 "ok": True,
-                "schema_version": "dotmac.fleet-topology.v1",
+                "schema_version": "dotmac.fleet-topology.v2",
                 "markdown": render_markdown_census(
                     service.registry,
                     provider,

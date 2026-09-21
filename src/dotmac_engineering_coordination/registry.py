@@ -26,7 +26,7 @@ from pydantic import (
 )
 
 REGISTRY_ENV = "DOTMAC_FLEET_REGISTRY"
-SCHEMA = "dotmac.fleet.v1"
+SCHEMA = "dotmac.fleet.v2"
 DEFAULT_MAX_AGE_DAYS = 45
 
 _HOST_ID = re.compile(r"\A[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\Z")
@@ -38,6 +38,17 @@ _SECRET_SHAPES = (
     "ghp_",
     "github_pat_",
 )
+_OPENBAO_POINTER = re.compile(
+    r"\Abao://secret/[a-z0-9][a-z0-9._-]*(?:/[a-z0-9][a-z0-9._-]*)*#"
+    r"[a-z0-9][a-z0-9._-]*\Z"
+)
+_RECOVERY_EVIDENCE_TOKEN = re.compile(r"\A[a-z0-9][a-z0-9._-]{0,127}\Z")
+
+
+def _validate_openbao_pointer(value: str, label: str) -> str:
+    if not _OPENBAO_POINTER.fullmatch(value):
+        raise ValueError(f"{label} must be an exact OpenBao pointer")
+    return value
 
 
 class EvidenceClass(StrEnum):
@@ -75,6 +86,25 @@ class AuthenticationMethod(StrEnum):
     SSH_CERTIFICATE = "ssh_certificate"
     OIDC = "oidc"
     CONSOLE_ONLY = "console_only"
+
+
+class RecoveryStatus(StrEnum):
+    """Whether the owning team has proved the declared recovery route."""
+
+    DECLARED = "declared"
+    VERIFIED = "verified"
+    UNAVAILABLE = "unavailable"
+
+
+class RecoveryMethod(StrEnum):
+    """Host recovery mechanisms; a password is not the only valid route."""
+
+    OPENBAO_CREDENTIAL = "openbao_credential"
+    PROVIDER_CONSOLE = "provider_console"
+    HYPERVISOR_CONSOLE = "hypervisor_console"
+    PHYSICAL_CONSOLE = "physical_console"
+    SSH_PUBLIC_KEY = "ssh_public_key"
+    SSH_CERTIFICATE = "ssh_certificate"
 
 
 class ApiAuthenticationMethod(StrEnum):
@@ -121,6 +151,44 @@ class EvidenceRef(StrictModel):
         return value
 
 
+class RecoveryRehearsalEvidence(StrictModel):
+    """Live proof bound to one host and one declared recovery mechanism."""
+
+    evidence_class: Literal[EvidenceClass.LIVE_OBSERVATION]
+    host_id: str
+    method: RecoveryMethod
+    ref: Annotated[str, Field(min_length=1, max_length=500)]
+    observed_at: datetime
+
+    @field_validator("host_id")
+    @classmethod
+    def recovery_host_id_is_stable(cls, value: str) -> str:
+        if not _HOST_ID.fullmatch(value):
+            raise ValueError("recovery evidence host_id must be lowercase kebab-case")
+        return value
+
+    @field_validator("observed_at")
+    @classmethod
+    def recovery_observed_at_is_aware(cls, value: datetime) -> datetime:
+        if value.tzinfo is None:
+            raise ValueError("recovery evidence observed_at must include a timezone")
+        return value
+
+    @model_validator(mode="after")
+    def recovery_ref_is_bound_and_safe(self) -> RecoveryRehearsalEvidence:
+        prefix = f"live:recovery-rehearsal:{self.host_id}:{self.method.value}"
+        if self.ref == prefix:
+            return self
+        if self.ref.startswith(f"{prefix}:") and _RECOVERY_EVIDENCE_TOKEN.fullmatch(
+            self.ref.removeprefix(f"{prefix}:")
+        ):
+            return self
+        raise ValueError(
+            "recovery evidence ref must bind the host and method and may only "
+            "append one safe opaque token"
+        )
+
+
 class SshAccess(StrictModel):
     status: AccessStatus
     alias: str | None = None
@@ -130,7 +198,6 @@ class SshAccess(StrictModel):
     proxy_jump: str | None = None
     authentication: AuthenticationMethod | None = None
     identity_ref: str | None = None
-    recovery_secret_ref: str | None = None
     verified_at: datetime | None = None
     evidence: tuple[EvidenceRef, ...] = ()
 
@@ -179,13 +246,8 @@ class SshAccess(StrictModel):
             raise ValueError("identity_ref must be a pointer, never key material")
         if not value.startswith(("local-key:", "ssh-agent:", "bao://")):
             raise ValueError("identity_ref must use local-key:, ssh-agent:, or bao://")
-        return value
-
-    @field_validator("recovery_secret_ref")
-    @classmethod
-    def recovery_is_only_a_bao_pointer(cls, value: str | None) -> str | None:
-        if value is not None and not value.startswith("bao://"):
-            raise ValueError("recovery_secret_ref must be an OpenBao pointer")
+        if value.startswith("bao://"):
+            return _validate_openbao_pointer(value, "identity_ref")
         return value
 
     @field_validator("verified_at")
@@ -223,6 +285,101 @@ class SshAccess(StrictModel):
         return self
 
 
+class RecoveryPlan(StrictModel):
+    """Reviewed host-level recovery intent, separate from normal SSH access."""
+
+    status: RecoveryStatus
+    method: RecoveryMethod
+    owner_ref: Annotated[str, Field(min_length=1, max_length=200)]
+    credential_ref: str | None = None
+    runbook_ref: str | None = None
+    decided_at: datetime | None = None
+    last_rehearsed_at: datetime | None = None
+    evidence: tuple[RecoveryRehearsalEvidence, ...] = ()
+    limitation: str | None = None
+
+    @field_validator("credential_ref")
+    @classmethod
+    def credential_is_only_a_bao_pointer(cls, value: str | None) -> str | None:
+        return (
+            _validate_openbao_pointer(value, "recovery credential_ref")
+            if value is not None
+            else None
+        )
+
+    @field_validator("runbook_ref")
+    @classmethod
+    def runbook_is_a_pointer(cls, value: str | None) -> str | None:
+        if value is not None and not value.startswith(
+            ("repo://", "https://", "knowledge:")
+        ):
+            raise ValueError("runbook_ref must use repo://, https://, or knowledge:")
+        if value is not None and value.startswith("repo://"):
+            relative = value.removeprefix("repo://")
+            parts = relative.split("/")
+            if (
+                not relative
+                or relative.startswith("/")
+                or "\\" in relative
+                or "?" in relative
+                or "#" in relative
+                or any(part in {"", ".", ".."} for part in parts)
+            ):
+                raise ValueError(
+                    "repo:// runbook_ref must be a normalized relative path"
+                )
+        return value
+
+    @field_validator("decided_at", "last_rehearsed_at")
+    @classmethod
+    def recovery_dates_are_aware(cls, value: datetime | None) -> datetime | None:
+        if value is not None and value.tzinfo is None:
+            raise ValueError("recovery dates must include a timezone")
+        return value
+
+    @model_validator(mode="after")
+    def recovery_state_is_complete(self) -> RecoveryPlan:
+        credential_backed = {
+            RecoveryMethod.OPENBAO_CREDENTIAL,
+            RecoveryMethod.SSH_PUBLIC_KEY,
+            RecoveryMethod.SSH_CERTIFICATE,
+        }
+        if self.method in credential_backed and self.credential_ref is None:
+            raise ValueError("credential-backed recovery needs a credential_ref")
+        if any(item.method is not self.method for item in self.evidence):
+            raise ValueError("recovery evidence method must match the recovery plan")
+        if self.status is RecoveryStatus.VERIFIED:
+            missing = [
+                name
+                for name, value in (
+                    ("runbook_ref", self.runbook_ref),
+                    ("decided_at", self.decided_at),
+                    ("last_rehearsed_at", self.last_rehearsed_at),
+                )
+                if value is None
+            ]
+            if missing:
+                raise ValueError(
+                    "verified recovery is missing " + ", ".join(sorted(missing))
+                )
+            assert self.decided_at is not None
+            assert self.last_rehearsed_at is not None
+            if self.last_rehearsed_at < self.decided_at:
+                raise ValueError("recovery rehearsal cannot predate its decision")
+            live_rehearsal = [
+                item
+                for item in self.evidence
+                if item.observed_at >= self.last_rehearsed_at
+            ]
+            if not live_rehearsal:
+                raise ValueError(
+                    "verified recovery needs dated live-observation rehearsal evidence"
+                )
+        if self.status is RecoveryStatus.UNAVAILABLE and not self.limitation:
+            raise ValueError("unavailable recovery needs a limitation")
+        return self
+
+
 class ApiAccess(StrictModel):
     name: Annotated[str, Field(min_length=1, max_length=80)]
     status: AccessStatus
@@ -237,9 +394,11 @@ class ApiAccess(StrictModel):
     @field_validator("credential_ref")
     @classmethod
     def credential_is_only_a_bao_pointer(cls, value: str | None) -> str | None:
-        if value is not None and not value.startswith("bao://"):
-            raise ValueError("API credential_ref must be an OpenBao pointer")
-        return value
+        return (
+            _validate_openbao_pointer(value, "API credential_ref")
+            if value is not None
+            else None
+        )
 
     @field_validator("via_ssh_alias")
     @classmethod
@@ -288,6 +447,7 @@ class FleetHost(StrictModel):
     last_verified_at: datetime
     evidence: tuple[EvidenceRef, ...]
     access: SshAccess
+    recovery: RecoveryPlan | None = None
     api_access: tuple[ApiAccess, ...] = ()
 
     @field_validator("host_id")
@@ -320,11 +480,15 @@ class FleetHost(StrictModel):
             raise ValueError("an active host needs at least one address or DNS name")
         if not self.evidence:
             raise ValueError("a host declaration needs evidence")
+        if self.recovery is not None and any(
+            item.host_id != self.host_id for item in self.recovery.evidence
+        ):
+            raise ValueError("recovery evidence host_id must match the fleet host")
         return self
 
 
 class FleetRegistry(StrictModel):
-    schema_version: Literal["dotmac.fleet.v1"]
+    schema_version: Literal["dotmac.fleet.v2"]
     max_age_days: Annotated[int, Field(ge=1, le=365)] = DEFAULT_MAX_AGE_DAYS
     hosts: tuple[FleetHost, ...]
 
@@ -354,6 +518,7 @@ class FleetRegistry(StrictModel):
 
 
 class AccessPlan(StrictModel):
+    schema_version: Literal["dotmac.access-plan.v2"] = "dotmac.access-plan.v2"
     host_id: str
     production: bool
     alias: str
@@ -361,7 +526,7 @@ class AccessPlan(StrictModel):
     port: int
     authentication: AuthenticationMethod
     identity_ref: str
-    recovery_secret_ref: str | None
+    recovery: RecoveryPlan | None
     argv: tuple[str, ...]
     verified_at: datetime
     evidence_classes: tuple[EvidenceClass, ...]
@@ -459,7 +624,7 @@ def decide_access_plan(
         port=access.port,
         authentication=access.authentication,
         identity_ref=access.identity_ref,
-        recovery_secret_ref=access.recovery_secret_ref,
+        recovery=host.recovery,
         argv=("ssh", access.alias),
         verified_at=access.verified_at,
         evidence_classes=tuple(
@@ -500,7 +665,11 @@ class FleetService:
         }
 
     def get_host(self, host_id: str) -> dict[str, object]:
-        return {"ok": True, "host": _jsonable(self.registry.by_id(host_id))}
+        return {
+            "ok": True,
+            "schema_version": self.registry.schema_version,
+            "host": _jsonable(self.registry.by_id(host_id)),
+        }
 
     def access_plan(
         self,
@@ -530,8 +699,15 @@ class FleetService:
                 now=now,
             )
         except FleetRefusal as refusal:
-            return refusal.as_dict()
-        return {"ok": True, "plan": _jsonable(plan)}
+            return {
+                **refusal.as_dict(),
+                "schema_version": "dotmac.access-plan.v2",
+            }
+        return {
+            "ok": True,
+            "schema_version": "dotmac.access-plan.v2",
+            "plan": _jsonable(plan),
+        }
 
     def render_ssh_config(self) -> str:
         """Render verified aliases only; never render a secret or key value."""
@@ -594,11 +770,48 @@ class FleetService:
             if host.status is HostStatus.ACTIVE
             and host.access.status is AccessStatus.UNVERIFIED
         )
-        missing_recovery_pointers = sorted(
+        missing_recovery_plans = sorted(
+            host.host_id
+            for host in self.registry.hosts
+            if host.status is HostStatus.ACTIVE and host.recovery is None
+        )
+        unverified_recovery_plans = sorted(
             host.host_id
             for host in self.registry.hosts
             if host.status is HostStatus.ACTIVE
-            and host.access.recovery_secret_ref is None
+            and host.recovery is not None
+            and host.recovery.status is not RecoveryStatus.VERIFIED
+        )
+        verified_recovery_plans = [
+            (host.host_id, host.recovery)
+            for host in self.registry.hosts
+            if host.status is HostStatus.ACTIVE
+            and host.recovery is not None
+            and host.recovery.status is RecoveryStatus.VERIFIED
+        ]
+        invalid_recovery_time_host_ids = sorted(
+            host_id
+            for host_id, recovery in verified_recovery_plans
+            if (
+                recovery.decided_at is not None
+                and recovery.decided_at.astimezone(UTC) > moment
+            )
+            or (
+                recovery.last_rehearsed_at is not None
+                and recovery.last_rehearsed_at.astimezone(UTC) > moment
+            )
+            or any(
+                item.observed_at is not None
+                and item.observed_at.astimezone(UTC) > moment
+                for item in recovery.evidence
+            )
+        )
+        stale_recovery_plan_host_ids = sorted(
+            host_id
+            for host_id, recovery in verified_recovery_plans
+            if recovery.last_rehearsed_at is not None
+            and moment - recovery.last_rehearsed_at.astimezone(UTC)
+            > timedelta(days=self.registry.max_age_days)
         )
         unavailable_api_access = sorted(
             f"{host.host_id}/{api.name}"
@@ -618,12 +831,19 @@ class FleetService:
             "conflicted_host_ids": conflicts,
             "unverified_fact_host_ids": unverified_facts,
             "unverified_access_host_ids": unverified_access,
-            "missing_recovery_pointer_host_ids": missing_recovery_pointers,
+            "missing_recovery_plan_host_ids": missing_recovery_plans,
+            "unverified_recovery_plan_host_ids": unverified_recovery_plans,
+            "invalid_recovery_time_host_ids": invalid_recovery_time_host_ids,
+            "stale_recovery_plan_host_ids": stale_recovery_plan_host_ids,
             "unavailable_api_access_ids": unavailable_api_access,
             "ready": not stale
             and not conflicts
             and not unverified_facts
-            and not unverified_access,
+            and not unverified_access
+            and not missing_recovery_plans
+            and not unverified_recovery_plans
+            and not invalid_recovery_time_host_ids
+            and not stale_recovery_plan_host_ids,
         }
 
 
@@ -645,6 +865,10 @@ __all__ = [
     "FleetRegistry",
     "FleetService",
     "HostStatus",
+    "RecoveryMethod",
+    "RecoveryPlan",
+    "RecoveryRehearsalEvidence",
+    "RecoveryStatus",
     "SshAccess",
     "decide_access_plan",
     "default_registry_path",

@@ -42,6 +42,22 @@ dotmac-coordination-mcp
 requires the caller to repeat the exact host id. Stale, conflicted, inactive or
 access-unverified records refuse with a stable code.
 
+Host recovery is a separate typed plan, not an optional password field on SSH.
+Supported methods include provider, hypervisor and physical consoles, SSH
+keys/certificates, and an OpenBao-held credential. A plan becomes `verified`
+only with an owner decision, runbook, and dated live rehearsal evidence bound
+to the exact host and recovery method. Its reference uses
+`live:recovery-rehearsal:<host_id>:<method>[:<safe-token>]`; it cannot carry
+free-form or secret material. Existing
+OpenBao pointers remain `declared` until that proof exists; missing and
+unverified plans keep declaration health red rather than manufacturing
+coverage. Verified rehearsals also become unready when their timestamps are in
+the future or older than the registry's configured maximum age.
+
+The non-disruptive rehearsal procedures live under `docs/recovery/`. They
+separate proving console reachability from any restart, rescue boot, password
+reset or other production mutation.
+
 `generated/ssh_config` is the reviewed renderer output. CI byte-compares it
 with the typed registry; consumers include that fragment from their own SSH
 configuration rather than maintaining another host map.

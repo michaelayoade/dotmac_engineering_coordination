@@ -1,4 +1,4 @@
-schema_version = "dotmac.fleet.v1"
+schema_version = "dotmac.fleet.v2"
 max_age_days = 45
 
 # Initial migration from the provider inventory recorded 2026-08-27 and the
@@ -26,8 +26,12 @@ user = "root"
 port = 22
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/academy#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "dotmac_academy_app"
+credential_ref = "bao://secret/dotmac/hosts/academy#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:149.102.135.97"
@@ -64,6 +68,11 @@ user = "dotmac"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519_seabone"
 verified_at = 2026-09-03T08:20:48Z
+[hosts.recovery]
+status = "declared"
+method = "physical_console"
+owner_ref = "dotmac-infrastructure"
+runbook_ref = "repo://docs/recovery/physical-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:seabone"
@@ -98,6 +107,11 @@ proxy_jump = "seabone"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/dotmac-network/ssh-keys/proxmox-server"
 verified_at = 2026-09-03T08:20:48Z
+[hosts.recovery]
+status = "declared"
+method = "physical_console"
+owner_ref = "dotmac-infrastructure"
+runbook_ref = "repo://docs/recovery/physical-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:proxmox-via-seabone"
@@ -149,8 +163,12 @@ alias = "db-primary"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/db-primary#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "infrastructure"
+credential_ref = "bao://secret/dotmac/hosts/db-primary#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:db-primary"
@@ -180,8 +198,12 @@ alias = "erp"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/erp#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "dotmac_erp"
+credential_ref = "bao://secret/dotmac/hosts/erp#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:erp"
@@ -237,6 +259,11 @@ user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "provider_console"
+owner_ref = "engineering"
+runbook_ref = "repo://docs/recovery/contabo-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -262,8 +289,12 @@ alias = "idp-live"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/keycloak#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "identity"
+credential_ref = "bao://secret/dotmac/hosts/keycloak#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -291,6 +322,11 @@ user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "provider_console"
+owner_ref = "identity"
+runbook_ref = "repo://docs/recovery/contabo-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -318,6 +354,11 @@ user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "provider_console"
+owner_ref = "identity"
+runbook_ref = "repo://docs/recovery/contabo-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -345,6 +386,11 @@ user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "provider_console"
+owner_ref = "identity"
+runbook_ref = "repo://docs/recovery/contabo-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -372,6 +418,11 @@ user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "provider_console"
+owner_ref = "integrator"
+runbook_ref = "repo://docs/recovery/contabo-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -398,8 +449,12 @@ alias = "mail-dotmac"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/mail-dotmac#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "mail"
+credential_ref = "bao://secret/dotmac/hosts/mail-dotmac#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -426,8 +481,12 @@ alias = "mail-nhia"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/mail-nhia#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "mail"
+credential_ref = "bao://secret/dotmac/hosts/mail-nhia#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -454,8 +513,12 @@ alias = "nhia-moh-cloud"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/cloud-nhia#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "cloud"
+credential_ref = "bao://secret/dotmac/hosts/cloud-nhia#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -482,8 +545,12 @@ alias = "ns2"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/ns2#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "dns"
+credential_ref = "bao://secret/dotmac/hosts/ns2#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:ns2"
@@ -514,8 +581,12 @@ alias = "ns3"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/ns3#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "dns"
+credential_ref = "bao://secret/dotmac/hosts/ns3#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:ns3"
@@ -546,8 +617,12 @@ alias = "observe"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/observe#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "observability"
+credential_ref = "bao://secret/dotmac/hosts/observe#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:observe"
@@ -577,8 +652,12 @@ alias = "s3"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/s3#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "storage"
+credential_ref = "bao://secret/dotmac/hosts/s3#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:s3"
@@ -611,8 +690,12 @@ alias = "son-erp"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/crm#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "dotmac_erp"
+credential_ref = "bao://secret/dotmac/hosts/crm#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "local:ssh-config:149.102.149.5"
@@ -644,8 +727,12 @@ alias = "sub-prod"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/sub-prod#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "dotmac_sub"
+credential_ref = "bao://secret/dotmac/hosts/sub-prod#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -671,8 +758,12 @@ alias = "workspace"
 user = "root"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/workspace#root_password"
 verified_at = 2026-09-03T07:57:37Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "workspace"
+credential_ref = "bao://secret/dotmac/hosts/workspace#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh-census:2026-09-03T07:57:37Z"
@@ -703,6 +794,11 @@ proxy_jump = "seabone"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
 verified_at = 2026-09-03T08:20:48Z
+[hosts.recovery]
+status = "declared"
+method = "hypervisor_console"
+owner_ref = "dotmac-infrastructure"
+runbook_ref = "repo://docs/recovery/proxmox-guest-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh:web-cache:2026-09-03T08:20:48Z"
@@ -732,6 +828,11 @@ user = "zabbixdotmac"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
 verified_at = 2026-09-03T08:20:48Z
+[hosts.recovery]
+status = "declared"
+method = "hypervisor_console"
+owner_ref = "observability"
+runbook_ref = "repo://docs/recovery/proxmox-guest-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh:zabbix:2026-09-03T08:20:48Z"
@@ -765,8 +866,12 @@ user = "root"
 proxy_jump = "seabone"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
-recovery_secret_ref = "bao://secret/dotmac/hosts/ns1#root_password"
 verified_at = 2026-09-03T08:20:48Z
+[hosts.recovery]
+status = "declared"
+method = "openbao_credential"
+owner_ref = "dns"
+credential_ref = "bao://secret/dotmac/hosts/ns1#root_password"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh:ns1-via-seabone:2026-09-03T08:20:48Z"
@@ -801,6 +906,11 @@ proxy_jump = "seabone"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/dotmac-network/ssh-keys/proxmox-server"
 verified_at = 2026-09-03T08:20:48Z
+[hosts.recovery]
+status = "declared"
+method = "hypervisor_console"
+owner_ref = "dotmac-deployment-control"
+runbook_ref = "repo://docs/recovery/proxmox-guest-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh:control-runner-via-seabone:2026-09-03T08:20:48Z"
@@ -838,6 +948,11 @@ proxy_jump = "seabone"
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
 verified_at = 2026-09-21T03:08:23Z
+[hosts.recovery]
+status = "declared"
+method = "hypervisor_console"
+owner_ref = "dotmac_academy_app"
+runbook_ref = "repo://docs/recovery/proxmox-guest-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh:dotmac-labs-via-seabone:2026-09-21T03:08:23Z"
@@ -875,6 +990,11 @@ port = 120
 authentication = "ssh_public_key"
 identity_ref = "local-key:~/.ssh/id_ed25519"
 verified_at = 2026-09-21T04:55:40Z
+[hosts.recovery]
+status = "declared"
+method = "physical_console"
+owner_ref = "dotmac-network"
+runbook_ref = "repo://docs/recovery/physical-console.md"
 [[hosts.access.evidence]]
 evidence_class = "live_observation"
 ref = "live:ssh:garki-core:2026-09-21T04:55:40Z"
