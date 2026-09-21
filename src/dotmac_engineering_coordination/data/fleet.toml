@@ -842,3 +842,40 @@ verified_at = 2026-09-21T03:08:23Z
 evidence_class = "live_observation"
 ref = "live:ssh:dotmac-labs-via-seabone:2026-09-21T03:08:23Z"
 observed_at = 2026-09-21T03:08:23Z
+
+[[hosts]]
+host_id = "garki-core"
+provider_ref = "onprem:garki-core"
+environment = "production"
+purpose = "Abuja Garki core router and Dotmac Labs IPv4 egress/IPv6 edge"
+owner_ref = "dotmac-network"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["160.119.127.252", "2c0f:e888::252"]
+private_addresses = ["10.120.120.1", "10.120.121.1", "10.10.41.3"]
+last_verified_at = 2026-09-21T04:55:40Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:garki-core-missing-from-fleet"
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh:garki-core:2026-09-21T04:55:40Z"
+observed_at = 2026-09-21T04:55:40Z
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:routeros-census:garki-core:2026-09-21T04:55:40Z"
+observed_at = 2026-09-21T04:55:40Z
+[hosts.access]
+status = "verified"
+alias = "garki-core"
+endpoint = "160.119.127.252"
+user = "dottmacc"
+port = 120
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-21T04:55:40Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh:garki-core:2026-09-21T04:55:40Z"
+observed_at = 2026-09-21T04:55:40Z

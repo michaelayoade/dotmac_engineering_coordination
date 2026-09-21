@@ -64,7 +64,7 @@ reviewed registry.
 All are annotated read-only and closed-world. The server has no tool that
 connects to a host or dereferences a secret pointer.
 
-The fleet joins three explicit evidence classes: 27 reviewed declarations in
+The fleet joins three explicit evidence classes: 28 reviewed declarations in
 `fleet.toml`, a safe-field 20-instance Contabo provider snapshot, and a
 read-only guest/container snapshot covering those VPS hosts, Seabone, the
 single-node Proxmox cluster, and all 20 QEMU guests. Five guests with verified

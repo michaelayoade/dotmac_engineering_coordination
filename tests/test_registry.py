@@ -54,11 +54,11 @@ def _single_host_registry(
 def test_initial_registry_is_typed_and_counts_every_declared_host(
     registry: FleetRegistry,
 ) -> None:
-    assert len(registry.hosts) == 27
-    assert len({host.host_id for host in registry.hosts}) == 27
+    assert len(registry.hosts) == 28
+    assert len({host.host_id for host in registry.hosts}) == 28
     assert (
         sum(host.access.status is AccessStatus.VERIFIED for host in registry.hosts)
-        == 27
+        == 28
     )
 
 
@@ -145,6 +145,38 @@ def test_dotmac_labs_production_access_plan_and_ssh_config_are_scoped() -> None:
     assert "ProxyJump seabone" in block
     assert "# identity-ref: local-key:~/.ssh/id_ed25519" in block
     assert "160.119.127.249" not in block
+
+
+def test_garki_core_production_access_and_host_owned_addresses_are_scoped() -> None:
+    registry = load_registry(DATA / "fleet.toml")
+    service = FleetService(registry)
+    plan = service.access_plan(
+        "garki-core",
+        confirm_production_host="garki-core",
+        now=datetime(2026, 9, 21, 5, tzinfo=UTC),
+    )
+    assert plan.argv == ("ssh", "garki-core")
+    assert plan.user == "dottmacc"
+    assert plan.port == 120
+    assert plan.identity_ref == "local-key:~/.ssh/id_ed25519"
+    host = registry.by_id("garki-core")
+    assert {str(address) for address in host.public_addresses} == {
+        "160.119.127.252",
+        "2c0f:e888::252",
+    }
+    assert {str(address) for address in host.private_addresses} == {
+        "10.120.120.1",
+        "10.120.121.1",
+        "10.10.41.3",
+    }
+    rendered = service.render_ssh_config()
+    block = rendered.split("# fleet-host: garki-core\n", 1)[1].split(
+        "\n\n", 1
+    )[0]
+    assert "HostName 160.119.127.252" in block
+    assert "User dottmacc" in block
+    assert "Port 120" in block
+    assert "ProxyJump" not in block
 
 
 def test_every_refusal_keeps_a_distinct_code(registry: FleetRegistry) -> None:

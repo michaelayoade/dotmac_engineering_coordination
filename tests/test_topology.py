@@ -240,7 +240,7 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     workloads = load_workload_snapshot(DATA / "workload_snapshot.json")
     drift = topology_drift(registry, provider, workloads)
     assert len(provider.instances) == 20
-    assert len(registry.hosts) == 27
+    assert len(registry.hosts) == 28
     assert len(workloads.hosts) == 26
     assert sum(len(host.containers) for host in workloads.hosts) == 193
     assert sum(len(host.virtual_guests) for host in workloads.hosts) == 20
@@ -253,7 +253,7 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     assert drift.missing_guest_ipv4_host_ids == ()
     assert drift.missing_guest_ipv6_host_ids == ("nhia-moh-cloud",)
     assert drift.missing_provider_host_ids == ()
-    assert drift.missing_workload_host_ids == ("dotmac-labs",)
+    assert drift.missing_workload_host_ids == ("dotmac-labs", "garki-core")
 
 
 def test_missing_declared_workload_renders_without_inventing_addresses() -> None:

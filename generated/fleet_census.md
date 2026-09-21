@@ -2,7 +2,7 @@
 
 - Provider observation: `2026-09-03T07:57:37+00:00`
 - Workload observation: `2026-09-03T08:20:48+00:00`
-- Declared hosts: `27`
+- Declared hosts: `28`
 - Running Docker containers: `193`
 - Declared virtual guests: `20`
 - Evidence: `provider_record` plus `live_observation`
@@ -16,6 +16,7 @@ Provider state does not decide declared purpose or lifecycle. Guest addresses re
 | `db-primary` | `vmi3291426` | db-primary - postgres redis standbys | `dotmac-db-primary` | `75.119.157.91` | `2a02:c207:2329:1426::1/64` | 10 | Primary database host; PostgreSQL and Redis standbys |
 | `dotmac-labs` | `not-applicable` | on-prem | `workload observation missing` | `10.120.120.42` | `2c0f:e888:11:0:be24:11ff:fef3:6290` | 0 | Dotmac Academy lab runtime and containerlab worker |
 | `erp` | `vmi2988431` | erp dotmac | `vmi2988431.contaboserver.net` | `149.102.158.167` | `2a02:c204:2298:8431::1/64` | 6 | Dotmac ERP application |
+| `garki-core` | `not-applicable` | on-prem | `workload observation missing` | `160.119.127.252` | `2c0f:e888::252` | 0 | Abuja Garki core router and Dotmac Labs IPv4 egress/IPv6 edge |
 | `idp-ha-1` | `vmi3537544` | idp-ha-1 | `vmi3537544.contaboserver.net` | `94.72.109.54` | `2a02:c204:2353:7544::1/64` | 1 | Identity provider HA node 1 |
 | `idp-ha-2` | `vmi3537543` | idp-ha-2 | `vmi3537543` | `158.220.86.76` | `2a02:c204:2353:7543::1/64` | 1 | Identity provider HA node 2 |
 | `idp-ha-3` | `vmi3537726` | idp-ha-3 | `vmi3537726.contaboserver.net` | `158.220.87.55` | `2a02:c204:2353:7726::1/64` | 1 | Identity provider HA node 3 |
@@ -51,7 +52,7 @@ Provider state does not decide declared purpose or lifecycle. Guest addresses re
 - `provider_address_mismatch_host_ids`: none
 - `missing_guest_ipv4_host_ids`: none
 - `missing_guest_ipv6_host_ids`: `nhia-moh-cloud`
-- `missing_workload_host_ids`: `dotmac-labs`
+- `missing_workload_host_ids`: `dotmac-labs`, `garki-core`
 - `unknown_workload_host_ids`: none
 
 ## Agent access
@@ -65,6 +66,7 @@ Pointers identify where credentials are held; this report never dereferences the
 | `db-primary` | `db-primary` | `root` | `db-primary` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/db-primary#root_password` | none declared |
 | `dotmac-labs` | `dotmac-labs` | `dotmac` | `via seabone to 10.120.120.42` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
 | `erp` | `erp` | `root` | `erp` | `local-key:~/.ssh/id_ed25519` | `bao://secret/dotmac/hosts/erp#root_password` | none declared |
+| `garki-core` | `garki-core` | `dottmacc` | `160.119.127.252` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
 | `idp-ha-1` | `idp-ha-1` | `root` | `idp-ha-1` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
 | `idp-ha-2` | `idp-ha-2` | `root` | `idp-ha-2` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |
 | `idp-ha-3` | `idp-ha-3` | `root` | `idp-ha-3` | `local-key:~/.ssh/id_ed25519` | `not verified` | none declared |

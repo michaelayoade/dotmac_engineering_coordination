@@ -40,6 +40,14 @@ Host erp
   Port 22
   IdentitiesOnly yes
 
+# fleet-host: garki-core
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host garki-core
+  HostName 160.119.127.252
+  User dottmacc
+  Port 120
+  IdentitiesOnly yes
+
 # fleet-host: idp-ha-1
 # identity-ref: local-key:~/.ssh/id_ed25519
 Host idp-ha-1
