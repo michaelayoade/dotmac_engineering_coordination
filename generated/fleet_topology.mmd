@@ -1,5 +1,6 @@
 flowchart LR
   provider_contabo["Contabo provider record"]
+  provider_onprem_garki_core["onprem:garki-core declaration"]
   provider_onprem_proxmox["onprem:proxmox declaration"]
   provider_onprem_seabone["onprem:seabone declaration"]
   provider_network_61441{"provider network: idp<br/>10.0.0.0/22<br/>0 members"}
@@ -81,6 +82,10 @@ flowchart LR
   erp --> erp_c4
   erp_c5(["promtail<br/>grafana/promtail:latest<br/>running"])
   erp --> erp_c5
+  garki_core["garki-core<br/>workload observation missing<br/>production<br/>IPv4 160.119.127.252<br/>IPv6 2c0f:e888::252<br/>Abuja Garki core router and Dotmac Labs IPv4 egress/IPv6 edge"]
+  provider_onprem_garki_core --> garki_core
+  garki_core_workloads_missing["workload observation missing"]
+  garki_core -.-> garki_core_workloads_missing
   idp_ha_1["idp-ha-1<br/>vmi3537544.contaboserver.net<br/>production<br/>IPv4 94.72.109.54<br/>IPv6 2a02:c204:2353:7544::1<br/>Identity provider HA node 1"]
   provider_contabo --> idp_ha_1
   idp_ha_1_c0(["keycloak<br/>quay.io/keycloak/keycloak:26.0<br/>running"])

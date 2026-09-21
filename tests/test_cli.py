@@ -10,7 +10,7 @@ DATA = Path(__file__).parents[1] / "src/dotmac_engineering_coordination/data/fle
 
 def test_cli_check_is_a_positive_control(capsys) -> None:  # type: ignore[no-untyped-def]
     assert main(("--registry", str(DATA), "check")) == 0
-    assert json.loads(capsys.readouterr().out)["host_count"] == 27
+    assert json.loads(capsys.readouterr().out)["host_count"] == 28
 
 
 def test_cli_refusal_keeps_its_code(capsys) -> None:  # type: ignore[no-untyped-def]
