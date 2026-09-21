@@ -67,6 +67,29 @@ Acceptance authorizes publication and installation of this read-only discovery
 surface. It does not authorize a production connection or mutation: those
 still require the exact target and the applicable deployment/access control.
 
+## Amendment — 2026-09-03: recovery is a typed host plan
+
+An OpenBao password pointer is not itself proof that a host can be recovered.
+Recovery belongs to the host, not to the normal SSH adapter, and may use a
+provider console, hypervisor console, physical console, SSH key/certificate or
+an OpenBao-held credential.
+
+Each recovery plan therefore declares its status, method and owner separately
+from SSH access. A verified plan additionally requires a runbook, an explicit
+decision time, a rehearsal time and typed live evidence bound to the exact host
+and recovery method. Ordinary SSH evidence cannot certify a console rehearsal.
+Secret material remains absent;
+the plan may contain only an OpenBao pointer. An unavailable plan names its
+limitation rather than disappearing from coverage.
+
+The pre-existing password pointers migrate as `declared`, never `verified`:
+their presence proves a checked-in pointer, not an owner decision or a recovery
+rehearsal. Active hosts with no plan and plans that have not been verified both
+make declaration readiness red. The reviewed debt baseline keeps the two sets
+separate so filling a pointer cannot make the metric green. A verified plan is
+also unready when its decision, rehearsal, or evidence is future-dated, or when
+its rehearsal is older than the registry's maximum age.
+
 Michael amended the visibility decision on 2026-09-21 from private to public.
 The amendment changes disclosure classification only; it does not expand any
 runtime, deployment, SSH, secret, or production authority.

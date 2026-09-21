@@ -581,7 +581,7 @@ def inspect_topology_host(
     )
     return {
         "ok": True,
-        "schema_version": "dotmac.fleet-topology.v1",
+        "schema_version": "dotmac.fleet-topology.v2",
         "declaration": declaration.model_dump(mode="json"),
         "provider_observation": (
             provider_item.model_dump(mode="json") if provider_item else None
@@ -616,7 +616,7 @@ def topology_payload(
         )
     return {
         "ok": True,
-        "schema_version": "dotmac.fleet-topology.v1",
+        "schema_version": "dotmac.fleet-topology.v2",
         "provider_observed_at": provider.observed_at.isoformat(),
         "workloads_observed_at": workloads.observed_at.isoformat(),
         "drift": topology_drift(registry, provider, workloads).model_dump(mode="json"),
@@ -862,7 +862,7 @@ def render_markdown_census(
             "dereferences them.",
             "",
             "| Host | SSH alias | User | Route | Identity pointer | Recovery "
-            "pointer | API access |",
+            "plan | API access |",
             "|---|---|---|---|---|---|---|",
         ]
     )
@@ -881,11 +881,18 @@ def render_markdown_census(
             )
             or "none declared"
         )
+        recovery = declared_host.recovery
+        recovery_summary = (
+            f"{recovery.status.value}/{recovery.method.value}"
+            + (f" [{recovery.credential_ref}]" if recovery.credential_ref else "")
+            if recovery is not None
+            else "missing"
+        )
         lines.append(
             f"| `{declared_host.host_id}` | `{access.alias or 'unavailable'}` | "
             f"`{access.user or 'unavailable'}` | `{route}` | "
             f"`{access.identity_ref or 'none'}` | "
-            f"`{access.recovery_secret_ref or 'not verified'}` | "
+            f"{recovery_summary} | "
             f"{api_summary} |"
         )
     lines.extend(["", "## Containers by host", ""])
