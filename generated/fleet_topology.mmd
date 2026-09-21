@@ -25,6 +25,7 @@ flowchart LR
   integrator_vendor_control -.-> guest_network_6
   guest_network_7{"observed labs range: 10.99.0.0/24<br/>connectivity not asserted"}
   academy -.-> guest_network_7
+  dotmac_labs -.-> guest_network_7
   guest_network_8{"observed wg0 range: 100.64.53.0/30<br/>connectivity not asserted"}
   control_runner -.-> guest_network_8
   observe -.-> guest_network_8
@@ -64,10 +65,12 @@ flowchart LR
   db_primary --> db_primary_c8
   db_primary_c9(["redis-exporter<br/>oliver006/redis_exporter:latest<br/>running"])
   db_primary --> db_primary_c9
-  dotmac_labs["dotmac-labs<br/>workload observation missing<br/>production<br/>IPv4 10.120.120.42<br/>IPv6 2c0f:e888:11:0:be24:11ff:fef3:6290<br/>Dotmac Academy lab runtime and containerlab worker"]
+  dotmac_labs["dotmac-labs<br/>dotmac-labs<br/>production<br/>IPv4 10.120.120.42<br/>IPv6 2c0f:e888:11:0:be24:11ff:fef3:6290<br/>Dotmac Academy lab runtime and containerlab worker"]
   proxmox --> dotmac_labs
-  dotmac_labs_workloads_missing["workload observation missing"]
-  dotmac_labs -.-> dotmac_labs_workloads_missing
+  dotmac_labs_c0(["dotmac_academy_app-db-1<br/>postgres:16<br/>running"])
+  dotmac_labs --> dotmac_labs_c0
+  dotmac_labs_c1(["promtail<br/>grafana/promtail:3.0.0<br/>running"])
+  dotmac_labs --> dotmac_labs_c1
   erp["erp<br/>vmi2988431.contaboserver.net<br/>production<br/>IPv4 149.102.158.167<br/>IPv6 2a02:c204:2298:8431::1<br/>Dotmac ERP application"]
   provider_contabo --> erp
   erp_c0(["dotmac_erp_app<br/>ghcr.io/michaelayoade/dotmac_erp<br/>running"])
