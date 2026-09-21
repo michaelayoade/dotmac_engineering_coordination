@@ -805,3 +805,40 @@ verified_at = 2026-09-03T08:20:48Z
 evidence_class = "live_observation"
 ref = "live:ssh:control-runner-via-seabone:2026-09-03T08:20:48Z"
 observed_at = 2026-09-03T08:20:48Z
+
+[[hosts]]
+host_id = "dotmac-labs"
+provider_ref = "proxmox:vm/101"
+environment = "production"
+purpose = "Dotmac Academy lab runtime and containerlab worker"
+owner_ref = "dotmac_academy_app"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["2c0f:e888:11:0:be24:11ff:fef3:6290"]
+private_addresses = ["10.120.120.42", "10.99.0.2"]
+last_verified_at = 2026-09-21T03:19:46Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:academy-dotmac-labs-fleet-and-egress-boundary"
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh:dotmac-labs-via-seabone:2026-09-21T03:08:23Z"
+observed_at = 2026-09-21T03:08:23Z
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:host-network:dotmac-labs-via-seabone:2026-09-21T03:19:46Z"
+observed_at = 2026-09-21T03:19:46Z
+[hosts.access]
+status = "verified"
+alias = "dotmac-labs"
+endpoint = "10.120.120.42"
+user = "dotmac"
+proxy_jump = "seabone"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-09-21T03:08:23Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh:dotmac-labs-via-seabone:2026-09-21T03:08:23Z"
+observed_at = 2026-09-21T03:08:23Z

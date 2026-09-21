@@ -54,11 +54,11 @@ def _single_host_registry(
 def test_initial_registry_is_typed_and_counts_every_declared_host(
     registry: FleetRegistry,
 ) -> None:
-    assert len(registry.hosts) == 26
-    assert len({host.host_id for host in registry.hosts}) == 26
+    assert len(registry.hosts) == 27
+    assert len({host.host_id for host in registry.hosts}) == 27
     assert (
         sum(host.access.status is AccessStatus.VERIFIED for host in registry.hosts)
-        == 26
+        == 27
     )
 
 
@@ -116,6 +116,35 @@ def test_access_plan_positive_control_is_an_argv_and_never_executes(
     assert plan.user == "root"
     assert plan.identity_ref == "local-key:~/.ssh/id_ed25519"
     assert plan.production
+
+
+def test_dotmac_labs_production_access_plan_and_ssh_config_are_scoped() -> None:
+    registry = load_registry(DATA / "fleet.toml")
+    service = FleetService(registry)
+    plan = service.access_plan(
+        "dotmac-labs",
+        confirm_production_host="dotmac-labs",
+        now=datetime(2026, 9, 21, 4, tzinfo=UTC),
+    )
+    assert plan.argv == ("ssh", "dotmac-labs")
+    assert plan.user == "dotmac"
+    assert plan.identity_ref == "local-key:~/.ssh/id_ed25519"
+    host = registry.by_id("dotmac-labs")
+    assert {str(address) for address in host.public_addresses} == {
+        "2c0f:e888:11:0:be24:11ff:fef3:6290"
+    }
+    assert "160.119.127.249" not in {
+        str(address) for address in host.public_addresses
+    }
+    rendered = service.render_ssh_config()
+    block = rendered.split("# fleet-host: dotmac-labs\n", 1)[1].split(
+        "\n\n", 1
+    )[0]
+    assert "HostName 10.120.120.42" in block
+    assert "User dotmac" in block
+    assert "ProxyJump seabone" in block
+    assert "# identity-ref: local-key:~/.ssh/id_ed25519" in block
+    assert "160.119.127.249" not in block
 
 
 def test_every_refusal_keeps_a_distinct_code(registry: FleetRegistry) -> None:
