@@ -247,8 +247,10 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     drift = topology_drift(registry, provider, workloads)
     assert len(provider.instances) == 20
     assert len(registry.hosts) == 28
-    assert len(workloads.hosts) == 26
-    assert sum(len(host.containers) for host in workloads.hosts) == 193
+    # dotmac-labs' first-ever observation (upsert_workload_observation) grew
+    # this from 26 to 27; garki-core alone remains genuinely never-observed.
+    assert len(workloads.hosts) == 27
+    assert sum(len(host.containers) for host in workloads.hosts) == 195
     assert sum(len(host.virtual_guests) for host in workloads.hosts) == 20
     proxmox = next(host for host in workloads.hosts if host.host_id == "proxmox")
     assert {guest.kind for guest in proxmox.virtual_guests} == {"qemu"}
@@ -259,16 +261,18 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     assert drift.missing_guest_ipv4_host_ids == ()
     assert drift.missing_guest_ipv6_host_ids == ("nhia-moh-cloud",)
     assert drift.missing_provider_host_ids == ()
-    assert drift.missing_workload_host_ids == ("dotmac-labs", "garki-core")
+    assert drift.missing_workload_host_ids == ("garki-core",)
 
 
 def test_missing_declared_workload_renders_without_inventing_addresses() -> None:
+    """garki-core remains genuinely never-observed (unlike dotmac-labs,
+    which upsert_workload_observation gave its first real observation)."""
     registry = load_registry(DATA / "fleet.toml")
     provider = load_provider_snapshot(DATA / "provider_snapshot.json")
     workloads = load_workload_snapshot(DATA / "workload_snapshot.json")
     rendered = render_markdown_census(registry, provider, workloads)
     assert (
-        "| `dotmac-labs` | `not-applicable` | on-prem | "
+        "| `garki-core` | `not-applicable` | on-prem | "
         "`workload observation missing` |" in rendered
     )
     assert "160.119.127.249" not in rendered
