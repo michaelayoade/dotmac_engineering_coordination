@@ -2783,6 +2783,61 @@
       "host_id": "zabbix",
       "observed_at": null,
       "virtual_guests": []
+    },
+    {
+      "addresses": [
+        {
+          "address": "10.120.120.42/24",
+          "family": 4,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "2c0f:e888:11:0:be24:11ff:fef3:6290/64",
+          "family": 6,
+          "interface": "eth0",
+          "state": "UP"
+        },
+        {
+          "address": "10.99.0.2/24",
+          "family": 4,
+          "interface": "labs",
+          "state": "UNKNOWN"
+        },
+        {
+          "address": "172.17.0.1/16",
+          "family": 4,
+          "interface": "docker0",
+          "state": "UP"
+        },
+        {
+          "address": "172.18.0.1/16",
+          "family": 4,
+          "interface": "br-aecbcb827ab1",
+          "state": "UP"
+        }
+      ],
+      "containers": [
+        {
+          "health": null,
+          "image": "grafana/promtail:3.0.0",
+          "name": "promtail",
+          "runtime_status": "Up 5 weeks",
+          "state": "running"
+        },
+        {
+          "health": null,
+          "image": "postgres:16",
+          "name": "dotmac_academy_app-db-1",
+          "runtime_status": "Up 5 weeks",
+          "state": "running"
+        }
+      ],
+      "docker_available": true,
+      "guest_hostname": "dotmac-labs",
+      "host_id": "dotmac-labs",
+      "observed_at": "2026-09-21T17:14:31Z",
+      "virtual_guests": []
     }
   ],
   "observed_at": "2026-09-03T08:20:48Z",

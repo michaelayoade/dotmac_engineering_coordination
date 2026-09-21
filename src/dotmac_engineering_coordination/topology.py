@@ -302,10 +302,10 @@ def refresh_workload_observation(
       per-host timestamp would fall back to the stale document-level sweep
       time for freshness purposes, defeating the entire point of calling
       this instead of just re-running the full probe.
-    - ``updated_host.host_id`` was never in ``baseline`` -- adding a
-      brand-new host's first-ever observation is a full probe's job, not a
-      targeted refresh's; this function only ever narrows an existing gap,
-      never grows the host set.
+    - ``updated_host.host_id`` was never in ``baseline`` -- this function
+      only ever narrows an existing gap, never grows the host set. To record
+      a *declared* host's first-ever observation without a full fleet probe,
+      use :func:`upsert_workload_observation` instead.
     """
     if updated_host.observed_at is None:
         raise ValueError(
@@ -322,6 +322,51 @@ def refresh_workload_observation(
         updated_host if item.host_id == updated_host.host_id else item
         for item in baseline.hosts
     )
+    return baseline.model_copy(update={"hosts": hosts})
+
+
+def upsert_workload_observation(
+    registry: FleetRegistry,
+    baseline: WorkloadSnapshot,
+    updated_host: HostWorkloadObservation,
+) -> WorkloadSnapshot:
+    """Insert or replace exactly one *declared* host's workload observation.
+
+    ``refresh_workload_observation`` deliberately refuses to grow the
+    baseline's host set -- by design, it can only narrow an existing gap.
+    That leaves no sanctioned way to record a declared host's very first
+    observation (for example a freshly registered Fleet host that has never
+    been probed) without re-running a full fleet-wide sweep just to add one
+    row. This function closes that gap the safe way: it admits a new row
+    only when the *registry* -- the one source of truth for which hosts
+    exist at all -- already declares ``updated_host.host_id``. A host_id the
+    registry does not know about is refused exactly like an unknown host
+    would be anywhere else in this codebase; this function never lets a
+    workload probe silently mint a fleet host that was never declared.
+
+    Every other host's observation, and the document's own ``observed_at``,
+    stay byte-identical -- same guarantee as ``refresh_workload_observation``.
+
+    Refuses when:
+    - ``updated_host.observed_at`` is unset (same reasoning as
+      ``refresh_workload_observation``).
+    - ``updated_host.host_id`` is not declared in ``registry`` at all.
+    """
+    if updated_host.observed_at is None:
+        raise ValueError(
+            "a targeted workload upsert must set its own observed_at"
+        )
+    declared_ids = {host.host_id for host in registry.hosts}
+    if updated_host.host_id not in declared_ids:
+        raise ValueError(
+            f"{updated_host.host_id!r} is not a declared fleet host; register "
+            "it in the fleet registry before recording a workload observation "
+            "for it"
+        )
+    existing_ids = {item.host_id for item in baseline.hosts}
+    if updated_host.host_id in existing_ids:
+        return refresh_workload_observation(baseline, updated_host)
+    hosts = (*baseline.hosts, updated_host)
     return baseline.model_copy(update={"hosts": hosts})
 
 
@@ -1079,5 +1124,6 @@ __all__ = [
     "render_markdown_census",
     "topology_drift",
     "topology_payload",
+    "upsert_workload_observation",
     "workload_snapshot_from_probe",
 ]

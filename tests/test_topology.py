@@ -21,6 +21,7 @@ from dotmac_engineering_coordination.topology import (
     render_markdown_census,
     render_mermaid_topology,
     topology_drift,
+    upsert_workload_observation,
     workload_snapshot_from_probe,
 )
 
@@ -246,8 +247,10 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     drift = topology_drift(registry, provider, workloads)
     assert len(provider.instances) == 20
     assert len(registry.hosts) == 28
-    assert len(workloads.hosts) == 26
-    assert sum(len(host.containers) for host in workloads.hosts) == 193
+    # dotmac-labs' first-ever observation (upsert_workload_observation) grew
+    # this from 26 to 27; garki-core alone remains genuinely never-observed.
+    assert len(workloads.hosts) == 27
+    assert sum(len(host.containers) for host in workloads.hosts) == 195
     assert sum(len(host.virtual_guests) for host in workloads.hosts) == 20
     proxmox = next(host for host in workloads.hosts if host.host_id == "proxmox")
     assert {guest.kind for guest in proxmox.virtual_guests} == {"qemu"}
@@ -258,16 +261,18 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     assert drift.missing_guest_ipv4_host_ids == ()
     assert drift.missing_guest_ipv6_host_ids == ("nhia-moh-cloud",)
     assert drift.missing_provider_host_ids == ()
-    assert drift.missing_workload_host_ids == ("dotmac-labs", "garki-core")
+    assert drift.missing_workload_host_ids == ("garki-core",)
 
 
 def test_missing_declared_workload_renders_without_inventing_addresses() -> None:
+    """garki-core remains genuinely never-observed (unlike dotmac-labs,
+    which upsert_workload_observation gave its first real observation)."""
     registry = load_registry(DATA / "fleet.toml")
     provider = load_provider_snapshot(DATA / "provider_snapshot.json")
     workloads = load_workload_snapshot(DATA / "workload_snapshot.json")
     rendered = render_markdown_census(registry, provider, workloads)
     assert (
-        "| `dotmac-labs` | `not-applicable` | on-prem | "
+        "| `garki-core` | `not-applicable` | on-prem | "
         "`workload observation missing` |" in rendered
     )
     assert "160.119.127.249" not in rendered
@@ -399,3 +404,85 @@ def test_refresh_workload_observation_refuses_a_host_never_before_observed() -> 
     )
     with pytest.raises(ValueError, match="not present in the baseline"):
         refresh_workload_observation(baseline, brand_new_host)
+
+
+def test_upsert_workload_observation_records_a_declared_hosts_first_observation() -> (
+    None
+):
+    """The real Dotmac Labs gap this function exists to close: the fleet
+    registry already declares "dotmac-labs", but no fleet-wide probe has
+    ever observed it, so it is simply absent from the workload baseline --
+    not present with stale data. A registry-aware upsert must admit exactly
+    this case without touching any other host or the document sweep time."""
+    registry = load_registry(DATA / "fleet.toml")
+    assert any(host.host_id == "dotmac-labs" for host in registry.hosts)
+    baseline = _workloads()
+    assert not any(host.host_id == "dotmac-labs" for host in baseline.hosts)
+    first_observed_at = datetime(2026, 9, 21, 18, 0, tzinfo=UTC)
+    first_observation = HostWorkloadObservation(
+        host_id="dotmac-labs",
+        guest_hostname="dotmac-labs",
+        docker_available=True,
+        containers=(
+            ContainerObservation(
+                name="clab-academy-r1",
+                image="ghcr.io/example/routeros:1",
+                state="running",
+                runtime_status="Up 3 hours",
+                health=None,
+            ),
+        ),
+        observed_at=first_observed_at,
+    )
+    merged = upsert_workload_observation(registry, baseline, first_observation)
+    assert merged.observed_at == baseline.observed_at
+    by_host = {host.host_id: host for host in merged.hosts}
+    assert len(merged.hosts) == len(baseline.hosts) + 1
+    assert by_host["dotmac-labs"] == first_observation
+    for original in baseline.hosts:
+        assert by_host[original.host_id] == original
+
+
+def test_upsert_workload_observation_still_replaces_an_already_observed_host() -> None:
+    registry = load_registry(DATA / "fleet.toml")
+    baseline = _workloads()
+    already_observed = baseline.hosts[0]
+    refreshed_at = datetime(2026, 9, 21, 18, 0, tzinfo=UTC)
+    refreshed = already_observed.model_copy(update={"observed_at": refreshed_at})
+    merged = upsert_workload_observation(registry, baseline, refreshed)
+    assert len(merged.hosts) == len(baseline.hosts)
+    by_host = {host.host_id: host for host in merged.hosts}
+    assert by_host[already_observed.host_id] == refreshed
+
+
+def test_upsert_workload_observation_refuses_without_its_own_timestamp() -> None:
+    registry = load_registry(DATA / "fleet.toml")
+    baseline = _workloads()
+    no_timestamp = HostWorkloadObservation(
+        host_id="dotmac-labs",
+        guest_hostname="dotmac-labs",
+        docker_available=True,
+        containers=(),
+    )
+    with pytest.raises(ValueError, match="must set its own observed_at"):
+        upsert_workload_observation(registry, baseline, no_timestamp)
+
+
+def test_upsert_workload_observation_refuses_a_host_the_registry_never_declared() -> (
+    None
+):
+    """Unlike ``refresh_workload_observation``'s baseline-only check, this
+    still must never let a probe silently mint a fleet host that was never
+    registered at all -- growing the host set is only ever safe when the
+    registry itself is the one vouching for the host_id."""
+    registry = load_registry(DATA / "fleet.toml")
+    baseline = _workloads()
+    never_registered = HostWorkloadObservation(
+        host_id="never-registered-anywhere",
+        guest_hostname="ghost",
+        docker_available=False,
+        containers=(),
+        observed_at=datetime(2026, 9, 21, 18, 0, tzinfo=UTC),
+    )
+    with pytest.raises(ValueError, match="not a declared fleet host"):
+        upsert_workload_observation(registry, baseline, never_registered)

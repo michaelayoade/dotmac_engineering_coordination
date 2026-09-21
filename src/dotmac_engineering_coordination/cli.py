@@ -22,6 +22,7 @@ from dotmac_engineering_coordination.topology import (
     render_markdown_census,
     render_mermaid_topology,
     topology_payload,
+    upsert_workload_observation,
     workload_snapshot_from_probe,
 )
 
@@ -57,6 +58,14 @@ def _parser() -> argparse.ArgumentParser:
     )
     workload.add_argument("--input", type=Path, required=True)
     workload.add_argument("--observed-at", type=datetime.fromisoformat, required=True)
+
+    merge = commands.add_parser(
+        "workload-merge",
+        help="upsert one declared host's probe into a canonical workload snapshot",
+    )
+    merge.add_argument("--baseline", type=Path, required=True)
+    merge.add_argument("--input", type=Path, required=True)
+    merge.add_argument("--observed-at", type=datetime.fromisoformat, required=True)
 
     topology = commands.add_parser(
         "topology", help="join declarations and dated observations"
@@ -116,6 +125,28 @@ def main(argv: Sequence[str] | None = None) -> int:
             observed_at=args.observed_at,
         )
         sys.stdout.write(canonical_snapshot_json(workload_snapshot))
+        return 0
+    if args.command == "workload-merge":
+        probe_snapshot = workload_snapshot_from_probe(
+            args.input.read_text(),
+            observed_at=args.observed_at,
+        )
+        if len(probe_snapshot.hosts) != 1:
+            print(
+                "workload-merge takes exactly one host's probe output; "
+                f"--input produced {len(probe_snapshot.hosts)}",
+                file=sys.stderr,
+            )
+            return 2
+        baseline = load_workload_snapshot(args.baseline)
+        try:
+            merged = upsert_workload_observation(
+                service.registry, baseline, probe_snapshot.hosts[0]
+            )
+        except ValueError as error:
+            print(str(error), file=sys.stderr)
+            return 2
+        sys.stdout.write(canonical_snapshot_json(merged))
         return 0
     if args.command == "topology":
         provider = load_provider_snapshot(args.provider)

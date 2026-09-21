@@ -3,7 +3,7 @@
 - Provider observation: `2026-09-03T07:57:37+00:00`
 - Workload observation: `2026-09-03T08:20:48+00:00`
 - Declared hosts: `28`
-- Running Docker containers: `193`
+- Running Docker containers: `195`
 - Declared virtual guests: `20`
 - Evidence: `provider_record` plus `live_observation`
 
@@ -14,7 +14,7 @@ Provider state does not decide declared purpose or lifecycle. Guest addresses re
 | `academy` | `vmi2490731` | academy LMS | `vmi2490731.contaboserver.net` | `149.102.135.97` | `2a02:c204:2249:731::1/64` | 2 | `2026-09-03T08:20:48+00:00` | Dotmac Academy application |
 | `control-runner` | `not-applicable` | on-prem | `dotmac-control-runner` | `160.119.127.188` | `not-declared` | 0 | `2026-09-03T08:20:48+00:00` | Repository-scoped deployment control runners |
 | `db-primary` | `vmi3291426` | db-primary - postgres redis standbys | `dotmac-db-primary` | `75.119.157.91` | `2a02:c207:2329:1426::1/64` | 10 | `2026-09-03T08:20:48+00:00` | Primary database host; PostgreSQL and Redis standbys |
-| `dotmac-labs` | `not-applicable` | on-prem | `workload observation missing` | `10.120.120.42` | `2c0f:e888:11:0:be24:11ff:fef3:6290` | 0 | `not-observed` | Dotmac Academy lab runtime and containerlab worker |
+| `dotmac-labs` | `not-applicable` | on-prem | `dotmac-labs` | `10.120.120.42` | `2c0f:e888:11:0:be24:11ff:fef3:6290` | 2 | `2026-09-21T17:14:31+00:00` | Dotmac Academy lab runtime and containerlab worker |
 | `erp` | `vmi2988431` | erp dotmac | `vmi2988431.contaboserver.net` | `149.102.158.167` | `2a02:c204:2298:8431::1/64` | 6 | `2026-09-03T08:20:48+00:00` | Dotmac ERP application |
 | `garki-core` | `not-applicable` | on-prem | `workload observation missing` | `160.119.127.252` | `2c0f:e888::252` | 0 | `not-observed` | Abuja Garki core router and Dotmac Labs IPv4 egress/IPv6 edge |
 | `idp-ha-1` | `vmi3537544` | idp-ha-1 | `vmi3537544.contaboserver.net` | `94.72.109.54` | `2a02:c204:2353:7544::1/64` | 1 | `2026-09-03T08:20:48+00:00` | Identity provider HA node 1 |
@@ -52,7 +52,7 @@ Provider state does not decide declared purpose or lifecycle. Guest addresses re
 - `provider_address_mismatch_host_ids`: none
 - `missing_guest_ipv4_host_ids`: none
 - `missing_guest_ipv6_host_ids`: `nhia-moh-cloud`
-- `missing_workload_host_ids`: `dotmac-labs`, `garki-core`
+- `missing_workload_host_ids`: `garki-core`
 - `unknown_workload_host_ids`: none
 
 ## Agent access
@@ -117,6 +117,13 @@ Host-only; Docker is not installed.
 | `node-exporter` | `prom/node-exporter:latest` | `running` | `not-reported` |
 | `postgres-exporter` | `quay.io/prometheuscommunity/postgres-exporter:latest` | `running` | `not-reported` |
 | `redis-exporter` | `oliver006/redis_exporter:latest` | `running` | `not-reported` |
+
+### dotmac-labs
+
+| Container | Image | State | Health |
+|---|---|---|---|
+| `dotmac_academy_app-db-1` | `postgres:16` | `running` | `not-reported` |
+| `promtail` | `grafana/promtail:3.0.0` | `running` | `not-reported` |
 
 ### erp
 
