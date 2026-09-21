@@ -127,6 +127,15 @@ def test_access_plan_positive_control_is_an_argv_and_never_executes(
     assert plan.production
 
 
+def test_academy_web_dns_identity_is_declared(registry: FleetRegistry) -> None:
+    host = registry.by_id("academy")
+    assert host.dns_names == ("academy.dotmac.io",)
+    assert {str(address) for address in host.public_addresses} == {
+        "149.102.135.97",
+        "2a02:c204:2249:731::1",
+    }
+
+
 def test_access_plan_includes_separate_recovery_payload(
     service: FleetService,
 ) -> None:
@@ -642,6 +651,18 @@ def test_duplicate_alias_is_refused(registry: FleetRegistry) -> None:
         FleetRegistry(
             schema_version="dotmac.fleet.v2",
             hosts=(first, FleetHost.model_validate(second)),
+        )
+
+
+def test_duplicate_dns_name_is_refused(registry: FleetRegistry) -> None:
+    academy = registry.by_id("academy")
+    other = registry.by_id("erp").model_copy(
+        update={"dns_names": academy.dns_names}
+    )
+    with pytest.raises(ValidationError, match="duplicate DNS name"):
+        FleetRegistry(
+            schema_version="dotmac.fleet.v2",
+            hosts=(academy, other),
         )
 
 

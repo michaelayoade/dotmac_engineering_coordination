@@ -497,10 +497,12 @@ class FleetRegistry(StrictModel):
         ids = [host.host_id for host in self.hosts]
         aliases = [host.access.alias for host in self.hosts if host.access.alias]
         public = [str(ip) for host in self.hosts for ip in host.public_addresses]
+        dns_names = [name for host in self.hosts for name in host.dns_names]
         for label, values in (
             ("host_id", ids),
             ("SSH alias", aliases),
             ("public IP", public),
+            ("DNS name", dns_names),
         ):
             duplicates = sorted({value for value in values if values.count(value) > 1})
             if duplicates:
