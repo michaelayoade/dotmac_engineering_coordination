@@ -2,7 +2,7 @@
 
 - Provider observation: `2026-09-03T07:57:37+00:00`
 - Workload observation: `2026-09-03T08:20:48+00:00`
-- Declared hosts: `28`
+- Declared hosts: `29`
 - Running Docker containers: `195`
 - Declared virtual guests: `20`
 - Evidence: `provider_record` plus `live_observation`
@@ -36,6 +36,7 @@ Provider state does not decide declared purpose or lifecycle. Guest addresses re
 | `son-erp` | `vmi3027474` | son erp | `vmi3027474.contaboserver.net` | `149.102.149.5` | `2a02:c204:2302:7474::1/64` | 6 | `2026-09-03T08:20:48+00:00` | SON ERP; CRM is retired |
 | `sub-prod` | `vmi3348415` | sub prod | `vmi3348415.contaboserver.net` | `94.72.107.76` | `2a02:c204:2334:8415::1/64` | 27 | `2026-09-03T08:20:48+00:00` | Dotmac Sub production |
 | `test-server` | `vmi3537655` | testing server | `vmi3537655.contaboserver.net` | `85.190.246.211` | `2a02:c204:2353:7655::1/64` | 0 | `2026-09-03T08:20:48+00:00` | Dedicated non-production test server |
+| `vaultwarden` | `not-observed` | provider observation missing | `workload observation missing` | `173.212.220.33` | `2a02:c207:2364:5930::1` | 0 | `not-observed` | Independent Vaultwarden password manager and one OpenBao recovery-share custody location |
 | `web-cache` | `not-applicable` | on-prem | `web-cache` | `10.120.120.22` | `2c0f:e888:11:0:be24:11ff:fedc:a12d` | 0 | `2026-09-03T08:20:48+00:00` | On-prem web cache |
 | `workspace` | `vmi3511803` | workspace | `workspace` | `94.72.104.67` | `2a02:c204:2351:1803::1/64` | 1 | `2026-09-03T08:20:48+00:00` | Dotmac Workspace |
 | `zabbix` | `not-applicable` | on-prem | `zabbix` | `160.119.127.193` | `2c0f:e888:11:0:be24:11ff:fe3a:953b` | 0 | `2026-09-03T08:20:48+00:00` | On-prem Zabbix monitoring |
@@ -47,12 +48,12 @@ Provider state does not decide declared purpose or lifecycle. Guest addresses re
 ## Drift
 
 - `provider_non_running_host_ids`: none
-- `missing_provider_host_ids`: none
+- `missing_provider_host_ids`: `vaultwarden`
 - `unknown_provider_host_ids`: none
 - `provider_address_mismatch_host_ids`: none
 - `missing_guest_ipv4_host_ids`: none
 - `missing_guest_ipv6_host_ids`: `nhia-moh-cloud`
-- `missing_workload_host_ids`: `garki-core`
+- `missing_workload_host_ids`: `garki-core`, `vaultwarden`
 - `unknown_workload_host_ids`: none
 
 ## Agent access
@@ -86,6 +87,7 @@ Pointers identify where credentials are held; this report never dereferences the
 | `son-erp` | `son-erp` | `root` | `son-erp` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/crm#root_password] | none declared |
 | `sub-prod` | `sub-prod` | `root` | `sub-prod` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/sub-prod#root_password] | none declared |
 | `test-server` | `test-server` | `root` | `test-server` | `local-key:~/.ssh/id_ed25519` | declared/provider_console | none declared |
+| `vaultwarden` | `vaultwarden` | `root` | `173.212.220.33` | `local-key:~/.ssh/id_ed25519` | declared/provider_console | none declared |
 | `web-cache` | `web-cache` | `root` | `via seabone to 10.120.120.22` | `local-key:~/.ssh/id_ed25519` | declared/hypervisor_console | none declared |
 | `workspace` | `workspace` | `root` | `workspace` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/workspace#root_password] | none declared |
 | `zabbix` | `zabbix` | `zabbixdotmac` | `160.119.127.193` | `local-key:~/.ssh/id_ed25519` | declared/hypervisor_console | none declared |

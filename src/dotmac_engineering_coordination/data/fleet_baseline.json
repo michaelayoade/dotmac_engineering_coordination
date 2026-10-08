@@ -1,6 +1,6 @@
 {
   "conflicted_host_ids": [],
-  "host_count": 28,
+  "host_count": 29,
   "invalid_recovery_time_host_ids": [],
   "missing_recovery_plan_host_ids": [],
   "schema_version": "dotmac.fleet.v2",
@@ -33,9 +33,10 @@
     "son-erp",
     "sub-prod",
     "test-server",
+    "vaultwarden",
     "web-cache",
     "workspace",
     "zabbix"
   ],
-  "verified_access_count": 28
+  "verified_access_count": 29
 }

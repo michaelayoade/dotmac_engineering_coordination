@@ -194,6 +194,14 @@ Host test-server
   Port 22
   IdentitiesOnly yes
 
+# fleet-host: vaultwarden
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host vaultwarden
+  HostName 173.212.220.33
+  User root
+  Port 22
+  IdentitiesOnly yes
+
 # fleet-host: web-cache
 # identity-ref: local-key:~/.ssh/id_ed25519
 Host web-cache

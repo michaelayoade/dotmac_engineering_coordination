@@ -939,9 +939,23 @@ def render_markdown_census(
         provider_item = provider_by_host.get(declared_host.host_id)
         workload_item = workloads_by_host.get(declared_host.host_id)
         provider_hostname = (
-            provider_item.provider_hostname if provider_item else "not-applicable"
+            provider_item.provider_hostname
+            if provider_item
+            else (
+                "not-observed"
+                if declared_host.provider_ref == "contabo"
+                else "not-applicable"
+            )
         )
-        provider_label = provider_item.display_name if provider_item else "on-prem"
+        provider_label = (
+            provider_item.display_name
+            if provider_item
+            else (
+                "provider observation missing"
+                if declared_host.provider_ref == "contabo"
+                else "on-prem"
+            )
+        )
         ipv4 = (
             str(provider_item.ipv4)
             if provider_item
