@@ -60,11 +60,11 @@ def _single_host_registry(
 def test_initial_registry_is_typed_and_counts_every_declared_host(
     registry: FleetRegistry,
 ) -> None:
-    assert len(registry.hosts) == 28
-    assert len({host.host_id for host in registry.hosts}) == 28
+    assert len(registry.hosts) == 29
+    assert len({host.host_id for host in registry.hosts}) == 29
     assert (
         sum(host.access.status is AccessStatus.VERIFIED for host in registry.hosts)
-        == 28
+        == 29
     )
 
 
@@ -681,3 +681,19 @@ def test_ssh_renderer_is_deterministic_and_includes_every_verified_active_host(
     assert "Host observability-canary\n" not in rendered
     assert "PRIVATE KEY" not in rendered
     assert "password" not in rendered.lower()
+
+
+def test_vaultwarden_access_requires_exact_production_confirmation(
+    service: FleetService,
+) -> None:
+    now = datetime(2026, 10, 8, 12, tzinfo=UTC)
+    refusal = service.access_plan_payload("vaultwarden", now=now)
+    assert refusal["ok"] is False
+    plan = service.access_plan(
+        "vaultwarden", confirm_production_host="vaultwarden", now=now
+    )
+    assert plan.argv == ("ssh", "vaultwarden")
+    assert plan.production
+    assert str(service.registry.by_id("vaultwarden").public_addresses[1]) == (
+        "2a02:c207:2364:5930::1"
+    )

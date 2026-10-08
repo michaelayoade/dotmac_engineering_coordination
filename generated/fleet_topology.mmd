@@ -525,6 +525,10 @@ flowchart LR
   sub_prod --> sub_prod_c26
   test_server["test-server<br/>vmi3537655.contaboserver.net<br/>test<br/>IPv4 85.190.246.211<br/>IPv6 2a02:c204:2353:7655::1<br/>Dedicated non-production test server"]
   provider_contabo --> test_server
+  vaultwarden["vaultwarden<br/>workload observation missing<br/>production<br/>IPv4 173.212.220.33<br/>IPv6 2a02:c207:2364:5930::1<br/>Independent Vaultwarden password manager and one OpenBao recovery-share custody location"]
+  provider_contabo --> vaultwarden
+  vaultwarden_workloads_missing["workload observation missing"]
+  vaultwarden -.-> vaultwarden_workloads_missing
   web_cache["web-cache<br/>web-cache<br/>production<br/>IPv4 10.120.120.22<br/>IPv6 2c0f:e888:11:0:be24:11ff:fedc:a12d<br/>On-prem web cache"]
   proxmox --> web_cache
   web_cache_host_only["host-only / no Docker"]

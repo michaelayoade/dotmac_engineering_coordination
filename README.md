@@ -80,7 +80,7 @@ reviewed registry.
 All are annotated read-only and closed-world. The server has no tool that
 connects to a host or dereferences a secret pointer.
 
-The fleet joins three explicit evidence classes: 28 reviewed declarations in
+The fleet joins three explicit evidence classes: 29 reviewed declarations in
 `fleet.toml`, a safe-field 20-instance Contabo provider snapshot, and a
 read-only guest/container snapshot covering those VPS hosts, Seabone, the
 single-node Proxmox cluster, and all 20 QEMU guests. Five guests with verified
@@ -111,3 +111,10 @@ ruff check .
 mypy src
 dotmac-coordination check
 ```
+
+Vaultwarden (`vaultwarden`, Contabo instance203645930) was declared from live
+2026-10-08 provisioning and SSH evidence. The older global provider/workload
+snapshots are retained at their actual observation dates; their missing
+Vaultwarden rows are explicit drift, not fabricated coverage. Provider-console
+recovery is declared but not rehearsed. Vaultwarden application, TLS, backup
+restore and recovery-share delivery are pending.

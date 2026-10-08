@@ -1000,3 +1000,37 @@ runbook_ref = "repo://docs/recovery/physical-console.md"
 evidence_class = "live_observation"
 ref = "live:ssh:garki-core:2026-09-21T04:55:40Z"
 observed_at = 2026-09-21T04:55:40Z
+
+[[hosts]]
+host_id = "vaultwarden"
+provider_ref = "contabo"
+environment = "production"
+purpose = "Independent Vaultwarden password manager and one OpenBao recovery-share custody location"
+owner_ref = "dotmac-infrastructure"
+production = true
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["173.212.220.33", "2a02:c207:2364:5930::1"]
+last_verified_at = 2026-10-08T06:30:49Z
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:contabo-instance:203645930"
+observed_at = 2026-10-08T06:30:49Z
+[hosts.access]
+status = "verified"
+alias = "vaultwarden"
+endpoint = "173.212.220.33"
+user = "root"
+port = 22
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-10-08T06:30:49Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh-key-only:vaultwarden"
+observed_at = 2026-10-08T06:30:49Z
+[hosts.recovery]
+status = "declared"
+method = "provider_console"
+owner_ref = "dotmac-infrastructure"
+runbook_ref = "repo://docs/recovery/contabo-console.md"

@@ -246,7 +246,7 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     workloads = load_workload_snapshot(DATA / "workload_snapshot.json")
     drift = topology_drift(registry, provider, workloads)
     assert len(provider.instances) == 20
-    assert len(registry.hosts) == 28
+    assert len(registry.hosts) == 29
     # dotmac-labs' first-ever observation (upsert_workload_observation) grew
     # this from 26 to 27; garki-core alone remains genuinely never-observed.
     assert len(workloads.hosts) == 27
@@ -260,8 +260,8 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     ).addresses
     assert drift.missing_guest_ipv4_host_ids == ()
     assert drift.missing_guest_ipv6_host_ids == ("nhia-moh-cloud",)
-    assert drift.missing_provider_host_ids == ()
-    assert drift.missing_workload_host_ids == ("garki-core",)
+    assert drift.missing_provider_host_ids == ("vaultwarden",)
+    assert drift.missing_workload_host_ids == ("garki-core", "vaultwarden")
 
 
 def test_missing_declared_workload_renders_without_inventing_addresses() -> None:
@@ -486,3 +486,14 @@ def test_upsert_workload_observation_refuses_a_host_the_registry_never_declared(
     )
     with pytest.raises(ValueError, match="not a declared fleet host"):
         upsert_workload_observation(registry, baseline, never_registered)
+
+
+def test_unobserved_cloud_host_is_not_labelled_onprem() -> None:
+    registry = load_registry(DATA / "fleet.toml")
+    provider = load_provider_snapshot(DATA / "provider_snapshot.json")
+    workloads = load_workload_snapshot(DATA / "workload_snapshot.json")
+    rendered = render_markdown_census(registry, provider, workloads)
+    assert (
+        "| `vaultwarden` | `not-observed` | provider observation missing |" in rendered
+    )
+    assert "| `vaultwarden` | `not-applicable` | on-prem |" not in rendered
