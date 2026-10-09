@@ -123,6 +123,10 @@ flowchart LR
   integrator_vendor_control --> integrator_vendor_control_c2
   integrator_vendor_control_c3(["integrator-db-1<br/>postgres:16<br/>running"])
   integrator_vendor_control --> integrator_vendor_control_c3
+  lane3_rehearsal_target["lane3-rehearsal-target<br/>workload observation missing<br/>rehearsal<br/>IPv4 160.119.127.202<br/>IPv6 2c0f:e888:11::102<br/>Lane 3 disposable rehearsal target; VM 107 excluded"]
+  proxmox --> lane3_rehearsal_target
+  lane3_rehearsal_target_workloads_missing["workload observation missing"]
+  lane3_rehearsal_target -.-> lane3_rehearsal_target_workloads_missing
   mail_dotmac["mail-dotmac<br/>mail.dotmac.ng<br/>production<br/>IPv4 94.72.106.173<br/>IPv6 2a02:c204:2349:2684::1<br/>Mail for dotmac.ng"]
   provider_contabo --> mail_dotmac
   mail_dotmac_c0(["mailcowdockerized-acme-mailcow-1<br/>ghcr.io/mailcow/acme:1.92<br/>running"])

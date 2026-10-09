@@ -1034,3 +1034,43 @@ status = "declared"
 method = "provider_console"
 owner_ref = "dotmac-infrastructure"
 runbook_ref = "repo://docs/recovery/contabo-console.md"
+
+
+[[hosts]]
+host_id = "lane3-rehearsal-target"
+provider_ref = "proxmox:vm/102"
+environment = "rehearsal"
+purpose = "Lane 3 disposable rehearsal target; VM 107 excluded"
+owner_ref = "dotmac-infrastructure"
+production = false
+status = "active"
+fact_status = "confirmed"
+public_addresses = ["160.119.127.202", "2c0f:e888:11::102"]
+private_addresses = []
+dns_names = []
+last_verified_at = 2026-10-09T12:05:52.812620Z
+[[hosts.evidence]]
+evidence_class = "knowledge_reference"
+ref = "knowledge:proxmox-vm-102-lane3-target-requalification"
+[[hosts.evidence]]
+evidence_class = "live_observation"
+ref = "live:vm102-management-and-dual-stack-requalification:2026-10-09"
+observed_at = 2026-10-09T12:05:52.812620Z
+[hosts.access]
+status = "verified"
+alias = "pve-vm-102"
+endpoint = "10.120.120.54"
+user = "dotmac"
+proxy_jump = "proxmox"
+authentication = "ssh_public_key"
+identity_ref = "local-key:~/.ssh/id_ed25519"
+verified_at = 2026-10-09T12:05:52.812620Z
+[[hosts.access.evidence]]
+evidence_class = "live_observation"
+ref = "live:ssh:pve-vm-102-via-seabone:2026-10-09"
+observed_at = 2026-10-09T12:05:52.812620Z
+[hosts.recovery]
+status = "declared"
+method = "hypervisor_console"
+owner_ref = "dotmac-infrastructure"
+runbook_ref = "repo://docs/recovery/proxmox-guest-console.md"

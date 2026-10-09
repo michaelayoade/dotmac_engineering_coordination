@@ -12,7 +12,7 @@ WORKLOAD_BASELINE = DATA_DIR / "workload_snapshot.json"
 
 def test_cli_check_is_a_positive_control(capsys) -> None:  # type: ignore[no-untyped-def]
     assert main(("--registry", str(DATA), "check")) == 0
-    assert json.loads(capsys.readouterr().out)["host_count"] == 29
+    assert json.loads(capsys.readouterr().out)["host_count"] == 30
 
 
 def test_cli_refusal_keeps_its_code(capsys) -> None:  # type: ignore[no-untyped-def]

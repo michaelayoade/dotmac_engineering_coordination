@@ -2,7 +2,7 @@
 
 - Provider observation: `2026-09-03T07:57:37+00:00`
 - Workload observation: `2026-09-03T08:20:48+00:00`
-- Declared hosts: `29`
+- Declared hosts: `30`
 - Running Docker containers: `195`
 - Declared virtual guests: `20`
 - Evidence: `provider_record` plus `live_observation`
@@ -22,6 +22,7 @@ Provider state does not decide declared purpose or lifecycle. Guest addresses re
 | `idp-ha-3` | `vmi3537726` | idp-ha-3 | `vmi3537726.contaboserver.net` | `158.220.87.55` | `2a02:c204:2353:7726::1/64` | 1 | `2026-09-03T08:20:48+00:00` | Identity provider HA node 3 |
 | `idp-live` | `vmi3511689` | idp LIVE - keycloak and sub shadow | `idp` | `158.220.86.10` | `2a02:c204:2351:1689::1/64` | 5 | `2026-09-03T08:20:48+00:00` | Identity provider; Keycloak and Sub shadow |
 | `integrator-vendor-control` | `vmi2988430` | integrator and vendor control plane | `vmi2988430.contaboserver.net` | `149.102.158.144` | `2a02:c204:2298:8430::1/64` | 4 | `2026-09-03T08:20:48+00:00` | Integrator and Vendor Control Plane |
+| `lane3-rehearsal-target` | `not-applicable` | on-prem | `workload observation missing` | `160.119.127.202` | `2c0f:e888:11::102` | 0 | `not-observed` | Lane 3 disposable rehearsal target; VM 107 excluded |
 | `mail-dotmac` | `vmi3492684` | mail dotmac ng | `mail.dotmac.ng` | `94.72.106.173` | `2a02:c204:2349:2684::1/64` | 18 | `2026-09-03T08:20:48+00:00` | Mail for dotmac.ng |
 | `mail-nhia` | `vmi3492689` | mail nhia gov ng | `mail.nhia.gov.ng` | `94.72.108.27` | `2a02:c204:2349:2689::1/64` | 18 | `2026-09-03T08:20:48+00:00` | Mail for nhia.gov.ng |
 | `nhia-moh-cloud` | `vmi2486898` | nhia and moh cloud - collabora nextcloud | `vmi2486898.contaboserver.net` | `149.102.130.231` | `2a02:c204:2248:6898::1/64` | 9 | `2026-09-03T08:20:48+00:00` | NHIA and Ministry of Health cloud workloads |
@@ -53,7 +54,7 @@ Provider state does not decide declared purpose or lifecycle. Guest addresses re
 - `provider_address_mismatch_host_ids`: none
 - `missing_guest_ipv4_host_ids`: none
 - `missing_guest_ipv6_host_ids`: `nhia-moh-cloud`
-- `missing_workload_host_ids`: `garki-core`, `vaultwarden`
+- `missing_workload_host_ids`: `garki-core`, `lane3-rehearsal-target`, `vaultwarden`
 - `unknown_workload_host_ids`: none
 
 ## Agent access
@@ -73,6 +74,7 @@ Pointers identify where credentials are held; this report never dereferences the
 | `idp-ha-3` | `idp-ha-3` | `root` | `idp-ha-3` | `local-key:~/.ssh/id_ed25519` | declared/provider_console | none declared |
 | `idp-live` | `idp-live` | `root` | `idp-live` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/keycloak#root_password] | none declared |
 | `integrator-vendor-control` | `integrator-vendor-control` | `root` | `integrator-vendor-control` | `local-key:~/.ssh/id_ed25519` | declared/provider_console | none declared |
+| `lane3-rehearsal-target` | `pve-vm-102` | `dotmac` | `via proxmox to 10.120.120.54` | `local-key:~/.ssh/id_ed25519` | declared/hypervisor_console | none declared |
 | `mail-dotmac` | `mail-dotmac` | `root` | `mail-dotmac` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/mail-dotmac#root_password] | none declared |
 | `mail-nhia` | `mail-nhia` | `root` | `mail-nhia` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/mail-nhia#root_password] | none declared |
 | `nhia-moh-cloud` | `nhia-moh-cloud` | `root` | `nhia-moh-cloud` | `local-key:~/.ssh/id_ed25519` | declared/openbao_credential [bao://secret/dotmac/hosts/cloud-nhia#root_password] | none declared |

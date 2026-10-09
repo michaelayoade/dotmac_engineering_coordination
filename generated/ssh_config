@@ -88,6 +88,15 @@ Host integrator-vendor-control
   Port 22
   IdentitiesOnly yes
 
+# fleet-host: lane3-rehearsal-target
+# identity-ref: local-key:~/.ssh/id_ed25519
+Host pve-vm-102
+  HostName 10.120.120.54
+  User dotmac
+  Port 22
+  IdentitiesOnly yes
+  ProxyJump proxmox
+
 # fleet-host: mail-dotmac
 # identity-ref: local-key:~/.ssh/id_ed25519
 Host mail-dotmac
