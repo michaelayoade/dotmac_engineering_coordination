@@ -80,7 +80,7 @@ reviewed registry.
 All are annotated read-only and closed-world. The server has no tool that
 connects to a host or dereferences a secret pointer.
 
-The fleet joins three explicit evidence classes: 29 reviewed declarations in
+The fleet joins three explicit evidence classes: 30 reviewed declarations in
 `fleet.toml`, a safe-field 20-instance Contabo provider snapshot, and a
 read-only guest/container snapshot covering those VPS hosts, Seabone, the
 single-node Proxmox cluster, and all 20 QEMU guests. Five guests with verified
@@ -118,3 +118,11 @@ snapshots are retained at their actual observation dates; their missing
 Vaultwarden rows are explicit drift, not fabricated coverage. Provider-console
 recovery is declared but not rehearsed. Vaultwarden application, TLS, backup
 restore and recovery-share delivery are pending.
+
+VM 102 (`lane3-rehearsal-target`) is proposed from 2026-10-09 management and dual-stack
+qualification evidence. A fresh hostname readback at 2026-10-09T12:05:52.812620Z
+confirms the existing management route and prior host identity; it does not
+prove Lane 3 certificate authentication. VM 107 is excluded. This entry declares management access
+only; Lane 3 certificate trust, restricted accounts, B7 topology binding and B8
+proofs remain separate cutover work. Hypervisor-console recovery is declared,
+not rehearsed. Older snapshots retain their actual observation dates.

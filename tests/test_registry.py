@@ -60,11 +60,11 @@ def _single_host_registry(
 def test_initial_registry_is_typed_and_counts_every_declared_host(
     registry: FleetRegistry,
 ) -> None:
-    assert len(registry.hosts) == 29
-    assert len({host.host_id for host in registry.hosts}) == 29
+    assert len(registry.hosts) == 30
+    assert len({host.host_id for host in registry.hosts}) == 30
     assert (
         sum(host.access.status is AccessStatus.VERIFIED for host in registry.hosts)
-        == 29
+        == 30
     )
 
 

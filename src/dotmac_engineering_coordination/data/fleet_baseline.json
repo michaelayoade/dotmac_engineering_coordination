@@ -1,13 +1,13 @@
 {
   "conflicted_host_ids": [],
-  "host_count": 29,
+  "host_count": 30,
   "invalid_recovery_time_host_ids": [],
   "missing_recovery_plan_host_ids": [],
   "schema_version": "dotmac.fleet.v2",
   "stale_recovery_plan_host_ids": [],
+  "unavailable_api_access_ids": [],
   "unverified_access_host_ids": [],
   "unverified_fact_host_ids": [],
-  "unavailable_api_access_ids": [],
   "unverified_recovery_plan_host_ids": [
     "academy",
     "control-runner",
@@ -20,6 +20,7 @@
     "idp-ha-3",
     "idp-live",
     "integrator-vendor-control",
+    "lane3-rehearsal-target",
     "mail-dotmac",
     "mail-nhia",
     "nhia-moh-cloud",
@@ -38,5 +39,5 @@
     "workspace",
     "zabbix"
   ],
-  "verified_access_count": 29
+  "verified_access_count": 30
 }

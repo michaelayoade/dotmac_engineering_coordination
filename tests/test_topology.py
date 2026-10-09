@@ -246,7 +246,7 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     workloads = load_workload_snapshot(DATA / "workload_snapshot.json")
     drift = topology_drift(registry, provider, workloads)
     assert len(provider.instances) == 20
-    assert len(registry.hosts) == 29
+    assert len(registry.hosts) == 30
     # dotmac-labs' first-ever observation (upsert_workload_observation) grew
     # this from 26 to 27; garki-core alone remains genuinely never-observed.
     assert len(workloads.hosts) == 27
@@ -261,7 +261,11 @@ def test_live_snapshot_covers_all_hosts_and_exposes_ipv6_gap() -> None:
     assert drift.missing_guest_ipv4_host_ids == ()
     assert drift.missing_guest_ipv6_host_ids == ("nhia-moh-cloud",)
     assert drift.missing_provider_host_ids == ("vaultwarden",)
-    assert drift.missing_workload_host_ids == ("garki-core", "vaultwarden")
+    assert drift.missing_workload_host_ids == (
+        "garki-core",
+        "lane3-rehearsal-target",
+        "vaultwarden",
+    )
 
 
 def test_missing_declared_workload_renders_without_inventing_addresses() -> None:
